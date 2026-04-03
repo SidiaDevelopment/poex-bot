@@ -5,7 +5,7 @@ import {EmbedService} from "@pollux/discord-command"
 import {Colors, EmbedBuilder, TextChannel} from "discord.js"
 import {PoExchangeCategoryEntity} from "../entities/PoExchangeCategoryEntity"
 import {PoExchangeChannelId} from "../PoExchangeDeclaration"
-import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService} from "../formatters/IPoExchangeFormatter"
+import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "../formatters/IPoExchangeFormatter"
 import {BossCarryFormatter} from "../formatters/BossCarryFormatter"
 import {NightmareMapFormatter} from "../formatters/NightmareMapFormatter"
 import {GoldRotaFormatter} from "../formatters/GoldRotaFormatter"
@@ -22,6 +22,8 @@ export interface IPoExchangePost {
     action: "update" | "refresh" | "strike"
     messageId?: string
     services?: IPoExchangeService[]
+    browseUrl?: string
+    listUrl?: string
 }
 
 export interface IPoExchangePostResult {
@@ -104,17 +106,17 @@ export class PoExchangeService extends Service {
         }
     }
 
-    private buildEmbed(channelId: string, user: IPoExchangeUser, services: IPoExchangeService[]): EmbedBuilder {
+    private buildEmbed(channelId: string, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): EmbedBuilder {
         const embed = this.embedService.getDefaultBuilder(Colors.Blue)
         const formatter = this.formatters[channelId]
         if (formatter) {
-            formatter.format(embed, user, services)
+            formatter.format(embed, user, services, links)
         }
         return embed
     }
 
     private async handleUpdate(channel: TextChannel, user: IPoExchangeUser, post: IPoExchangePost): Promise<IPoExchangePostResult> {
-        const embed = this.buildEmbed(post.channelId, user, post.services ?? [])
+        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
 
         if (post.messageId) {
             try {
@@ -140,7 +142,7 @@ export class PoExchangeService extends Service {
             }
         }
 
-        const embed = this.buildEmbed(post.channelId, user, post.services ?? [])
+        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
         const msg = await channel.send({embeds: [embed]})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }

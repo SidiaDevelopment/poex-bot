@@ -14,6 +14,11 @@ export interface IPoExchangeUser {
     vouches: number
 }
 
+export interface IPoExchangeLinks {
+    browseUrl?: string
+    listUrl?: string
+}
+
 export interface IPoExchangeFormatter {
-    format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[]): void
+    format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void
 }

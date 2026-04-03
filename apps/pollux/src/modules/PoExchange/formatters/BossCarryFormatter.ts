@@ -1,10 +1,11 @@
 import {EmbedBuilder} from "discord.js"
-import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService} from "./IPoExchangeFormatter"
+import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "./IPoExchangeFormatter"
 import {formatPrice} from "./formatPrice"
+import {formatLinks} from "./formatLinks"
 import {translate} from "@pollux/i18n"
 
 export class BossCarryFormatter implements IPoExchangeFormatter {
-    public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[]): void {
+    public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void {
         const seller = user.discordId ? `${user.name} (<@${user.discordId}>)` : user.name
 
         const buyerMap = services.filter(s => s.mapType === "Buyer")
@@ -41,10 +42,9 @@ export class BossCarryFormatter implements IPoExchangeFormatter {
         lines.push("")
         lines.push(`\`\`\`@${user.name} ${translate("poex.format.whispers.bossKilling")}\`\`\``)
 
-        lines.push(translate("poex.format.exchangeLink"))
+        lines.push(formatLinks(links))
 
         embed.setTitle(translate("poex.format.titles.bossKilling"))
-        embed.setURL(translate("poex.format.exchangeUrl"))
         embed.setDescription(lines.join("\n"))
     }
 }

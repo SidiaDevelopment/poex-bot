@@ -41,8 +41,8 @@ export default {
                 labyrinth: "WTS Labyrinth",
                 benchCraft: "WTS Bench Craft"
             },
-            exchangeLink: "Browse or list services on [PoExchange](https://maxroll.gg/poe/poexchange/services/listings)",
-            exchangeUrl: "https://maxroll.gg/poe/poexchange/services/listings",
+            browseServices: "Browse services",
+            listServices: "List services",
             whispers: {
                 bossKilling: "Hi, I'd like to buy your boss killing service",
                 nightmareMaps: "Hi, I'd like to buy your nightmare map service",
