@@ -10,7 +10,10 @@
   "scripts": {
     "bot:dev": "nodemon --watch ./src --watch ../../packages --ext ts --exec ts-node src/index.ts",
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d datasource.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d datasource.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d datasource.ts"
   },
   "main": "src/index.ts",
   "devDependencies": {

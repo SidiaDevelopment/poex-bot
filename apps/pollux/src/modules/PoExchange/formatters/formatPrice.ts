@@ -1,12 +1,13 @@
 const CURRENCY_EMOJIS: Record<string, string> = {
-    r: "<:regal_orb:REPLACE_WITH_ID>",
-    alch: "<:orb_of_alchemy:REPLACE_WITH_ID>",
-    c: "<:chaos_orb:1489607480270131200>",
-    ex: "<:exalted_orb:REPLACE_WITH_ID>",
-    d: "<:divine_orb:1489607521227378748>"
+    r: "<:regal:531610117339217943> ",
+    alch: "<:alchemy:531610116491968523> ",
+    c: "<:chaos:531610116437573633> ",
+    ex: "<:exalt:531610117158993941>",
+    d: "<:divine:531610115229483037> "
 }
 
-export function formatPrice(value: number, type: string): string {
+export function formatPrice(value?: number, type?: string): string {
+    if (value === undefined || type === undefined) return "Free"
     const emoji = CURRENCY_EMOJIS[type.toLowerCase()] ?? type
     return `${value} ${emoji}`
 }

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL="${1:-http://localhost:3000}"
+API_URL="${1:-https://poex.sidia.net}"
 GUILD_ID="${2:-1242243721852878900}"
 API_KEY="${3:-your-api-key-here}"
 

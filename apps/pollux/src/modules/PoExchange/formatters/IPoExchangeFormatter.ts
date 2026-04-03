@@ -2,8 +2,8 @@ import {EmbedBuilder} from "discord.js"
 
 export interface IPoExchangeService {
     name: string
-    priceValue: number
-    priceType: string
+    priceValue?: number
+    priceType?: string
     customMessage?: string
     mapType?: string
 }
