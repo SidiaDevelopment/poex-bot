@@ -136,12 +136,7 @@ export class PoExchangeService extends Service {
 
     private async handleRefresh(channel: TextChannel, user: IPoExchangeUser, post: IPoExchangePost): Promise<IPoExchangePostResult> {
         if (post.messageId) {
-            try {
-                const msg = await channel.messages.fetch(post.messageId)
-                await msg.delete()
-            } catch {
-                // Ignore if message doesn't exist
-            }
+            await this.handleStrike(channel, post)
         }
 
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
