@@ -4,7 +4,7 @@
   "description": "Example Pollux bot application",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "url": "https://github.com/SidiaDevelopment/poex-bot",
     "directory": "apps/pollux"
   },
   "scripts": {

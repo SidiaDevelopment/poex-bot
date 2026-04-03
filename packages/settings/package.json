@@ -5,7 +5,7 @@
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "url": "https://github.com/SidiaDevelopment/poex-bot",
     "directory": "packages/settings"
   },
   "scripts": {

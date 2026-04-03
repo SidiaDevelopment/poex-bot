@@ -11,6 +11,7 @@ A modular TypeScript framework for building Discord bots with a service-oriented
 | [`@pollux/logging`](packages/logging) | Structured logging with configurable strategies |
 | [`@pollux/service`](packages/service) | Service dependency injection and lifecycle management |
 | [`@pollux/database`](packages/database) | TypeORM-based database integration |
+| [`@pollux/api`](packages/api) | REST API framework for exposing module endpoints |
 | [`@pollux/discord`](packages/discord) | Discord.js integration module |
 | [`@pollux/discord-command`](packages/discord-command) | Slash command framework for Discord |
 | [`@pollux/i18n`](packages/i18n) | Internationalization and localization support |
@@ -32,4 +33,4 @@ yarn turbo:dev
 
 ## Repository
 
-[github.com/SidiaDevelopment/pollux-framework](https://github.com/SidiaDevelopment/pollux-framework)
+[github.com/SidiaDevelopment/poex-bot](https://github.com/SidiaDevelopment/poex-bot)
