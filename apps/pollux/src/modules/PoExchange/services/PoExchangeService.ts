@@ -166,9 +166,8 @@ export class PoExchangeService extends Service {
                     embed.addFields({name: `~~${field.name}~~`, value: `~~${field.value}~~`, inline: field.inline ?? false})
                 }
             }
-            await msg.delete()
-            const newMsg = await channel.send({embeds: [embed]})
-            return {channelId: post.channelId, messageId: newMsg.id, status: "ok"}
+            await msg.edit({embeds: [embed]})
+            return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         } catch {
             return {channelId: post.channelId, status: "error", errorMessage: "Message not found"}
         }
