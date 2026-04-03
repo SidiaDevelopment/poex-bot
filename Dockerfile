@@ -1,0 +1,33 @@
+FROM node:22-alpine AS builder
+
+RUN corepack enable && corepack prepare yarn@4.13.0 --activate
+
+WORKDIR /app
+
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+COPY packages packages
+COPY apps apps
+COPY tsconfig.json turbo.json ./
+
+RUN yarn install --immutable
+RUN yarn turbo build
+
+FROM node:22-alpine
+
+RUN corepack enable && corepack prepare yarn@4.13.0 --activate
+
+WORKDIR /app
+
+COPY --from=builder /app/package.json /app/yarn.lock /app/.yarnrc.yml ./
+COPY --from=builder /app/.yarn .yarn
+COPY --from=builder /app/packages packages
+COPY --from=builder /app/apps apps
+COPY --from=builder /app/node_modules node_modules
+COPY --from=builder /app/tsconfig.json ./
+
+WORKDIR /app/apps/pollux
+
+EXPOSE 3000
+
+CMD ["node", "-r", "ts-node/register", "src/index.ts"]

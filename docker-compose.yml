@@ -1,0 +1,16 @@
+services:
+  bot:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3025:3000"
+    env_file:
+      - ./apps/pollux/.env
+    environment:
+      - DB_TYPE=mysql
+      - DB_HOST=host.docker.internal
+      - DB_PORT=3306
+      - DB_USERNAME=${DB_USERNAME:-pollux}
+      - DB_PASSWORD=${DB_PASSWORD:-pollux}
+      - DB_DATABASE=${DB_DATABASE:-pollux}
+      - DB_SYNCHRONIZE=true
