@@ -82,7 +82,7 @@ export class PoExchangeService extends Service {
         }
     }
 
-    public async processPost(user: IPoExchangeUser, post: IPoExchangePost, guildId: string): Promise<IPoExchangePostResult> {
+    public async processPost(user: IPoExchangeUser | null, post: IPoExchangePost, guildId: string): Promise<IPoExchangePostResult> {
         const discordChannelId = this.cache[this.cacheKey(post.channelId, guildId)]
         if (!discordChannelId) {
             return {channelId: post.channelId, status: "error", errorMessage: `No channel mapping for ${post.channelId}`}
@@ -96,8 +96,10 @@ export class PoExchangeService extends Service {
 
         switch (post.action) {
         case "update":
+            if (!user) return {channelId: post.channelId, status: "error", errorMessage: "User required for update action"}
             return this.handleUpdate(channel, user, post)
         case "refresh":
+            if (!user) return {channelId: post.channelId, status: "error", errorMessage: "User required for refresh action"}
             return this.handleRefresh(channel, user, post)
         case "strike":
             return this.handleStrike(channel, post)

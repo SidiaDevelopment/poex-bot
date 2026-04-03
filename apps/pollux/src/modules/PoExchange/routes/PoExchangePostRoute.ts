@@ -21,19 +21,23 @@ export class PoExchangePostRoute extends ApiHandler<IApiRequestData> {
 
         const {user, posts, guildId} = req.body
 
-        if (!user || !posts || !guildId) {
-            res.status(400).json({status: "error", errorMessage: "Missing required fields: user, posts, guildId"})
-            return
-        }
-
-        if (!user.name || user.vouches === undefined) {
-            res.status(400).json({status: "error", errorMessage: "User must have: name, vouches"})
+        if (!posts || !guildId) {
+            res.status(400).json({status: "error", errorMessage: "Missing required fields: posts, guildId"})
             return
         }
 
         if (!Array.isArray(posts) || posts.length === 0) {
             res.status(400).json({status: "error", errorMessage: "Posts must be a non-empty array"})
             return
+        }
+
+        const allStrikes = posts.every((p: {action: string}) => p.action === "strike")
+
+        if (!allStrikes) {
+            if (!user || !user.name || user.vouches === undefined) {
+                res.status(400).json({status: "error", errorMessage: "User with name and vouches is required for non-strike actions"})
+                return
+            }
         }
 
         const results: IPoExchangePostResult[] = []
@@ -44,7 +48,7 @@ export class PoExchangePostRoute extends ApiHandler<IApiRequestData> {
                 continue
             }
 
-            const result = await this.poExchangeService.processPost(user, post, guildId)
+            const result = await this.poExchangeService.processPost(user ?? null, post, guildId)
             results.push(result)
         }
 
