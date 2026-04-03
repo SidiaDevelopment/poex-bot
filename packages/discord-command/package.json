@@ -1,0 +1,30 @@
+{
+  "name": "@pollux/discord-command",
+  "version": "0.0.1-dev",
+  "description": "Slash command framework for Discord bots built with Pollux",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/discord-command"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/config": "workspace:^",
+    "@pollux/core": "workspace:^",
+    "@pollux/discord": "workspace:^",
+    "@pollux/i18n": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/service": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "discord.js": "^14.26.0"
+  }
+}

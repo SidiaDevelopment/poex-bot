@@ -1,0 +1,27 @@
+{
+  "name": "@pollux/logging",
+  "version": "0.0.1-dev",
+  "description": "Structured logging system with configurable log strategies for Pollux",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/logging"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/config": "workspace:^",
+    "@pollux/core": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "chalk": "^4.1.2",
+    "moment": "^2.30.1"
+  }
+}

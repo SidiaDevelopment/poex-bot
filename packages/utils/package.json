@@ -1,0 +1,20 @@
+{
+  "name": "@pollux/utils",
+  "version": "0.0.1-dev",
+  "description": "Shared TypeScript utility types and event primitives for the Pollux framework",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/utils"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ]
+}

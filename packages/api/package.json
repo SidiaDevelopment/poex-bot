@@ -1,0 +1,31 @@
+{
+  "name": "@pollux/api",
+  "version": "0.0.1-dev",
+  "description": "REST API framework for exposing module endpoints with Pollux",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/api"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/config": "workspace:^",
+    "@pollux/core": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/service": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}

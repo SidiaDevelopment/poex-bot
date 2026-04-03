@@ -1,0 +1,33 @@
+{
+  "name": "@pollux/database",
+  "version": "0.0.1-dev",
+  "description": "TypeORM-based database integration module for Pollux",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/database"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/config": "workspace:^",
+    "@pollux/core": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/service": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28"
+  },
+  "optionalDependencies": {
+    "mysql2": "^3.14.0",
+    "sqlite3": "^5.1.6"
+  }
+}

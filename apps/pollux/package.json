@@ -1,0 +1,31 @@
+{
+  "name": "@pollux/pollux",
+  "version": "0.0.1-dev",
+  "description": "Example Pollux bot application",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "apps/pollux"
+  },
+  "scripts": {
+    "bot:dev": "nodemon --watch ./src --watch ../../packages --ext ts --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "ts-node src/index.ts"
+  },
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "@pollux/api": "workspace:^",
+    "@pollux/database": "workspace:^",
+    "@pollux/discord": "workspace:^",
+    "@pollux/discord-command": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/settings": "workspace:^",
+    "dotenv": "^17.4.0"
+  }
+}

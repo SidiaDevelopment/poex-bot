@@ -1,0 +1,6 @@
+{
+    "watch": ["./packages/**/*.ts"],
+    "ignore": ["**/(dist|.turbo)/*"],
+    "ext": "*",
+    "exec": "yarn turbo"
+}

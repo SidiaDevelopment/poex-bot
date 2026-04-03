@@ -1,0 +1,26 @@
+{
+  "name": "@pollux/i18n",
+  "version": "0.0.1-dev",
+  "description": "Internationalization and localization support for Pollux bots",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/i18n"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/core": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "deepmerge": "^4.3.1"
+  }
+}

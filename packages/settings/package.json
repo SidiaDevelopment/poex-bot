@@ -1,0 +1,32 @@
+{
+  "name": "@pollux/settings",
+  "version": "0.0.1-dev",
+  "description": "Persistent per-guild settings management for Pollux bots",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/settings"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/core": "workspace:^",
+    "@pollux/database": "workspace:^",
+    "@pollux/discord-command": "workspace:^",
+    "@pollux/i18n": "workspace:^",
+    "@pollux/logging": "workspace:^",
+    "@pollux/service": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "discord.js": "^14.26.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28"
+  }
+}

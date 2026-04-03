@@ -1,0 +1,25 @@
+{
+  "name": "@pollux/config",
+  "version": "0.0.1-dev",
+  "description": "Configuration management with deep merge support for Pollux modules",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/config"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/core": "workspace:^",
+    "@pollux/utils": "workspace:^",
+    "deepmerge": "^4.3.1"
+  }
+}

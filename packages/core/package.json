@@ -1,0 +1,33 @@
+{
+  "name": "@pollux/core",
+  "version": "0.0.1-dev",
+  "description": "Core module system, context management, and lifecycle events for the Pollux framework",
+  "author": "Marvin Fischer <admin@sidia.net>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SidiaDevelopment/pollux-framework",
+    "directory": "packages/core"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:dev": "tsc"
+  },
+  "main": "./dist/lib/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/lib/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/types.d.ts",
+      "default": "./dist/lib/types.js"
+    }
+  },
+  "files": [
+    "dist/"
+  ],
+  "dependencies": {
+    "@pollux/utils": "workspace:^"
+  }
+}

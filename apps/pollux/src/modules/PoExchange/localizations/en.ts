@@ -1,0 +1,60 @@
+export default {
+    poex: {
+        commands: {
+            set: {
+                description: "Set a channel mapping",
+                mappingOption: "The channel type to map",
+                channelOption: "The Discord channel to post in",
+                reply: {
+                    title: "Channel Mapping",
+                    success: "Channel mapping set"
+                }
+            },
+            remove: {
+                description: "Remove a channel mapping",
+                mappingOption: "The channel type to remove",
+                reply: {
+                    title: "Channel Mapping",
+                    success: "Channel mapping removed",
+                    notFound: "Channel mapping not found"
+                }
+            }
+        },
+        format: {
+            seller: "Seller",
+            host: "Host",
+            vouches: "Vouches",
+            mapType: {
+                buyer: "Your Map",
+                seller: "My Map",
+                both: "Your or My Map"
+            },
+            titles: {
+                bossKilling: "WTS Boss Killing",
+                nightmareMaps: "WTS Nightmare Maps",
+                fiveWay: "WTS 5-Way",
+                campaignSkip: "WTS Campaign Skip",
+                goldRotation: "WTS Gold Rotation",
+                templeHost: "WTS Temple Host",
+                challengeCompletion: "WTS Challenge Completion",
+                bloodlines: "WTS Bloodlines",
+                labyrinth: "WTS Labyrinth",
+                benchCraft: "WTS Bench Craft"
+            },
+            exchangeLink: "Browse or list services on [PoExchange](https://maxroll.gg/poe/poexchange/services/listings)",
+            exchangeUrl: "https://maxroll.gg/poe/poexchange/services/listings",
+            whispers: {
+                bossKilling: "Hi, I'd like to buy your boss killing service",
+                nightmareMaps: "Hi, I'd like to buy your nightmare map service",
+                fiveWay: "Hi, I'd like to join your 5-way run",
+                campaignSkip: "Hi, I'd like to buy your campaign skip service",
+                goldRotation: "Hi, I'd like to join your gold rotation",
+                templeHost: "Hi, I'd like to use your temple room",
+                challengeCompletion: "Hi, I'd like to buy your challenge completion service",
+                bloodlines: "Hi, I'd like to buy your bloodlines service",
+                labyrinth: "Hi, I'd like to buy your labyrinth carry",
+                benchCraft: "Hi, I need your bench craft service"
+            }
+        }
+    }
+}
