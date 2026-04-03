@@ -23,6 +23,6 @@ export const config: IConfig = {
         synchronize: process.env.DB_SYNCHRONIZE !== "false"
     },
     api: {
-        port: 3000
+        port: process.env.API_PORT ? parseInt(process.env.API_PORT) : 3000
     }
 }

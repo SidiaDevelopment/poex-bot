@@ -2,15 +2,15 @@ services:
   bot:
     build: .
     restart: unless-stopped
-    ports:
-      - "3025:3000"
+    network_mode: host
     env_file:
       - ./apps/pollux/.env
     environment:
       - DB_TYPE=mysql
-      - DB_HOST=host.docker.internal
+      - DB_HOST=127.0.0.1
       - DB_PORT=3306
       - DB_USERNAME=${DB_USERNAME:-pollux}
       - DB_PASSWORD=${DB_PASSWORD:-pollux}
       - DB_DATABASE=${DB_DATABASE:-pollux}
       - DB_SYNCHRONIZE=true
+      - API_PORT=3025
