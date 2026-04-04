@@ -1,4 +1,4 @@
-import {Colors} from "discord.js"
+import {Colors, PermissionFlagsBits} from "discord.js"
 import {translate} from "@pollux/i18n"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {IDiscordCommandData} from "../../IDiscordCommandData"
@@ -18,6 +18,7 @@ const commandConfig: IDiscordCommand<ICommandData> = {
     subCommand: "update",
     description: "discordCommands.commands.update.description",
     adminOnly: true,
+    defaultMemberPermissions: PermissionFlagsBits.ManageGuild,
     options: [
         {
             name: "text",

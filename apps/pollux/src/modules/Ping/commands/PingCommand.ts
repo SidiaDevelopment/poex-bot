@@ -5,13 +5,14 @@ import {
     IDiscordCommand,
     IDiscordCommandData,
 } from "@pollux/discord-command"
-import {Colors} from "discord.js"
+import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
 import {DiscordService} from "@pollux/discord"
 
 const commandConfig: IDiscordCommand<IDiscordCommandData> = {
     command: "ping",
-    description: "ping.commands.ping.description"
+    description: "ping.commands.ping.description",
+    defaultMemberPermissions: PermissionFlagsBits.ManageGuild
 }
 
 @command(commandConfig)
