@@ -6,7 +6,7 @@ import {translate} from "@pollux/i18n"
 
 export class GoldRotaFormatter implements IPoExchangeFormatter {
     public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void {
-        const host = user.discordId ? `${user.name} (<@${user.discordId}>)` : user.name
+        const host = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
 
         const lines: string[] = []
         lines.push(`${translate("poex.format.host")}: ${host} | ${user.vouches} ${translate("poex.format.vouches")}`)

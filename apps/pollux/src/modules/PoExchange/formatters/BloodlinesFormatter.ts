@@ -6,7 +6,7 @@ import {translate} from "@pollux/i18n"
 
 export class BloodlinesFormatter implements IPoExchangeFormatter {
     public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void {
-        const seller = user.discordId ? `${user.name} (<@${user.discordId}>)` : user.name
+        const seller = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
 
         const buyerMap = services.filter(s => s.mapType === "Buyer")
         const sellerMap = services.filter(s => s.mapType === "Seller")

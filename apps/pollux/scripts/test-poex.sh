@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_URL="${1:-https://poex.sidia.net}"
+API_URL="${1:-http://localhost:3000}"
 GUILD_ID="${2:-1242243721852878900}"
 API_KEY="${3:-your-api-key-here}"
 
@@ -17,7 +17,7 @@ RESPONSE=$(curl -s -X POST "$ENDPOINT" \
   -d "{
     \"guildId\": \"$GUILD_ID\",
     \"user\": {
-      \"name\": \"Sidia_Mirage\",
+      \"name\": \"Sidia_Mirage_\",
       \"discordId\": \"183382329400623104\",
       \"vouches\": 125
     },

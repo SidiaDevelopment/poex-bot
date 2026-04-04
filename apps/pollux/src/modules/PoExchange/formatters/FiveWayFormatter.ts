@@ -6,7 +6,7 @@ import {translate} from "@pollux/i18n"
 
 export class FiveWayFormatter implements IPoExchangeFormatter {
     public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void {
-        const seller = user.discordId ? `${user.name} (<@${user.discordId}>)` : user.name
+        const seller = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
 
         const lines: string[] = []
         lines.push(`${translate("poex.format.seller")}: ${seller} | ${user.vouches} ${translate("poex.format.vouches")}`)
