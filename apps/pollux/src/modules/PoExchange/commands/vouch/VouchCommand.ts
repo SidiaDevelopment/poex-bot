@@ -38,11 +38,11 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
                 voucherId: interaction.user.id,
                 channelId: interaction.channelId,
                 channelName: (interaction.channel as TextChannel)?.name ?? "unknown",
-                messageContent: `<@${target.id}> vouch via command`
+                targetId: target.id
             })
 
             if ("error" in data) {
-                await interaction.editReply({content: formatVouchError(data.connectUrl)})
+                await interaction.editReply({content: formatVouchError()})
                 return
             }
 

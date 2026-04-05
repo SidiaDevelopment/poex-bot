@@ -9,10 +9,20 @@ export default {
             notConfigured: "Vouch service is not configured.",
             noLinkedAccount: "Could not process vouch: the user has no linked account. They can link it here:",
             success: "Vouch registered!",
-            uniqueVouches: "unique vouches",
-            totalVouches: "total",
+            uniqueVouches: "Unique Vouches",
+            seasonVouches: "Season Vouches",
+            totalVouches: "Total Vouches",
+            discordLinked: "Discord Linked",
+            discordAccountAge: "Account Age",
+            discordJoinDate: "Joined Server",
+            memberSince: "PoExchange member since",
+            yes: "Yes",
+            no: "No",
             failed: "Failed to process vouch. Please try again later.",
-            channelMessage: "vouched for"
+            channelMessage: "vouched for",
+            contextMenu: "Vouch Info",
+            infoSent: "Vouch info sent to the vouch channel.",
+            infoRequested: "here is the requested vouch info:"
         },
         commands: {
             vouch: {

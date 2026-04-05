@@ -11,6 +11,7 @@ import {SetCommand} from "./commands/poex/SetCommand"
 import {RemoveCommand} from "./commands/poex/RemoveCommand"
 import {VouchCommand} from "./commands/vouch/VouchCommand"
 import {VouchCountCommand} from "./commands/vouch/VouchCountCommand"
+import {VouchInfoContextMenu} from "./commands/vouch/VouchInfoContextMenu"
 import {PoExchangePostRoute} from "./routes/PoExchangePostRoute"
 
 export class PoExchangeModule implements IModule {
@@ -19,7 +20,8 @@ export class PoExchangeModule implements IModule {
     public localizations = PoExchangeLocalizations
     public discord: IModuleDiscordConfig = {
         tag: "PoExchange",
-        discordCommands: [SetCommand, RemoveCommand, VouchCommand, VouchCountCommand]
+        discordCommands: [SetCommand, RemoveCommand, VouchCommand, VouchCountCommand],
+        discordContextMenuCommands: [VouchInfoContextMenu]
     }
     public api: IModuleApiConfig = {
         tag: "PoExchange",

@@ -4,11 +4,13 @@ import {IDiscordCommand} from "./IDiscordCommandConfig"
 import {ChatInputCommandInteraction} from "discord.js"
 import {DiscordCommandParameterHelper} from "./utils/DiscordCommandParameterHelper"
 import {IDiscordCommandOption} from "./IDiscordCommandOption"
+import {DiscordContextMenuCommand} from "./DiscordContextMenuCommand"
 
 export interface IModuleDiscordConfig {
     tag: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     discordCommands?: Ctor<DiscordCommand<any>>[]
+    discordContextMenuCommands?: Ctor<DiscordContextMenuCommand>[]
 }
 
 declare module "@pollux/core/types" {

@@ -5,6 +5,7 @@ import {DiscordService} from "@pollux/discord"
 import {
     APIApplicationCommandOptionChoice,
     ApplicationCommandOptionType,
+    ContextMenuCommandBuilder,
     RESTPostAPIChatInputApplicationCommandsJSONBody,
     SlashCommandBuilder,
     SlashCommandSubcommandBuilder,
@@ -15,6 +16,7 @@ import {
 import {LogLevel} from "@pollux/logging"
 import {IDiscordCommandControllerData} from "../IDiscordCommandControllerData"
 import {DiscordCommandController} from "../DiscordCommandController"
+import {DiscordContextMenuController} from "../DiscordContextMenuController"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
 import {translate} from "@pollux/i18n"
@@ -53,7 +55,19 @@ export class DiscordUpdateCommandsService extends Service {
         const {loggingController} = useContext(ControllerContext)
         const commands = DiscordCommandController.getAllCommands()
         const tree = this.buildCommandTree(commands)
-        const builtCommands = await this.buildCommands(tree)
+        const builtCommands: object[] = await this.buildCommands(tree)
+
+        const contextMenuCommands = DiscordContextMenuController.getAllCommands()
+        for (const cmd of contextMenuCommands) {
+            const builder = new ContextMenuCommandBuilder()
+                .setName(cmd.config.name)
+                .setType(cmd.config.type)
+            if (cmd.config.defaultMemberPermissions !== undefined) {
+                builder.setDefaultMemberPermissions(cmd.config.defaultMemberPermissions)
+            }
+            builtCommands.push(builder.toJSON())
+            loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  [ctx] ${cmd.config.name}`)
+        }
 
         loggingController.log("@pollux/discord-commands", LogLevel.Debug, `Pushing ${builtCommands.length} command(s) to Discord:`)
         for (const cmd of builtCommands) {
@@ -70,7 +84,7 @@ export class DiscordUpdateCommandsService extends Service {
         await this.sendUpdate(builtCommands)
     }
 
-    private async sendUpdate(builtCommands: RESTPostAPIChatInputApplicationCommandsJSONBody[]): Promise<void> {
+    private async sendUpdate(builtCommands: object[]): Promise<void> {
         const {discord: {key}} = useContext(ConfigContext)
         if (!key) return
         const client = this.discordService.getClient()

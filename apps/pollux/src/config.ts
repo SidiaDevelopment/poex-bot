@@ -27,6 +27,7 @@ export const config: IConfig = {
     },
     poExchange: {
         apiUrl: process.env.POEXCHANGE_API_URL ?? "",
-        apiKey: process.env.POEXCHANGE_API_KEY ?? ""
+        apiKey: process.env.POEXCHANGE_API_KEY ?? "",
+        connectUrl: "https://maxroll.gg/poe/poexchange/discord/connect"
     }
 }

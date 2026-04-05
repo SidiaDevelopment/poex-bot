@@ -5,6 +5,7 @@ export interface VouchRequest {
     channelName: string
     messageId?: string
     messageContent?: string
+    targetId?: string
 }
 
 export interface VouchCountRequest {
@@ -17,9 +18,11 @@ export interface VouchResponse {
     discordId?: string
     uniqueVouches: number
     totalVouches: number
+    seasonVouches: number
+    /** ISO 8601 UTC date string */
+    createdAt: string
 }
 
 export interface VouchResponseError {
     error: "no_user"
-    connectUrl: string
 }

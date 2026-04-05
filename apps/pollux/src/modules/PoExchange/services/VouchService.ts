@@ -1,12 +1,12 @@
 import {injectService, Service} from "@pollux/service"
 import {DiscordEventService, DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
-import {ButtonInteraction, Events, Interaction, TextChannel} from "discord.js"
+import {ButtonInteraction, Events, Interaction, MessageFlags, TextChannel} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
-import {formatVouchMessage, formatVouchError, formatVouchCount} from "../formatters/formatVouch"
+import {formatVouchMessage, formatVouchError} from "../formatters/formatVouch"
 import {VouchRequest, VouchResponse} from "../types/VouchTypes"
 
 export class VouchService extends Service {
@@ -38,7 +38,7 @@ export class VouchService extends Service {
     private async handleVouch(interaction: ButtonInteraction): Promise<void> {
         const {loggingController} = useContext(ControllerContext)
 
-        await interaction.deferReply({ephemeral: true})
+        await interaction.deferReply({flags: [MessageFlags.Ephemeral]})
 
         const request: VouchRequest = {
             type: "button",
@@ -52,11 +52,12 @@ export class VouchService extends Service {
             const data = await this.poExchangeApiService.sendVouch(request)
 
             if ("error" in data) {
-                await interaction.editReply({content: formatVouchError(data.connectUrl)})
+                await interaction.editReply({content: formatVouchError()})
                 return
             }
 
-            await interaction.editReply({content: `${translate("poex.vouch.success")} ${formatVouchCount(data)}`})
+            const mention = data.discordId ? `<@${data.discordId}>` : data.username
+            await interaction.editReply({content: `${translate("poex.vouch.success")} **${data.username}** (${mention}) — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`})
 
             await this.sendVouchChannelMessage(interaction, data)
         } catch (error) {

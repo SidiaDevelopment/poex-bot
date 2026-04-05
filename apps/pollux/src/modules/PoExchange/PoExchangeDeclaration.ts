@@ -9,6 +9,7 @@ declare module "@pollux/core/types" {
         poExchange?: {
             apiUrl?: string
             apiKey?: string
+            connectUrl?: string
         }
     }
 }

@@ -1,9 +1,10 @@
-import {AutocompleteInteraction, ChatInputCommandInteraction, Events, Interaction} from "discord.js"
+import {AutocompleteInteraction, ChatInputCommandInteraction, Events, Interaction, MessageFlags, UserContextMenuCommandInteraction} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {injectService, Service} from "@pollux/service"
 import {DiscordEventService} from "@pollux/discord"
 import {DiscordCommandController} from "../DiscordCommandController"
+import {DiscordContextMenuController} from "../DiscordContextMenuController"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
 
@@ -39,6 +40,11 @@ export class DiscordCommandService extends Service {
             return
         }
 
+        if (interaction.isUserContextMenuCommand()) {
+            this.onContextMenu(interaction)
+            return
+        }
+
         if (!interaction.isChatInputCommand()) return
         if (interaction.user.bot) return
 
@@ -59,7 +65,7 @@ export class DiscordCommandService extends Service {
         }
 
         if (data.instance.config.adminOnly && !this.isAdmin(interaction)) {
-            interaction.reply({content: "This command is restricted to the admin server or admin user.", ephemeral: true})
+            interaction.reply({content: "This command is restricted to the admin server or admin user.", flags: [MessageFlags.Ephemeral]})
             return
         }
 
@@ -69,6 +75,32 @@ export class DiscordCommandService extends Service {
             `Executing command for chain: ${DiscordCommandController.getUniqueIdentifier(commandName, subCommand, subCommandGroup)}`
         )
         data.instance.execute(interaction)
+    }
+
+    private onContextMenu = (interaction: UserContextMenuCommandInteraction): void => {
+        const {loggingController} = useContext(ControllerContext)
+
+        const command = DiscordContextMenuController.getCommand(interaction.commandName)
+        if (!command) {
+            loggingController.log(
+                "@pollux/discord-command",
+                LogLevel.Error,
+                `Could not find context menu command: ${interaction.commandName}`
+            )
+            return
+        }
+
+        if (command.config.adminOnly && !this.isAdmin(interaction as unknown as ChatInputCommandInteraction)) {
+            interaction.reply({content: "This command is restricted to the admin server or admin user.", flags: [MessageFlags.Ephemeral]})
+            return
+        }
+
+        loggingController.log(
+            "@pollux/discord-command",
+            LogLevel.Debug,
+            `Executing context menu command: ${interaction.commandName}`
+        )
+        command.handle(interaction)
     }
 
     private onAutocomplete = async (interaction: AutocompleteInteraction): Promise<void> => {
