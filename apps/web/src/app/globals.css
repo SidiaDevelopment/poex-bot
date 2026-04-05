@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #1b1b1f;
+  --color-background-alt: #161618;
+  --color-foreground: #dfdfd6;
+  --color-surface: #202127;
+  --color-surface-hover: #282a33;
+  --color-border: #2e2e32;
+  --color-border-hover: #3c3f44;
+  --color-accent: #5c73e7;
+  --color-accent-hover: #4a62d4;
+  --color-accent-text: #a8b1ff;
+  --color-accent-soft: rgba(100, 108, 255, 0.16);
+  --color-muted: #98989f;
+  --color-subtle: #6a6a71;
+  --color-danger: #f14158;
+  --color-danger-soft: rgba(244, 63, 94, 0.16);
+  --color-success: #3dd68c;
+  --color-success-soft: rgba(16, 185, 129, 0.16);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+button, a, [role="button"], label {
+  cursor: pointer;
+}
+
+select {
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(100, 108, 255, 0.3);
+  color: white;
+}
+
+/* Glow card effect */
+.glow-card {
+  position: relative;
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(100, 108, 255, 0.15), transparent 40%, transparent 60%, rgba(100, 108, 255, 0.08));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.glow-card:hover::before {
+  opacity: 1;
+}
+
+/* Dropdown animation */
+@keyframes dropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2e32;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3c3f44;
+}

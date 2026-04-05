@@ -25,6 +25,10 @@ export class ModuleController {
         setup.modules.forEach(this.loadModule.bind(this))
     }
 
+    public getModules(): Array<IModule> {
+        return this.modules
+    }
+
     public loadModule(module: Ctor<IModule>): void {
         const instance = new module()
 

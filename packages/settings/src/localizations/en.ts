@@ -1,5 +1,8 @@
 export default {
     settings: {
+        management: {
+            autoSettings: "Settings"
+        },
         adminServer: {
             description: "Server ID allowed to manage global settings and admin-only commands"
         },

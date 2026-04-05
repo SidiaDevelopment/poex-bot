@@ -11,3 +11,14 @@ services:
       - DB_PORT=3306
       - DB_SYNCHRONIZE=false
       - API_PORT=3025
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    restart: unless-stopped
+    ports:
+      - "3026:3026"
+    env_file:
+      - ./apps/web/.env.local
+    environment:
+      - BOT_API_URL=http://bot:3025

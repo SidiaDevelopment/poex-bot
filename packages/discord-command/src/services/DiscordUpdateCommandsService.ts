@@ -20,7 +20,7 @@ import {DiscordCommandController} from "../DiscordCommandController"
 import {DiscordContextMenuController} from "../DiscordContextMenuController"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
-import {translate} from "@pollux/i18n"
+import {translate, LocalizationTag} from "@pollux/i18n"
 
 enum BranchType {
     SelfCommand,
@@ -224,7 +224,7 @@ export class DiscordUpdateCommandsService extends Service {
     private addOption = async (parameter: IDiscordCommandOption<IDiscordCommandData>): Promise<(option: any) => any> => {
         const choices: APIApplicationCommandOptionChoice[] = []
         if (parameter.choices != null) {
-            choices.push(...parameter.choices)
+            choices.push(...parameter.choices.map(c => ({...c, name: translate(c.name as LocalizationTag)})))
         } else if (parameter.choicesCallback) {
             choices.push(...(await parameter.choicesCallback()))
         }

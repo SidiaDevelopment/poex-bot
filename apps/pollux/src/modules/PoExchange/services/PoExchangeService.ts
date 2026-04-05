@@ -192,6 +192,16 @@ export class PoExchangeService extends Service {
         }
     }
 
+    public getChannelMappings(guildId: string): {channelKey: string, discordChannelId: string}[] {
+        const prefix = `::${guildId}`
+        return Object.entries(this.cache)
+            .filter(([key]) => key.endsWith(prefix))
+            .map(([key, discordChannelId]) => ({
+                channelKey: key.slice(0, key.length - prefix.length),
+                discordChannelId
+            }))
+    }
+
     public getDiscordChannelId(channelKey: string, guildId: string): string | null {
         return this.cache[this.cacheKey(channelKey, guildId)] ?? null
     }

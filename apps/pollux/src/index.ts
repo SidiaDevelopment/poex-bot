@@ -14,6 +14,7 @@ import {ApiModule} from "@pollux/api"
 import {PingModule} from "./modules/Ping/PingModule"
 import {HealthModule} from "./modules/Health/HealthModule"
 import {PoExchangeModule} from "./modules/PoExchange/PoExchangeModule"
+import {ManagementModule} from "./modules/Management/ManagementModule"
 import {config} from "./config"
 
 const core = new Core()
@@ -23,6 +24,7 @@ core.setup({
         PingModule,
         HealthModule,
         PoExchangeModule,
+        ManagementModule,
         DiscordModule,
         DiscordCommandModule,
         SettingsModule,

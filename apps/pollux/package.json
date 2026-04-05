@@ -29,6 +29,7 @@
     "@pollux/discord": "workspace:^",
     "@pollux/discord-command": "workspace:^",
     "@pollux/logging": "workspace:^",
+    "@pollux/management": "workspace:^",
     "@pollux/settings": "workspace:^",
     "dotenv": "^17.4.0"
   }

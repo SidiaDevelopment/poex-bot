@@ -5,6 +5,7 @@ export interface ISettingEntry {
     moduleName: string
     defaultValue: string
     description: string
+    type: string
     global: boolean
     hidden: boolean
 }
@@ -30,6 +31,7 @@ export class SettingsController {
                 moduleName: module.name,
                 defaultValue: setting.defaultValue,
                 description: setting.description as string,
+                type: setting.type ?? (setting.defaultValue === "true" || setting.defaultValue === "false" ? "boolean" : "string"),
                 global: setting.global ?? false,
                 hidden: setting.hidden ?? false
             }

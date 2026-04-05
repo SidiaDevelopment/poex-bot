@@ -1,5 +1,38 @@
 export default {
     poex: {
+        management: {
+            settings: "Settings",
+            channelMappings: "Channel Mappings",
+            channelKey: "Category",
+            channel: "Channel",
+            vouchRoles: "Vouch Roles",
+            role: "Role",
+            threshold: "Vouches Required"
+        },
+        categories: {
+            bossKilling: "Boss Killing",
+            nightmareMaps: "Nightmare Maps",
+            invitations: "Invitations",
+            bloodlines: "Bloodlines",
+            labyrinth: "Labyrinth",
+            fiveWay: "5-Way",
+            campaignSkip: "Campaign Skip",
+            goldRotation: "Gold Rotation",
+            templeHost: "Temple Host",
+            challengeCompletion: "Challenge Completion",
+            benchCraft: "Bench Craft",
+            stdBossKilling: "Std Boss Killing",
+            stdNightmareMaps: "Std Nightmare Maps",
+            stdInvitations: "Std Invitations",
+            stdBloodlines: "Std Bloodlines",
+            stdLabyrinth: "Std Labyrinth",
+            stdFiveWay: "Std 5-Way",
+            stdCampaignSkip: "Std Campaign Skip",
+            stdGoldRotation: "Std Gold Rotation",
+            stdTempleHost: "Std Temple Host",
+            stdChallengeCompletion: "Std Challenge Completion",
+            stdBenchCraft: "Std Bench Craft"
+        },
         settings: {
             vouchEnabled: "Enable the vouch button on service messages",
             vouchChannel: "Channel where vouch messages are posted"
