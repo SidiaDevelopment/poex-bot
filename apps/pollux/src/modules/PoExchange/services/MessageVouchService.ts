@@ -6,6 +6,7 @@ import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
+import {VouchRoleService} from "./VouchRoleService"
 import {formatVouchCountEmbed, formatVouchError} from "../formatters/formatVouch"
 import {VouchCountRequest, VouchRequest} from "../types/VouchTypes"
 
@@ -26,6 +27,9 @@ export class MessageVouchService extends Service {
 
     @injectService
     private settingsService!: SettingsService
+
+    @injectService
+    private vouchRoleService!: VouchRoleService
 
     public async init(): Promise<void> {
         DiscordService.onClientReady.addListener(async () => {
@@ -49,6 +53,10 @@ export class MessageVouchService extends Service {
         if (message.content.match(MENTION_PATTERN)) {
             const target = message.mentions.users.first()
             if (target) {
+                if (target.id === message.author.id) {
+                    await message.reply(translate("poex.vouch.selfVouch"))
+                    return
+                }
                 await this.handleVouch(message, target.id)
             }
             return
@@ -76,6 +84,7 @@ export class MessageVouchService extends Service {
             }
 
             await message.react("✅")
+            if (message.guildId) await this.vouchRoleService.checkAndAssignRoles(message.guildId, data)
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Message vouch request failed: ${error}`)
             await message.reply(translate("poex.vouch.failed"))
@@ -91,7 +100,11 @@ export class MessageVouchService extends Service {
                 ? {discordId: mentionMatch[1]}
                 : {username: target.trim()}
 
+            loggingController.log("PoExchange", LogLevel.Debug, `Vouch count request: target="${target.trim()}" mentionMatch=${!!mentionMatch} request=${JSON.stringify(request)}`)
+
             const data = await this.poExchangeApiService.getVouchCount(request)
+
+            loggingController.log("PoExchange", LogLevel.Debug, `Vouch count response: ${JSON.stringify(data)}`)
 
             if ("error" in data) {
                 await message.reply(formatVouchError())
@@ -103,6 +116,7 @@ export class MessageVouchService extends Service {
             const user = discordId ? await client.users.fetch(discordId).catch(() => undefined) : undefined
             const member = discordId ? message.guild?.members.cache.get(discordId) ?? await message.guild?.members.fetch(discordId).catch(() => null) : null
             await message.reply({embeds: [formatVouchCountEmbed(data, user, member)]})
+            if (message.guildId) await this.vouchRoleService.checkAndAssignRoles(message.guildId, data)
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Vouch count request failed: ${error}`)
             await message.reply(translate("poex.vouch.failed"))

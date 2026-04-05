@@ -1,9 +1,10 @@
 import {command, DiscordCommand, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
-import {TextChannel, User} from "discord.js"
+import {MessageFlags, TextChannel, User} from "discord.js"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
+import {VouchRoleService} from "../../services/VouchRoleService"
 import {formatVouchMessage, formatVouchError} from "../../formatters/formatVouch"
 
 export interface IVouchCommandData extends IDiscordCommandData {
@@ -29,7 +30,15 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
     @injectService
     private poExchangeApiService!: PoExchangeApiService
 
+    @injectService
+    private vouchRoleService!: VouchRoleService
+
     public handle = async ({interaction, target}: IVouchCommandData): Promise<void> => {
+        if (interaction.user.id === target.id) {
+            await interaction.reply({content: translate("poex.vouch.selfVouch"), flags: [MessageFlags.Ephemeral]})
+            return
+        }
+
         await interaction.deferReply()
 
         try {
@@ -38,7 +47,8 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
                 voucherId: interaction.user.id,
                 channelId: interaction.channelId,
                 channelName: (interaction.channel as TextChannel)?.name ?? "unknown",
-                targetId: target.id
+                targetId: target.id,
+                messageContent: "Vouched via command"
             })
 
             if ("error" in data) {
@@ -47,6 +57,7 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
             }
 
             await interaction.editReply({content: formatVouchMessage(interaction.user.id, data)})
+            if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch {
             await interaction.editReply({content: translate("poex.vouch.failed")})
         }

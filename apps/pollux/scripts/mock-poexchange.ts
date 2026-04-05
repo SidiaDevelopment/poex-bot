@@ -5,6 +5,33 @@ app.use(express.json())
 
 const PORT = 3001
 
+interface UserData {
+    username: string
+    discordId?: string
+    uniqueVouches: number
+    totalVouches: number
+    seasonVouches: number
+    createdAt: string
+}
+
+// In-memory user store keyed by discordId or username
+const users: Record<string, UserData> = {}
+
+function getOrCreateUser(discordId?: string, username?: string): UserData {
+    const key = discordId ?? username ?? "unknown"
+    if (!users[key]) {
+        users[key] = {
+            username: username ?? "MockUser",
+            discordId: discordId,
+            uniqueVouches: 0,
+            totalVouches: 0,
+            seasonVouches: 0,
+            createdAt: "2024-03-15T10:30:00Z"
+        }
+    }
+    return users[key]
+}
+
 // Validate x-api-key header is present
 app.use((req, res, next) => {
     if (!req.headers["x-api-key"]) {
@@ -16,26 +43,23 @@ app.use((req, res, next) => {
 
 // Mock vouch endpoint
 app.post("/discord-vouches", (req, res) => {
-    const {type, voucherId, messageId, messageContent} = req.body
-    console.log(`[vouch] type=${type} voucherId=${voucherId} messageId=${messageId ?? "-"} messageContent=${messageContent ?? "-"}`)
+    const {type, voucherId, targetId, messageId, messageContent} = req.body
+    console.log(`[vouch] type=${type} voucherId=${voucherId} targetId=${targetId ?? "-"} messageId=${messageId ?? "-"} messageContent=${messageContent ?? "-"}`)
 
     // Simulate "no_user" error when voucherId is "unknown" or messageContent contains "fail"
     if (voucherId === "unknown" || (messageContent && messageContent.toLowerCase().includes("fail"))) {
-        res.json({
-            error: "no_user"
-        })
+        res.json({error: "no_user"})
         return
     }
 
-    // Normal success response
-    res.json({
-        username: "MockUser",
-        discordId: "183382329400623104",
-        uniqueVouches: 42,
-        totalVouches: 128,
-        seasonVouches: 12,
-        createdAt: "2024-03-15T10:30:00Z"
-    })
+    const user = getOrCreateUser(targetId ?? "183382329400623104")
+    user.uniqueVouches++
+    user.totalVouches++
+    user.seasonVouches++
+
+    console.log(`  -> ${user.username} now has ${user.uniqueVouches} unique / ${user.totalVouches} total / ${user.seasonVouches} season`)
+
+    res.json({...user})
 })
 
 // Mock vouch count endpoint
@@ -50,22 +74,14 @@ app.get("/discord-vouches/count", (req, res) => {
     }
 
     if ((username && username.toLowerCase().includes("fail")) || discordId === "unknown") {
-        res.json({
-            error: "no_user"
-        })
+        res.json({error: "no_user"})
         return
     }
 
-    const isUnlinked = (username && username.toLowerCase().includes("unlinked"))
+    const isUnlinked = username && username.toLowerCase().includes("unlinked")
+    const user = getOrCreateUser(isUnlinked ? undefined : discordId, username)
 
-    res.json({
-        username: username ?? "MockUser",
-        ...(!isUnlinked && {discordId: "183382329400623104"}),
-        uniqueVouches: 42,
-        totalVouches: 128,
-        seasonVouches: 12,
-        createdAt: "2024-03-15T10:30:00Z"
-    })
+    res.json({...user})
 })
 
 app.listen(PORT, () => {
@@ -74,4 +90,6 @@ app.listen(PORT, () => {
     console.log("Endpoints:")
     console.log("  POST /discord-vouches        - Submit a vouch (use voucherId='unknown' or 'fail' in messageContent to trigger no_user error)")
     console.log("  GET  /discord-vouches/count  - Get vouch count by ?username= or ?discordId= ('fail' for error, 'unlinked' for no discord)")
+    console.log("")
+    console.log("Vouches start at 0 and increment with each POST")
 })

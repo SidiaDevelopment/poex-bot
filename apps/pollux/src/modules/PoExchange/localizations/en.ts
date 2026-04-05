@@ -18,6 +18,7 @@ export default {
             memberSince: "PoExchange member since",
             yes: "Yes",
             no: "No",
+            selfVouch: "You cannot vouch for yourself.",
             failed: "Failed to process vouch. Please try again later.",
             channelMessage: "vouched for",
             contextMenu: "Vouch Info",
@@ -31,6 +32,33 @@ export default {
                 count: {
                     description: "Get vouch count for a user",
                     userOption: "The user to check"
+                },
+                roles: {
+                    add: {
+                        description: "Add a vouch role threshold",
+                        roleOption: "The role to assign",
+                        countOption: "Number of unique vouches required",
+                        reply: {
+                            title: "Vouch Roles",
+                            success: "Vouch role added"
+                        }
+                    },
+                    remove: {
+                        description: "Remove a vouch role threshold",
+                        roleOption: "The role to remove",
+                        reply: {
+                            title: "Vouch Roles",
+                            success: "Vouch role removed",
+                            notFound: "Vouch role not found"
+                        }
+                    },
+                    list: {
+                        description: "List all vouch role thresholds",
+                        reply: {
+                            title: "Vouch Roles",
+                            empty: "No vouch roles configured"
+                        }
+                    }
                 }
             },
             set: {

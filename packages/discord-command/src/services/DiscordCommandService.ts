@@ -5,6 +5,7 @@ import {injectService, Service} from "@pollux/service"
 import {DiscordEventService} from "@pollux/discord"
 import {DiscordCommandController} from "../DiscordCommandController"
 import {DiscordContextMenuController} from "../DiscordContextMenuController"
+import {IDiscordCommandControllerData} from "../IDiscordCommandControllerData"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
 
@@ -15,12 +16,36 @@ export class DiscordCommandService extends Service {
     public init = async (): Promise<void> => {
         const {loggingController} = useContext(ControllerContext)
         const commands = DiscordCommandController.getAllCommands()
+        const contextMenuCommands = DiscordContextMenuController.getAllCommands()
+
         loggingController.log("@pollux/discord-command", LogLevel.Debug, `Registered commands (${commands.length}):`)
         for (const cmd of commands) {
-            loggingController.log("@pollux/discord-command", LogLevel.Debug, `  ${DiscordCommandController.getUniqueIdentifier(cmd.command, cmd.subCommand, cmd.subCommandGroup)}`)
+            loggingController.log("@pollux/discord-command", LogLevel.Debug, `  ${this.formatCommandSignature(cmd)}`)
+        }
+
+        if (contextMenuCommands.length > 0) {
+            loggingController.log("@pollux/discord-command", LogLevel.Debug, `Registered context menu commands (${contextMenuCommands.length}):`)
+            for (const cmd of contextMenuCommands) {
+                loggingController.log("@pollux/discord-command", LogLevel.Debug, `  [${cmd.config.type === 2 ? "user" : "message"}] ${cmd.config.name}`)
+            }
         }
 
         this.discordEventService.subscribe(Events.InteractionCreate, this.onInteraction)
+    }
+
+    private formatCommandSignature(cmd: IDiscordCommandControllerData): string {
+        let sig = `/${cmd.command}`
+        if (cmd.subCommandGroup) sig += ` ${cmd.subCommandGroup}`
+        if (cmd.subCommand) sig += ` ${cmd.subCommand}`
+
+        const options = cmd.instance.config.options as IDiscordCommandOption<IDiscordCommandData>[] | undefined
+        if (options) {
+            for (const opt of options) {
+                const name = String(opt.name)
+                sig += opt.required ? ` ${name}:<${name}>` : ` [${name}:<${name}>]`
+            }
+        }
+        return sig
     }
 
     private isAdmin(interaction: ChatInputCommandInteraction): boolean {

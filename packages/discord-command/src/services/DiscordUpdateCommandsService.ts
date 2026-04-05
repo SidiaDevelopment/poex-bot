@@ -6,6 +6,7 @@ import {
     APIApplicationCommandOptionChoice,
     ApplicationCommandOptionType,
     ContextMenuCommandBuilder,
+    RESTPostAPIContextMenuApplicationCommandsJSONBody,
     RESTPostAPIChatInputApplicationCommandsJSONBody,
     SlashCommandBuilder,
     SlashCommandSubcommandBuilder,
@@ -55,7 +56,8 @@ export class DiscordUpdateCommandsService extends Service {
         const {loggingController} = useContext(ControllerContext)
         const commands = DiscordCommandController.getAllCommands()
         const tree = this.buildCommandTree(commands)
-        const builtCommands: object[] = await this.buildCommands(tree)
+        type CommandJSON = RESTPostAPIChatInputApplicationCommandsJSONBody | RESTPostAPIContextMenuApplicationCommandsJSONBody
+        const builtCommands: CommandJSON[] = await this.buildCommands(tree)
 
         const contextMenuCommands = DiscordContextMenuController.getAllCommands()
         for (const cmd of contextMenuCommands) {
@@ -66,25 +68,20 @@ export class DiscordUpdateCommandsService extends Service {
                 builder.setDefaultMemberPermissions(cmd.config.defaultMemberPermissions)
             }
             builtCommands.push(builder.toJSON())
-            loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  [ctx] ${cmd.config.name}`)
         }
 
-        loggingController.log("@pollux/discord-commands", LogLevel.Debug, `Pushing ${builtCommands.length} command(s) to Discord:`)
-        for (const cmd of builtCommands) {
-            const subcommands = (cmd.options ?? [])
-                .filter(o => o.type === ApplicationCommandOptionType.Subcommand || o.type === ApplicationCommandOptionType.SubcommandGroup)
-                .map(o => o.name)
-            if (subcommands.length > 0) {
-                loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  /${cmd.name} [${subcommands.join(", ")}]`)
-            } else {
-                loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  /${cmd.name}`)
-            }
+        loggingController.log("@pollux/discord-commands", LogLevel.Debug, `Pushing ${builtCommands.length} top-level command(s) to Discord (${commands.length} commands, ${contextMenuCommands.length} context menu):`)
+        for (const cmd of commands) {
+            loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  ${this.formatCommandSignature(cmd)}`)
+        }
+        for (const cmd of contextMenuCommands) {
+            loggingController.log("@pollux/discord-commands", LogLevel.Debug, `  [${cmd.config.type === 2 ? "user" : "message"}] ${cmd.config.name}`)
         }
 
         await this.sendUpdate(builtCommands)
     }
 
-    private async sendUpdate(builtCommands: object[]): Promise<void> {
+    private async sendUpdate(builtCommands: (RESTPostAPIChatInputApplicationCommandsJSONBody | RESTPostAPIContextMenuApplicationCommandsJSONBody)[]): Promise<void> {
         const {discord: {key}} = useContext(ConfigContext)
         if (!key) return
         const client = this.discordService.getClient()
@@ -248,6 +245,21 @@ export class DiscordUpdateCommandsService extends Service {
 
             return option
         }
+    }
+
+    private formatCommandSignature(cmd: IDiscordCommandControllerData): string {
+        let sig = `/${cmd.command}`
+        if (cmd.subCommandGroup) sig += ` ${cmd.subCommandGroup}`
+        if (cmd.subCommand) sig += ` ${cmd.subCommand}`
+
+        const options = cmd.instance.config.options as IDiscordCommandOption<IDiscordCommandData>[] | undefined
+        if (options) {
+            for (const opt of options) {
+                const name = String(opt.name)
+                sig += opt.required ? ` ${name}:<${name}>` : ` [${name}:<${name}>]`
+            }
+        }
+        return sig
     }
 
     private buildCommandTree(commands: IDiscordCommandControllerData[]): ICommandTree {

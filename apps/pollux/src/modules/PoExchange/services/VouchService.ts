@@ -7,6 +7,7 @@ import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
 import {formatVouchMessage, formatVouchError} from "../formatters/formatVouch"
+import {VouchRoleService} from "./VouchRoleService"
 import {VouchRequest, VouchResponse} from "../types/VouchTypes"
 
 export class VouchService extends Service {
@@ -21,6 +22,9 @@ export class VouchService extends Service {
 
     @injectService
     private settingsService!: SettingsService
+
+    @injectService
+    private vouchRoleService!: VouchRoleService
 
     public async init(): Promise<void> {
         DiscordService.onClientReady.addListener(async () => {
@@ -60,6 +64,7 @@ export class VouchService extends Service {
             await interaction.editReply({content: `${translate("poex.vouch.success")} **${data.username}** (${mention}) — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`})
 
             await this.sendVouchChannelMessage(interaction, data)
+            if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Vouch request failed: ${error}`)
             await interaction.editReply({content: translate("poex.vouch.failed")})

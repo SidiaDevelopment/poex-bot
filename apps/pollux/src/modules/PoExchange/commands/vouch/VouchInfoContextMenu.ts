@@ -5,6 +5,7 @@ import {SettingsService} from "@pollux/settings"
 import {DiscordService} from "@pollux/discord"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
+import {VouchRoleService} from "../../services/VouchRoleService"
 import {formatVouchCountEmbed, formatVouchError} from "../../formatters/formatVouch"
 
 const commandConfig: IDiscordContextMenuCommand = {
@@ -22,6 +23,9 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
 
     @injectService
     private settingsService!: SettingsService
+
+    @injectService
+    private vouchRoleService!: VouchRoleService
 
     public handle = async (interaction: UserContextMenuCommandInteraction): Promise<void> => {
         await interaction.deferReply({flags: [MessageFlags.Ephemeral]})
@@ -51,6 +55,7 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
             }
 
             await interaction.editReply({content: translate("poex.vouch.infoSent")})
+            if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch {
             await interaction.editReply({content: translate("poex.vouch.failed")})
         }
