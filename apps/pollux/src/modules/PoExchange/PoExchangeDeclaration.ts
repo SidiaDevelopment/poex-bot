@@ -4,6 +4,13 @@ import {LocalizationOverrides} from "@pollux/i18n"
 declare module "@pollux/core/types" {
     type PoExchangeLocalizationType = typeof en
     export interface ILocalization extends PoExchangeLocalizationType {}
+
+    export interface IConfig {
+        poExchange?: {
+            apiUrl?: string
+            apiKey?: string
+        }
+    }
 }
 
 export enum PoExchangeChannelId {

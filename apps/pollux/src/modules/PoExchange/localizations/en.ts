@@ -1,6 +1,28 @@
 export default {
     poex: {
+        settings: {
+            vouchEnabled: "Enable the vouch button on service messages",
+            vouchChannel: "Channel where vouch messages are posted"
+        },
+        vouch: {
+            button: "Vouch",
+            notConfigured: "Vouch service is not configured.",
+            noLinkedAccount: "Could not process vouch: the user has no linked account. They can link it here:",
+            success: "Vouch registered!",
+            uniqueVouches: "unique vouches",
+            totalVouches: "total",
+            failed: "Failed to process vouch. Please try again later.",
+            channelMessage: "vouched for"
+        },
         commands: {
+            vouch: {
+                description: "Vouch for a user",
+                userOption: "The user to vouch for",
+                count: {
+                    description: "Get vouch count for a user",
+                    userOption: "The user to check"
+                }
+            },
             set: {
                 description: "Set a channel mapping",
                 mappingOption: "The channel type to map",

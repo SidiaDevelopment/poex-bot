@@ -13,7 +13,8 @@
     "start": "ts-node src/index.ts",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d datasource.ts",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d datasource.ts",
-    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d datasource.ts"
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d datasource.ts",
+    "mock:poexchange": "ts-node scripts/mock-poexchange.ts"
   },
   "main": "src/index.ts",
   "devDependencies": {

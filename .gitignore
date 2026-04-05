@@ -15,6 +15,10 @@
 # Environment
 .env
 
+# Database
+*.sq3
+apps/pollux/pollux
+
 # Build files
 .turbo
 dist

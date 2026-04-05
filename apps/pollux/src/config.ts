@@ -24,5 +24,9 @@ export const config: IConfig = {
     },
     api: {
         port: process.env.API_PORT ? parseInt(process.env.API_PORT) : 3000
+    },
+    poExchange: {
+        apiUrl: process.env.POEXCHANGE_API_URL ?? "",
+        apiKey: process.env.POEXCHANGE_API_KEY ?? ""
     }
 }
