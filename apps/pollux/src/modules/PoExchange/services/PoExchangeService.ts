@@ -2,7 +2,7 @@ import {injectService, Service} from "@pollux/service"
 import {DatabaseService} from "@pollux/database"
 import {DiscordService} from "@pollux/discord"
 import {EmbedService} from "@pollux/discord-command"
-import {Colors, EmbedBuilder, TextChannel} from "discord.js"
+import {ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, TextChannel} from "discord.js"
 import {PoExchangeCategoryEntity} from "../entities/PoExchangeCategoryEntity"
 import {PoExchangeChannelId} from "../PoExchangeDeclaration"
 import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "../formatters/IPoExchangeFormatter"
@@ -108,6 +108,16 @@ export class PoExchangeService extends Service {
         }
     }
 
+    private buildVouchButton(disabled: boolean = false): ActionRowBuilder<ButtonBuilder> {
+        const button = new ButtonBuilder()
+            .setCustomId("poex_vouch")
+            .setEmoji("⭐")
+            .setLabel("Vouch")
+            .setStyle(ButtonStyle.Success)
+            .setDisabled(disabled)
+        return new ActionRowBuilder<ButtonBuilder>().addComponents(button)
+    }
+
     private buildEmbed(channelId: string, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): EmbedBuilder {
         const embed = this.embedService.getDefaultBuilder(Colors.Blue)
         const formatter = this.formatters[channelId]
@@ -123,14 +133,14 @@ export class PoExchangeService extends Service {
         if (post.messageId) {
             try {
                 const msg = await channel.messages.fetch(post.messageId)
-                await msg.edit({embeds: [embed]})
+                await msg.edit({embeds: [embed], components: [this.buildVouchButton()]})
                 return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
             } catch {
                 // Message not found, create new
             }
         }
 
-        const msg = await channel.send({embeds: [embed]})
+        const msg = await channel.send({embeds: [embed], components: [this.buildVouchButton()]})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -140,7 +150,7 @@ export class PoExchangeService extends Service {
         }
 
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
-        const msg = await channel.send({embeds: [embed]})
+        const msg = await channel.send({embeds: [embed], components: [this.buildVouchButton()]})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -161,7 +171,7 @@ export class PoExchangeService extends Service {
                     embed.addFields({name: `~~${field.name}~~`, value: `~~${field.value}~~`, inline: field.inline ?? false})
                 }
             }
-            await msg.edit({embeds: [embed]})
+            await msg.edit({embeds: [embed], components: [this.buildVouchButton(true)]})
             return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         } catch {
             return {channelId: post.channelId, status: "error", errorMessage: "Message not found"}

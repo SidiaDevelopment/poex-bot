@@ -1,8 +1,13 @@
 #!/bin/bash
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/../.env" ]; then
+  export $(grep -v '^#' "$SCRIPT_DIR/../.env" | xargs)
+fi
+
 API_URL="${1:-https://poex.sidia.net}"
 GUILD_ID="${2:-1242243721852878900}"
-API_KEY="${3:-your-api-key-here}"
+API_KEY="${3:-$API_KEY}"
 
 ENDPOINT="$API_URL/poex/push?apiKey=$API_KEY"
 
