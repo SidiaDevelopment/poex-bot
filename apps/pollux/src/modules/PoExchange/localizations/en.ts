@@ -62,7 +62,8 @@ export default {
             noDiscordLinked: "no discord linked",
             contextMenu: "Vouch Info",
             infoSent: "Vouch info sent to the vouch channel.",
-            infoRequested: "here is the requested vouch info:"
+            infoRequested: "here is the requested vouch info:",
+            roleEarned: "has earned the role"
         },
         commands: {
             vouch: {

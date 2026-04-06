@@ -1,8 +1,11 @@
 import {injectService, Service} from "@pollux/service"
 import {DatabaseService} from "@pollux/database"
 import {DiscordService} from "@pollux/discord"
+import {SettingsService} from "@pollux/settings"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
+import {translate} from "@pollux/i18n"
+import {TextChannel} from "discord.js"
 import {VouchRoleEntity} from "../entities/VouchRoleEntity"
 import {VouchResponse} from "../types/VouchTypes"
 
@@ -12,6 +15,9 @@ export class VouchRoleService extends Service {
 
     @injectService
     private discordService!: DiscordService
+
+    @injectService
+    private settingsService!: SettingsService
 
     private cache: Record<string, VouchRoleEntity[]> = {}
 
@@ -38,16 +44,37 @@ export class VouchRoleService extends Service {
         try {
             const guild = await client.guilds.fetch(guildId)
             const member = await guild.members.fetch(data.discordId)
+            const newRoles: string[] = []
 
             for (const role of roles) {
                 if (data.uniqueVouches >= role.threshold && !member.roles.cache.has(role.roleId)) {
                     await member.roles.add(role.roleId)
+                    newRoles.push(role.roleId)
                     loggingController.log("PoExchange", LogLevel.Debug, `Assigned role ${role.roleId} to ${data.discordId} (${data.uniqueVouches} >= ${role.threshold})`)
                 }
+            }
+
+            if (newRoles.length > 0) {
+                await this.announceNewRoles(guildId, data.discordId, newRoles)
             }
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Failed to assign vouch roles: ${error}`)
         }
+    }
+
+    private async announceNewRoles(guildId: string, discordId: string, roleIds: string[]): Promise<void> {
+        const vouchChannelId = this.settingsService.get("poex.vouchChannel", guildId)
+        if (!vouchChannelId) return
+
+        const client = this.discordService.getClient()
+        const channel = await client.channels.fetch(vouchChannelId).catch(() => null)
+        if (!channel || !(channel instanceof TextChannel)) return
+
+        const roleNames = roleIds.map(id => `<@&${id}>`).join(", ")
+        await channel.send({
+            content: `<@${discordId}> ${translate("poex.vouch.roleEarned" as never)} ${roleNames}!`,
+            allowedMentions: {users: [discordId]}
+        })
     }
 
     public async addRole(guildId: string, roleId: string, threshold: number): Promise<void> {
