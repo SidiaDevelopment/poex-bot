@@ -1,0 +1,76 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+const PORT = 3001;
+// In-memory user store keyed by discordId or username
+const users = {};
+function getOrCreateUser(discordId, username) {
+    const key = discordId ?? username ?? "unknown";
+    if (!users[key]) {
+        users[key] = {
+            username: username ?? "MockUser",
+            discordId: discordId,
+            uniqueVouches: 0,
+            totalVouches: 0,
+            seasonVouches: 0,
+            createdAt: "2024-03-15T10:30:00Z"
+        };
+    }
+    return users[key];
+}
+// Validate x-api-key header is present
+app.use((req, res, next) => {
+    if (!req.headers["x-api-key"]) {
+        res.status(401).json({ error: "Missing x-api-key header" });
+        return;
+    }
+    next();
+});
+// Mock vouch endpoint
+app.post("/discord-vouches", (req, res) => {
+    const { type, voucherId, targetId, messageId, messageContent } = req.body;
+    console.log(`[vouch] type=${type} voucherId=${voucherId} targetId=${targetId ?? "-"} messageId=${messageId ?? "-"} messageContent=${messageContent ?? "-"}`);
+    // Simulate "no_user" error when voucherId is "unknown" or messageContent contains "fail"
+    if (voucherId === "unknown" || (messageContent && messageContent.toLowerCase().includes("fail"))) {
+        res.json({ error: "no_user" });
+        return;
+    }
+    const user = getOrCreateUser(targetId ?? "183382329400623104");
+    user.uniqueVouches++;
+    user.totalVouches++;
+    user.seasonVouches++;
+    console.log(`  -> ${user.username} now has ${user.uniqueVouches} unique / ${user.totalVouches} total / ${user.seasonVouches} season`);
+    res.json({ ...user });
+});
+// Mock vouch count endpoint
+app.get("/discord-vouches/count", (req, res) => {
+    const username = req.query.username;
+    const discordId = req.query.discordId;
+    console.log(`[vouch/count] username=${username ?? "-"} discordId=${discordId ?? "-"}`);
+    if (!username && !discordId) {
+        res.status(400).json({ error: "username or discordId required" });
+        return;
+    }
+    if ((username && username.toLowerCase().includes("fail")) || discordId === "unknown") {
+        res.json({ error: "no_user" });
+        return;
+    }
+    const isUnlinked = username && username.toLowerCase().includes("unlinked");
+    const user = getOrCreateUser(isUnlinked ? undefined : discordId, username);
+    res.json({ ...user });
+});
+app.listen(PORT, () => {
+    console.log(`Mock poexchange API running on http://localhost:${PORT}`);
+    console.log("");
+    console.log("Endpoints:");
+    console.log("  POST /discord-vouches        - Submit a vouch (use voucherId='unknown' or 'fail' in messageContent to trigger no_user error)");
+    console.log("  GET  /discord-vouches/count  - Get vouch count by ?username= or ?discordId= ('fail' for error, 'unlinked' for no discord)");
+    console.log("");
+    console.log("Vouches start at 0 and increment with each POST");
+});
+//# sourceMappingURL=mock-poexchange.js.map

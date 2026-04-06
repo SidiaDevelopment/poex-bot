@@ -4,5 +4,5 @@
     "rootDir": "./src",
     "outDir": "./dist"
   },
-  "exclude": ["dist", "datasource.ts", "migrations"]
+  "exclude": ["dist", "datasource.ts", "migrations", "scripts"]
 }
