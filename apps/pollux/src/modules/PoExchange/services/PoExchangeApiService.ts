@@ -25,7 +25,7 @@ export class PoExchangeApiService extends Service {
         const {loggingController} = useContext(ControllerContext)
         loggingController.log("PoExchange", LogLevel.Debug, `Sending vouch request: type=${request.type} voucherId=${request.voucherId}`)
 
-        const response = await fetch(new URL("/discord-vouches", baseUrl), {
+        const response = await fetch(new URL("/api/v1/discord-vouches", baseUrl), {
             method: "POST",
             headers: this.getHeaders(),
             body: JSON.stringify(request)
@@ -40,7 +40,7 @@ export class PoExchangeApiService extends Service {
             throw new Error("PoExchange API URL is not configured")
         }
 
-        const url = new URL("/discord-vouches/count", baseUrl)
+        const url = new URL("/api/v1/discord-vouches/count", baseUrl)
         if (request.discordId) {
             url.searchParams.set("discordId", request.discordId)
         }

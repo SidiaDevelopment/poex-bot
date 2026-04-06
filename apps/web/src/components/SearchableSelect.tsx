@@ -34,9 +34,15 @@ export function SearchableSelect({options, value, onChange, placeholder = "Selec
     const updatePosition = useCallback(() => {
         if (!triggerRef.current) return
         const rect = triggerRef.current.getBoundingClientRect()
+        const dropdownHeight = 240
+        const spaceBelow = window.innerHeight - rect.bottom
+        const openUpward = spaceBelow < dropdownHeight && rect.top > dropdownHeight
+
         setDropdownStyle({
             position: "fixed",
-            top: rect.bottom + 6,
+            ...(openUpward
+                ? {bottom: window.innerHeight - rect.top + 6}
+                : {top: rect.bottom + 6}),
             left: rect.left,
             width: rect.width,
             zIndex: 9999
