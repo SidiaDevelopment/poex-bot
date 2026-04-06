@@ -11,6 +11,7 @@ interface UserData {
     uniqueVouches: number
     totalVouches: number
     seasonVouches: number
+    currentCycle: string
     joinDate: string
 }
 
@@ -26,6 +27,7 @@ function getOrCreateUser(discordId?: string, username?: string): UserData {
             uniqueVouches: 0,
             totalVouches: 0,
             seasonVouches: 0,
+            currentCycle: "Cycle 1",
             joinDate: "2024-03-15T10:30:00Z"
         }
     }

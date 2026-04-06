@@ -19,6 +19,7 @@ export interface VouchResponse {
     uniqueVouches: number
     totalVouches: number
     seasonVouches: number
+    currentCycle?: string
     /** ISO 8601 UTC date string */
     joinDate?: string
 }
