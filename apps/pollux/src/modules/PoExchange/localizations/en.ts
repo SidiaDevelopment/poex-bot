@@ -40,7 +40,9 @@ export default {
         vouch: {
             button: "Vouch",
             notConfigured: "Vouch service is not configured.",
-            noLinkedAccount: "Could not process vouch: the user has no linked account. They can link it here:",
+            noLinkedAccount: "Could not process vouch: the user has no linked account.",
+            userNotFound: "Could not find user: the user has no linked account.",
+            linkDiscord: "Link Discord account here",
             success: "Vouch registered!",
             uniqueVouches: "Unique Vouches",
             seasonVouches: "Cycle Vouches",
@@ -54,6 +56,7 @@ export default {
             selfVouch: "You cannot vouch for yourself.",
             failed: "Failed to process vouch. Please try again later.",
             channelMessage: "vouched for",
+            noDiscordLinked: "no discord linked",
             contextMenu: "Vouch Info",
             infoSent: "Vouch info sent to the vouch channel.",
             infoRequested: "here is the requested vouch info:"

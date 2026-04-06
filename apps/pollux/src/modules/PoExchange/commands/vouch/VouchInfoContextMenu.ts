@@ -6,7 +6,7 @@ import {DiscordService} from "@pollux/discord"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
-import {formatVouchCountEmbed, formatVouchError} from "../../formatters/formatVouch"
+import {formatVouchCountEmbed, formatUserNotFoundError} from "../../formatters/formatVouch"
 
 const commandConfig: IDiscordContextMenuCommand = {
     name: "Vouch Info",
@@ -36,7 +36,7 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
             const data = await this.poExchangeApiService.getVouchCount({discordId: target.id})
 
             if ("error" in data) {
-                await interaction.editReply({content: formatVouchError()})
+                await interaction.editReply({content: formatUserNotFoundError()})
                 return
             }
 

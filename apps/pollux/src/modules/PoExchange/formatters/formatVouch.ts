@@ -5,8 +5,10 @@ import {Colors, EmbedBuilder, GuildMember, User} from "discord.js"
 import {VouchResponse} from "../types/VouchTypes"
 
 export function formatVouchMessage(voucherUserId: string, data: VouchResponse): string {
-    const mention = data.discordId ? `<@${data.discordId}>` : data.username
-    return `<@${voucherUserId}> ${translate("poex.vouch.channelMessage")} **${data.username}** (${mention}) — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`
+    const target = data.discordId
+        ? `**${data.username}** (<@${data.discordId}>)`
+        : `**${data.username}** (${translate("poex.vouch.noDiscordLinked")})`
+    return `<@${voucherUserId}> ${translate("poex.vouch.channelMessage")} ${target} — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`
 }
 
 export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?: GuildMember | null): EmbedBuilder {
@@ -43,5 +45,10 @@ function formatRelativeTime(date: Date): string {
 
 export function formatVouchError(): string {
     const {poExchange: {connectUrl}} = useContext(ConfigContext)
-    return `${translate("poex.vouch.noLinkedAccount")} ${connectUrl}`
+    return `${translate("poex.vouch.noLinkedAccount")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`
+}
+
+export function formatUserNotFoundError(): string {
+    const {poExchange: {connectUrl}} = useContext(ConfigContext)
+    return `${translate("poex.vouch.userNotFound")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`
 }
