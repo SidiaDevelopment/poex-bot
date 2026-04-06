@@ -26,3 +26,8 @@ export interface VouchResponse {
 export interface VouchResponseError {
     error: "no_user"
 }
+
+export interface VouchResponseSaved {
+    error: "vouch_saved"
+    vouchAmount: number
+}

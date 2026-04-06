@@ -20,6 +20,7 @@ import {VouchRolesListCommand} from "./commands/vouch/VouchRolesListCommand"
 import {VouchInfoContextMenu} from "./commands/vouch/VouchInfoContextMenu"
 import {VouchRoleService} from "./services/VouchRoleService"
 import {PoExchangePostRoute} from "./routes/PoExchangePostRoute"
+import {PoExchangeVouchRoute} from "./routes/PoExchangeVouchRoute"
 import {PoExchangeChannelEntityHandler} from "./management/PoExchangeChannelEntityHandler"
 import {VouchRoleEntityHandler} from "./management/VouchRoleEntityHandler"
 
@@ -34,7 +35,7 @@ export class PoExchangeModule implements IModule {
     }
     public api: IModuleApiConfig = {
         tag: "PoExchange",
-        apiRoutes: [PoExchangePostRoute]
+        apiRoutes: [PoExchangePostRoute, PoExchangeVouchRoute]
     }
     public management: IManagementPage = {
         tables: [{

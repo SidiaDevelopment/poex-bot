@@ -5,10 +5,15 @@ import {Colors, EmbedBuilder, GuildMember, User} from "discord.js"
 import {VouchResponse} from "../types/VouchTypes"
 
 export function formatVouchMessage(voucherUserId: string, data: VouchResponse): string {
+    const sender = `<@${voucherUserId}>`
+    return formatVouchMessageFromSender(sender, data)
+}
+
+export function formatVouchMessageFromSender(sender: string, data: VouchResponse): string {
     const target = data.discordId
         ? `**${data.username}** (<@${data.discordId}>)`
-        : `**${data.username}** (${translate("poex.vouch.noDiscordLinked")})`
-    return `<@${voucherUserId}> ${translate("poex.vouch.channelMessage")} ${target} — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`
+        : `**${data.username}**`
+    return `${sender} ${translate("poex.vouch.channelMessage")} ${target} — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`
 }
 
 export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?: GuildMember | null): EmbedBuilder {
@@ -41,6 +46,11 @@ export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?:
 
 function formatRelativeTime(date: Date): string {
     return `<t:${Math.floor(date.getTime() / 1000)}:R>`
+}
+
+export function formatVouchSaved(amount: number): string {
+    const {poExchange: {connectUrl}} = useContext(ConfigContext)
+    return `${translate("poex.vouch.vouchSaved" as never).replace("{amount}", String(amount))} [${translate("poex.vouch.linkDiscord" as never)}](${connectUrl})`
 }
 
 export function formatVouchError(): string {

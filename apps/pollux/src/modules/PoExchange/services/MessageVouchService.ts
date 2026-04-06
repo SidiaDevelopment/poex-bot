@@ -7,7 +7,7 @@ import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
 import {VouchRoleService} from "./VouchRoleService"
-import {formatVouchCountEmbed, formatVouchError} from "../formatters/formatVouch"
+import {formatVouchCountEmbed, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
 import {VouchCountRequest, VouchRequest} from "../types/VouchTypes"
 
 const MENTION_EXTRACT = /^<@!?(\d+)>$/
@@ -79,7 +79,11 @@ export class MessageVouchService extends Service {
             const data = await this.poExchangeApiService.sendVouch(request)
 
             if ("error" in data) {
-                await message.reply(formatVouchError())
+                if (data.error === "vouch_saved") {
+                    await message.reply(formatVouchSaved(data.vouchAmount))
+                } else {
+                    await message.reply(formatVouchError())
+                }
                 return
             }
 
@@ -107,7 +111,7 @@ export class MessageVouchService extends Service {
             loggingController.log("PoExchange", LogLevel.Debug, `Vouch count response: ${JSON.stringify(data)}`)
 
             if ("error" in data) {
-                await message.reply(formatVouchError())
+                await message.reply(translate("poex.vouch.countFailed"))
                 return
             }
 
@@ -119,7 +123,7 @@ export class MessageVouchService extends Service {
             if (message.guildId) await this.vouchRoleService.checkAndAssignRoles(message.guildId, data)
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Vouch count request failed: ${error}`)
-            await message.reply(translate("poex.vouch.failed"))
+            await message.reply(translate("poex.vouch.countFailed"))
         }
     }
 }

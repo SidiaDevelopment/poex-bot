@@ -2,7 +2,7 @@ import {Service} from "@pollux/service"
 import {ConfigContext} from "@pollux/config"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
-import {VouchCountRequest, VouchRequest, VouchResponse, VouchResponseError} from "../types/VouchTypes"
+import {VouchCountRequest, VouchRequest, VouchResponse, VouchResponseError, VouchResponseSaved} from "../types/VouchTypes"
 
 export class PoExchangeApiService extends Service {
     public async init(): Promise<void> {}
@@ -25,7 +25,7 @@ export class PoExchangeApiService extends Service {
         return url
     }
 
-    public async sendVouch(request: VouchRequest): Promise<VouchResponse | VouchResponseError> {
+    public async sendVouch(request: VouchRequest): Promise<VouchResponse | VouchResponseError | VouchResponseSaved> {
         const {loggingController} = useContext(ControllerContext)
         loggingController.log("PoExchange", LogLevel.Debug, `Sending vouch request: type=${request.type} voucherId=${request.voucherId}`)
 

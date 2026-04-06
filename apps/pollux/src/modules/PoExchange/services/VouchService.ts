@@ -6,7 +6,7 @@ import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
-import {formatVouchMessage, formatVouchError} from "../formatters/formatVouch"
+import {formatVouchMessage, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
 import {VouchRoleService} from "./VouchRoleService"
 import {VouchRequest, VouchResponse} from "../types/VouchTypes"
 
@@ -56,7 +56,11 @@ export class VouchService extends Service {
             const data = await this.poExchangeApiService.sendVouch(request)
 
             if ("error" in data) {
-                await interaction.editReply({content: formatVouchError()})
+                if (data.error === "vouch_saved") {
+                    await interaction.editReply({content: formatVouchSaved(data.vouchAmount)})
+                } else {
+                    await interaction.editReply({content: formatVouchError()})
+                }
                 return
             }
 

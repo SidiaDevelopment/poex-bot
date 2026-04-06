@@ -62,7 +62,7 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
             await interaction.editReply({embeds: [formatVouchCountEmbed(data, user, member)]})
             if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch {
-            await interaction.editReply({content: translate("poex.vouch.failed")})
+            await interaction.editReply({content: translate("poex.vouch.countFailed")})
         }
     }
 }

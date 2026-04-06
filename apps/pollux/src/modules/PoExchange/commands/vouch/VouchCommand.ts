@@ -5,7 +5,7 @@ import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
-import {formatVouchMessage, formatVouchError} from "../../formatters/formatVouch"
+import {formatVouchMessage, formatVouchError, formatVouchSaved} from "../../formatters/formatVouch"
 
 export interface IVouchCommandData extends IDiscordCommandData {
     target: User
@@ -52,7 +52,11 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
             })
 
             if ("error" in data) {
-                await interaction.editReply({content: formatVouchError()})
+                if (data.error === "vouch_saved") {
+                    await interaction.editReply({content: formatVouchSaved(data.vouchAmount)})
+                } else {
+                    await interaction.editReply({content: formatVouchError()})
+                }
                 return
             }
 
