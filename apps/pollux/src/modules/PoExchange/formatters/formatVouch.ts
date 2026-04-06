@@ -36,7 +36,7 @@ export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?:
         {name: translate("poex.vouch.discordLinked"), value: linked, inline: true},
         {name: translate("poex.vouch.discordAccountAge"), value: user ? formatRelativeTime(user.createdAt) : "-", inline: true},
         {name: translate("poex.vouch.discordJoinDate"), value: member?.joinedAt ? formatRelativeTime(member.joinedAt) : "-", inline: true},
-        {name: data.currentCycle ? `${translate("poex.vouch.seasonVouches")} (${data.currentCycle})` : translate("poex.vouch.seasonVouches"), value: `${data.seasonVouches}`, inline: true},
+        {name: data.currentCycle ? `${translate("poex.vouch.cycleVouches")} (${data.currentCycle})` : translate("poex.vouch.cycleVouches"), value: `${data.cycleVouches}`, inline: true},
         {name: translate("poex.vouch.uniqueVouches"), value: `${data.uniqueVouches}`, inline: true},
         {name: translate("poex.vouch.totalVouches"), value: `${data.totalVouches}`, inline: true}
     )

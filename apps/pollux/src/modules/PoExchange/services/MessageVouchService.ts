@@ -69,6 +69,7 @@ export class MessageVouchService extends Service {
         const request: VouchRequest = {
             type: "message",
             voucherId: message.author.id,
+            voucherUsername: message.author.username,
             channelId: message.channelId,
             channelName: (message.channel as TextChannel)?.name ?? "unknown",
             messageContent: message.content,

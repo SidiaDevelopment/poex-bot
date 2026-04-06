@@ -10,7 +10,7 @@ interface UserData {
     discordId?: string
     uniqueVouches: number
     totalVouches: number
-    seasonVouches: number
+    cycleVouches: number
     currentCycle: string
     joinDate: string
 }
@@ -26,7 +26,7 @@ function getOrCreateUser(discordId?: string, username?: string): UserData {
             discordId: discordId,
             uniqueVouches: 0,
             totalVouches: 0,
-            seasonVouches: 0,
+            cycleVouches: 0,
             currentCycle: "Cycle 1",
             joinDate: "2024-03-15T10:30:00Z"
         }
@@ -57,9 +57,9 @@ app.post("/api/v1/discord-vouches", (req, res) => {
     const user = getOrCreateUser(targetId ?? "183382329400623104")
     user.uniqueVouches++
     user.totalVouches++
-    user.seasonVouches++
+    user.cycleVouches++
 
-    console.log(`  -> ${user.username} now has ${user.uniqueVouches} unique / ${user.totalVouches} total / ${user.seasonVouches} season`)
+    console.log(`  -> ${user.username} now has ${user.uniqueVouches} unique / ${user.totalVouches} total / ${user.cycleVouches} season`)
 
     res.json({...user})
 })

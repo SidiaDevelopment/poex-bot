@@ -45,6 +45,7 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
             const data = await this.poExchangeApiService.sendVouch({
                 type: "message",
                 voucherId: interaction.user.id,
+                voucherUsername: interaction.user.username,
                 channelId: interaction.channelId,
                 channelName: (interaction.channel as TextChannel)?.name ?? "unknown",
                 targetId: target.id,

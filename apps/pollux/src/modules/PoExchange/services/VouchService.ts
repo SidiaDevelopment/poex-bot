@@ -47,6 +47,7 @@ export class VouchService extends Service {
         const request: VouchRequest = {
             type: "button",
             voucherId: interaction.user.id,
+            voucherUsername: interaction.user.username,
             channelId: interaction.channelId,
             channelName: (interaction.channel as TextChannel)?.name ?? "unknown",
             messageId: interaction.message.id

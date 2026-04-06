@@ -46,7 +46,7 @@ export default {
             success: "Vouch registered!",
             vouchSaved: "Vouch saved! The user has {amount} pending vouch(es) that will be attributed once they link their Discord account.",
             uniqueVouches: "Unique Vouches",
-            seasonVouches: "Cycle Vouches",
+            cycleVouches: "Cycle Vouches",
             currentCycle: "Current cycle",
             totalVouches: "Total Vouches",
             discordLinked: "Discord Linked",

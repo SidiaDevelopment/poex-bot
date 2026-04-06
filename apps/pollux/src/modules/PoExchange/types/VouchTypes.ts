@@ -1,6 +1,7 @@
 export interface VouchRequest {
     type: "message" | "button"
     voucherId: string
+    voucherUsername: string
     channelId: string
     channelName: string
     messageId?: string
@@ -18,7 +19,7 @@ export interface VouchResponse {
     discordId?: string
     uniqueVouches: number
     totalVouches: number
-    seasonVouches: number
+    cycleVouches: number
     currentCycle?: string
     /** ISO 8601 UTC date string */
     joinDate?: string
