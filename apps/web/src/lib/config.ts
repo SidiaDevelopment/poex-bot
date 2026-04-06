@@ -1,4 +1,5 @@
 export const config = {
+    baseUrl: process.env.BASE_URL ?? "http://localhost:3026",
     botApiUrl: process.env.BOT_API_URL ?? "http://localhost:3025",
     discord: {
         clientId: process.env.DISCORD_CLIENT_ID ?? "",

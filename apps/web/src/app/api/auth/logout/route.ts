@@ -1,7 +1,7 @@
-import {NextResponse} from "next/server"
+import {NextRequest, NextResponse} from "next/server"
 import {clearSession} from "@/lib/session"
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     await clearSession()
-    return NextResponse.redirect(new URL("/", process.env.DISCORD_REDIRECT_URL ?? "http://localhost:3026"))
+    return NextResponse.redirect(new URL("/", request.url))
 }
