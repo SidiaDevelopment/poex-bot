@@ -5,7 +5,7 @@ import {translate} from "@pollux/i18n"
 import {DiscordService} from "@pollux/discord"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
-import {formatVouchCountEmbed, formatUserNotFoundError} from "../../formatters/formatVouch"
+import {formatVouchCountEmbed, formatCountError} from "../../formatters/formatVouch"
 import {VouchCountRequest} from "../../types/VouchTypes"
 
 export interface IVouchCountCommandData extends IDiscordCommandData {
@@ -51,7 +51,11 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
             const data = await this.poExchangeApiService.getVouchCount(request)
 
             if ("error" in data) {
-                await interaction.editReply({content: formatUserNotFoundError()})
+                if (data.error === "no_user") {
+                    await interaction.editReply({content: formatCountError()})
+                } else {
+                    await interaction.editReply({content: translate("poex.vouch.countFailed")})
+                }
                 return
             }
 

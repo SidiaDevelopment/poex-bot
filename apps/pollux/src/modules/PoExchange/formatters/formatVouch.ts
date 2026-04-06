@@ -58,6 +58,11 @@ export function formatVouchError(): string {
     return `${translate("poex.vouch.noLinkedAccount")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`
 }
 
+export function formatCountError(): string {
+    const {poExchange: {connectUrl}} = useContext(ConfigContext)
+    return `${translate("poex.vouch.countNoUser")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`
+}
+
 export function formatUserNotFoundError(): string {
     const {poExchange: {connectUrl}} = useContext(ConfigContext)
     return `${translate("poex.vouch.userNotFound")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`

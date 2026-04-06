@@ -7,7 +7,7 @@ import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
 import {VouchRoleService} from "./VouchRoleService"
-import {formatVouchCountEmbed, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
+import {formatVouchCountEmbed, formatVouchError, formatVouchSaved, formatCountError} from "../formatters/formatVouch"
 import {VouchCountRequest, VouchRequest} from "../types/VouchTypes"
 
 const MENTION_EXTRACT = /^<@!?(\d+)>$/
@@ -112,7 +112,11 @@ export class MessageVouchService extends Service {
             loggingController.log("PoExchange", LogLevel.Debug, `Vouch count response: ${JSON.stringify(data)}`)
 
             if ("error" in data) {
-                await message.reply(translate("poex.vouch.countFailed"))
+                if (data.error === "no_user") {
+                    await message.reply(formatCountError())
+                } else {
+                    await message.reply(translate("poex.vouch.countFailed"))
+                }
                 return
             }
 
