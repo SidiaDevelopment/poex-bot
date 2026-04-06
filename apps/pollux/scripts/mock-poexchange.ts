@@ -11,7 +11,7 @@ interface UserData {
     uniqueVouches: number
     totalVouches: number
     seasonVouches: number
-    createdAt: string
+    joinDate: string
 }
 
 // In-memory user store keyed by discordId or username
@@ -26,7 +26,7 @@ function getOrCreateUser(discordId?: string, username?: string): UserData {
             uniqueVouches: 0,
             totalVouches: 0,
             seasonVouches: 0,
-            createdAt: "2024-03-15T10:30:00Z"
+            joinDate: "2024-03-15T10:30:00Z"
         }
     }
     return users[key]

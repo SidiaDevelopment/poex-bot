@@ -20,7 +20,7 @@ export interface VouchResponse {
     totalVouches: number
     seasonVouches: number
     /** ISO 8601 UTC date string */
-    createdAt: string
+    joinDate?: string
 }
 
 export interface VouchResponseError {

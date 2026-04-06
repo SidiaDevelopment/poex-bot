@@ -43,7 +43,7 @@ export default {
             noLinkedAccount: "Could not process vouch: the user has no linked account. They can link it here:",
             success: "Vouch registered!",
             uniqueVouches: "Unique Vouches",
-            seasonVouches: "Season Vouches",
+            seasonVouches: "Cycle Vouches",
             totalVouches: "Total Vouches",
             discordLinked: "Discord Linked",
             discordAccountAge: "Account Age",

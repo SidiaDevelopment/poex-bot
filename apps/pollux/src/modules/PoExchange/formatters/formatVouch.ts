@@ -13,7 +13,9 @@ export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?:
     const embed = new EmbedBuilder().setColor(Colors.Blue)
 
     embed.setTitle(data.username)
-    embed.setDescription(`${translate("poex.vouch.memberSince")} ${formatRelativeTime(new Date(data.createdAt))}`)
+    if (data.joinDate) {
+        embed.setDescription(`${translate("poex.vouch.memberSince")} ${formatRelativeTime(new Date(data.joinDate))}`)
+    }
 
     if (user) {
         embed.setThumbnail(user.displayAvatarURL())
