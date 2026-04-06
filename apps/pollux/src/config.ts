@@ -28,6 +28,6 @@ export const config: IConfig = {
     poExchange: {
         apiUrl: process.env.POEXCHANGE_API_URL ?? "",
         apiKey: process.env.POEXCHANGE_API_KEY ?? "",
-        connectUrl: "https://maxroll.gg/poe/poexchange/discord/connect"
+        connectUrl: "https://discord.com/api/oauth2/authorize?client_id=1174877721076179023&response_type=code&redirect_uri=https://maxroll.gg/poe/poexchange/discord/connect&scope=identify+guilds.members.read"
     }
 }

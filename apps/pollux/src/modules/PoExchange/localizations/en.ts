@@ -134,6 +134,7 @@ export default {
                 labyrinth: "WTS Labyrinth",
                 benchCraft: "WTS Bench Craft"
             },
+            regions: "Preferred Regions",
             browseServices: "Browse services",
             listServices: "List services",
             whispers: {

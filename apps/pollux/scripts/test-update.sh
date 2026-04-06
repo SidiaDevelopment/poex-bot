@@ -27,6 +27,7 @@ RESPONSE=$(curl -s -X POST "$ENDPOINT" \
         \"action\": \"update\",
         \"browseUrl\": \"https://maxroll.gg/poe/poexchange/services/listings\",
         \"listUrl\": \"https://maxroll.gg/poe/poexchange/services/my-listings\",
+        \"preferredRegions\": [\"EU\", \"US\"],
         \"services\": [
           {\"name\": \"Maven\", \"priceValue\": 5, \"priceType\": \"d\", \"mapType\": \"Buyer\"},
           {\"name\": \"Searing Exarch\", \"priceValue\": 3, \"priceType\": \"d\", \"mapType\": \"Both\"},

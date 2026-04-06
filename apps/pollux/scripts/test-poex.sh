@@ -30,6 +30,7 @@ RESPONSE=$(curl -s -X POST "$ENDPOINT" \
       {
         \"channelId\": \"POE1_BOSS_KILLING\",
         \"action\": \"update\",
+        \"preferredRegions\": [\"EU\", \"US\"],
         \"services\": [
           {\"name\": \"Maven\", \"priceValue\": 5, \"priceType\": \"d\", \"mapType\": \"Buyer\"},
           {\"name\": \"Searing Exarch\", \"priceValue\": 3, \"priceType\": \"d\", \"mapType\": \"Both\"},
@@ -97,6 +98,7 @@ RESPONSE=$(curl -s -X POST "$ENDPOINT" \
       {
         \"channelId\": \"POE1_5_WAY\",
         \"action\": \"update\",
+        \"preferredRegions\": [\"EU\"],
         \"services\": [
           {\"name\": \"Softcore 5-Way AFK Run\", \"priceValue\": 6, \"priceType\": \"d\", \"customMessage\": \"Region: [EU]\\nPrice: 6 DIV = 5 Runs\\nGuarantees: 10.500 Kills | Aurabot 88% res\\nParty: Clients 1/4 Resetter 1/1 Aurabot 1/1\"}
         ]
@@ -112,6 +114,7 @@ RESPONSE=$(curl -s -X POST "$ENDPOINT" \
       {
         \"channelId\": \"POE1_GOLD_ROTATION\",
         \"action\": \"update\",
+        \"preferredRegions\": [\"EU\", \"US\", \"BR\"],
         \"services\": [
           {\"name\": \"Gold Rota T16\", \"priceValue\": 1, \"priceType\": \"d\", \"customMessage\": \"6-man, fast clear\"},
           {\"name\": \"Gold Rota T17\", \"priceValue\": 2, \"priceType\": \"d\", \"customMessage\": \"Need good build\"}

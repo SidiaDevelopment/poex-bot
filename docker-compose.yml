@@ -16,9 +16,8 @@ services:
       context: .
       dockerfile: Dockerfile.web
     restart: unless-stopped
-    ports:
-      - "3026:3026"
+    network_mode: host
     env_file:
       - ./apps/web/.env.local
     environment:
-      - BOT_API_URL=http://bot:3025
+      - BOT_API_URL=http://127.0.0.1:3025

@@ -19,6 +19,8 @@ import {CampaignSkipFormatter} from "../formatters/CampaignSkipFormatter"
 import {LabyrinthFormatter} from "../formatters/LabyrinthFormatter"
 import {BloodlinesFormatter} from "../formatters/BloodlinesFormatter"
 
+export type SupportedRegion = "EU" | "US" | "BR" | "RU" | "JP" | "AU" | "SG"
+
 export interface IPoExchangePost {
     channelId: string
     action: "update" | "refresh" | "strike"
@@ -26,6 +28,7 @@ export interface IPoExchangePost {
     services?: IPoExchangeService[]
     browseUrl?: string
     listUrl?: string
+    preferredRegions?: SupportedRegion[]
 }
 
 export interface IPoExchangePostResult {
@@ -132,17 +135,32 @@ export class PoExchangeService extends Service {
         return [this.buildVouchButton(disabled)]
     }
 
-    private buildEmbed(channelId: string, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): EmbedBuilder {
+    private buildEmbed(channelId: string, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks, preferredRegions?: SupportedRegion[]): EmbedBuilder {
         const embed = this.embedService.getDefaultBuilder(Colors.Blue)
         const formatter = this.formatters[channelId]
         if (formatter) {
+            const seller = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
+            const labelKey = formatter.sellerLabel === "host" ? "poex.format.host" : "poex.format.seller"
+            let header = `${translate(labelKey as never)}: ${seller} | ${user.vouches} ${translate("poex.format.vouches" as never)}`
+
+            if (preferredRegions && preferredRegions.length > 0) {
+                const regionFlags: Record<SupportedRegion, string> = {
+                    EU: ":flag_eu:", US: ":flag_us:", BR: ":flag_br:",
+                    RU: ":flag_ru:", JP: ":flag_jp:", AU: ":flag_au:", SG: ":flag_sg:"
+                }
+                const regions = preferredRegions.map(r => `${regionFlags[r]} ${r}`).join("  ")
+                header += `\n${translate("poex.format.regions" as never)}: ${regions}`
+            }
+
             formatter.format(embed, user, services, links)
+            const desc = embed.data.description ?? ""
+            embed.setDescription(header + "\n" + desc)
         }
         return embed
     }
 
     private async handleUpdate(channel: TextChannel, user: IPoExchangeUser, post: IPoExchangePost): Promise<IPoExchangePostResult> {
-        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
+        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
 
         if (post.messageId) {
             try {
@@ -163,7 +181,7 @@ export class PoExchangeService extends Service {
             await this.handleStrike(channel, post)
         }
 
-        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl})
+        const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
         const msg = await channel.send({embeds: [embed], components: this.getVouchComponents(channel.guildId)})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }

@@ -19,6 +19,9 @@ export interface IPoExchangeLinks {
     listUrl?: string
 }
 
+export type SellerLabel = "seller" | "host"
+
 export interface IPoExchangeFormatter {
+    sellerLabel: SellerLabel
     format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void
 }
