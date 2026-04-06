@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 })
 
 // Mock vouch endpoint
-app.post("/discord-vouches", (req, res) => {
+app.post("/api/v1/discord-vouches", (req, res) => {
     const {type, voucherId, targetId, messageId, messageContent} = req.body
     console.log(`[vouch] type=${type} voucherId=${voucherId} targetId=${targetId ?? "-"} messageId=${messageId ?? "-"} messageContent=${messageContent ?? "-"}`)
 
@@ -63,7 +63,7 @@ app.post("/discord-vouches", (req, res) => {
 })
 
 // Mock vouch count endpoint
-app.get("/discord-vouches/count", (req, res) => {
+app.get("/api/v1/discord-vouches/count", (req, res) => {
     const username = req.query.username as string | undefined
     const discordId = req.query.discordId as string | undefined
     console.log(`[vouch/count] username=${username ?? "-"} discordId=${discordId ?? "-"}`)
@@ -88,8 +88,8 @@ app.listen(PORT, () => {
     console.log(`Mock poexchange API running on http://localhost:${PORT}`)
     console.log("")
     console.log("Endpoints:")
-    console.log("  POST /discord-vouches        - Submit a vouch (use voucherId='unknown' or 'fail' in messageContent to trigger no_user error)")
-    console.log("  GET  /discord-vouches/count  - Get vouch count by ?username= or ?discordId= ('fail' for error, 'unlinked' for no discord)")
+    console.log("  POST /api/v1/discord-vouches        - Submit a vouch (use voucherId='unknown' or 'fail' in messageContent to trigger no_user error)")
+    console.log("  GET  /api/v1/discord-vouches/count  - Get vouch count by ?username= or ?discordId= ('fail' for error, 'unlinked' for no discord)")
     console.log("")
     console.log("Vouches start at 0 and increment with each POST")
 })

@@ -16,16 +16,20 @@ export class PoExchangeApiService extends Service {
         return headers
     }
 
-    public async sendVouch(request: VouchRequest): Promise<VouchResponse | VouchResponseError> {
-        const {poExchange: {apiUrl: baseUrl}} = useContext(ConfigContext)
-        if (!baseUrl) {
-            throw new Error("PoExchange API URL is not configured")
+    private buildUrl(path: string): URL {
+        const {poExchange: {apiUrl: baseUrl, apiKey}} = useContext(ConfigContext)
+        const url = new URL(path, baseUrl)
+        if (apiKey) {
+            url.searchParams.set("apiKey", apiKey)
         }
+        return url
+    }
 
+    public async sendVouch(request: VouchRequest): Promise<VouchResponse | VouchResponseError> {
         const {loggingController} = useContext(ControllerContext)
         loggingController.log("PoExchange", LogLevel.Debug, `Sending vouch request: type=${request.type} voucherId=${request.voucherId}`)
 
-        const response = await fetch(new URL("/api/v1/discord-vouches", baseUrl), {
+        const response = await fetch(this.buildUrl("/api/v1/discord-vouches"), {
             method: "POST",
             headers: this.getHeaders(),
             body: JSON.stringify(request)
@@ -35,12 +39,7 @@ export class PoExchangeApiService extends Service {
     }
 
     public async getVouchCount(request: VouchCountRequest): Promise<VouchResponse | VouchResponseError> {
-        const {poExchange: {apiUrl: baseUrl}} = useContext(ConfigContext)
-        if (!baseUrl) {
-            throw new Error("PoExchange API URL is not configured")
-        }
-
-        const url = new URL("/api/v1/discord-vouches/count", baseUrl)
+        const url = this.buildUrl("/api/v1/discord-vouches/count")
         if (request.discordId) {
             url.searchParams.set("discordId", request.discordId)
         }
