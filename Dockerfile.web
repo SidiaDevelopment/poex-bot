@@ -33,4 +33,4 @@ WORKDIR /app/apps/web
 
 EXPOSE 3026
 
-CMD ["yarn", "next", "start"]
+CMD ["yarn", "start"]
