@@ -2,6 +2,7 @@ import {EmbedBuilder} from "discord.js"
 import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "./IPoExchangeFormatter"
 import {formatPrice} from "./formatPrice"
 import {formatLinks} from "./formatLinks"
+import {replaceCurrencyEmojis} from "./replaceCurrencyEmojis"
 import {translate} from "@pollux/i18n"
 
 export class GoldRotaFormatter implements IPoExchangeFormatter {
@@ -12,7 +13,7 @@ export class GoldRotaFormatter implements IPoExchangeFormatter {
 
         for (const service of services) {
             let line = `**${service.name}** - ${formatPrice(service.priceValue, service.priceType)}`
-            if (service.customMessage) line += `\n> ${service.customMessage}`
+            if (service.customMessage) line += `\n> ${replaceCurrencyEmojis(service.customMessage)}`
             lines.push(line)
         }
 

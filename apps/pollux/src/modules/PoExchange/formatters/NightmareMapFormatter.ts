@@ -2,6 +2,7 @@ import {EmbedBuilder} from "discord.js"
 import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "./IPoExchangeFormatter"
 import {formatPrice} from "./formatPrice"
 import {formatLinks} from "./formatLinks"
+import {replaceCurrencyEmojis} from "./replaceCurrencyEmojis"
 import {translate} from "@pollux/i18n"
 
 export class NightmareMapFormatter implements IPoExchangeFormatter {
@@ -19,7 +20,7 @@ export class NightmareMapFormatter implements IPoExchangeFormatter {
             lines.push(`__${translate("poex.format.mapType.buyer")}__`)
             for (const s of buyerMap) {
                 let line = `**${s.name}** - ${formatPrice(s.priceValue, s.priceType)}`
-                if (s.customMessage) line += `\n> ${s.customMessage}`
+                if (s.customMessage) line += `\n> ${replaceCurrencyEmojis(s.customMessage)}`
                 lines.push(line)
             }
         }
@@ -29,7 +30,7 @@ export class NightmareMapFormatter implements IPoExchangeFormatter {
             lines.push(`__${translate("poex.format.mapType.seller")}__`)
             for (const s of sellerMap) {
                 let line = `**${s.name}** - ${formatPrice(s.priceValue, s.priceType)}`
-                if (s.customMessage) line += `\n> ${s.customMessage}`
+                if (s.customMessage) line += `\n> ${replaceCurrencyEmojis(s.customMessage)}`
                 lines.push(line)
             }
         }
@@ -39,7 +40,7 @@ export class NightmareMapFormatter implements IPoExchangeFormatter {
             lines.push(`__${translate("poex.format.mapType.both")}__`)
             for (const s of bothMap) {
                 let line = `**${s.name}** - ${formatPrice(s.priceValue, s.priceType)}`
-                if (s.customMessage) line += `\n> ${s.customMessage}`
+                if (s.customMessage) line += `\n> ${replaceCurrencyEmojis(s.customMessage)}`
                 lines.push(line)
             }
         }
