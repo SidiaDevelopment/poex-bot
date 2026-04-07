@@ -5,7 +5,7 @@ import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
-import {formatVouchMessage, formatVouchError, formatVouchSaved} from "../../formatters/formatVouch"
+import {formatVouchError, formatVouchSaved} from "../../formatters/formatVouch"
 
 export interface IVouchCommandData extends IDiscordCommandData {
     target: User
@@ -61,7 +61,8 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
                 return
             }
 
-            await interaction.editReply({content: formatVouchMessage(interaction.user.id, data)})
+            const mention = data.discordId ? `<@${data.discordId}>` : data.username
+            await interaction.editReply({content: `${translate("poex.vouch.success")} **${data.username}** (${mention}) — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`})
             if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch {
             await interaction.editReply({content: translate("poex.vouch.failed")})

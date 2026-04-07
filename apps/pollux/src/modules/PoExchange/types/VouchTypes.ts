@@ -14,6 +14,11 @@ export interface VouchCountRequest {
     discordId?: string
 }
 
+export interface VouchReason {
+    category: string
+    serviceName: string
+}
+
 export interface VouchResponse {
     username: string
     discordId?: string
@@ -23,6 +28,7 @@ export interface VouchResponse {
     currentCycle?: string
     /** ISO 8601 UTC date string */
     joinDate?: string
+    reason?: VouchReason
 }
 
 export interface VouchResponseError {

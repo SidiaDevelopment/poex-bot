@@ -6,7 +6,7 @@ import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
 import {PoExchangeApiService} from "./PoExchangeApiService"
-import {formatVouchMessage, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
+import {formatButtonVouchMessage, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
 import {VouchRoleService} from "./VouchRoleService"
 import {VouchRequest, VouchResponse} from "../types/VouchTypes"
 
@@ -87,6 +87,7 @@ export class VouchService extends Service {
         const channel = await client.channels.fetch(vouchChannelId)
         if (!channel || !(channel instanceof TextChannel)) return
 
-        await channel.send(formatVouchMessage(interaction.user.id, data))
+        const messageUrl = interaction.message.url
+        await channel.send(formatButtonVouchMessage(interaction.user.id, data, messageUrl))
     }
 }

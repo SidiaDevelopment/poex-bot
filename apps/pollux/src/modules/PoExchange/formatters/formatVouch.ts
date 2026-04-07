@@ -4,16 +4,35 @@ import {useContext} from "@pollux/core"
 import {Colors, EmbedBuilder, GuildMember, User} from "discord.js"
 import {VouchResponse} from "../types/VouchTypes"
 
-export function formatVouchMessage(voucherUserId: string, data: VouchResponse): string {
-    const sender = `<@${voucherUserId}>`
-    return formatVouchMessageFromSender(sender, data)
+function formatUserDisplay(username: string, discordId?: string): string {
+    return discordId ? `**${username}** (<@${discordId}>)` : `**${username}**`
 }
 
-export function formatVouchMessageFromSender(sender: string, data: VouchResponse): string {
-    const target = data.discordId
-        ? `**${data.username}** (<@${data.discordId}>)`
-        : `**${data.username}**`
-    return `${sender} ${translate("poex.vouch.channelMessage")} ${target} — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`
+function formatVouchCounts(data: VouchResponse): string {
+    return `Vouches: ${data.totalVouches} | Unique Vouches: ${data.uniqueVouches}`
+}
+
+export function formatWebsiteVouchMessage(
+    sender: {username: string; discordId?: string},
+    receiver: VouchResponse
+): string {
+    const senderDisplay = formatUserDisplay(sender.username, sender.discordId)
+    const receiverDisplay = formatUserDisplay(receiver.username, receiver.discordId)
+    const parts = [`${senderDisplay} -> ${receiverDisplay}`, "[Website]"]
+    if (receiver.reason) {
+        parts.push(receiver.reason.category, receiver.reason.serviceName)
+    }
+    parts.push(formatVouchCounts(receiver))
+    return parts.join(" - ")
+}
+
+export function formatButtonVouchMessage(
+    voucherUserId: string,
+    receiver: VouchResponse,
+    messageUrl: string
+): string {
+    const receiverDisplay = formatUserDisplay(receiver.username, receiver.discordId)
+    return `<@${voucherUserId}> -> ${receiverDisplay} - [Discord] - [Message link](${messageUrl}) - ${formatVouchCounts(receiver)}`
 }
 
 export function formatVouchCountEmbed(data: VouchResponse, user?: User, member?: GuildMember | null): EmbedBuilder {

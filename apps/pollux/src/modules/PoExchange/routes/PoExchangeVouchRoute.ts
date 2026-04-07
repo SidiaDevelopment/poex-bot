@@ -4,7 +4,7 @@ import {DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
 import {TextChannel} from "discord.js"
 import {VouchRoleService} from "../services/VouchRoleService"
-import {formatVouchMessageFromSender} from "../formatters/formatVouch"
+import {formatWebsiteVouchMessage} from "../formatters/formatVouch"
 import {VouchResponse} from "../types/VouchTypes"
 
 interface VouchNotification {
@@ -54,11 +54,7 @@ export class PoExchangeVouchRoute extends ApiHandler<IApiRequestData> {
             return
         }
 
-        const senderDisplay = sender.discordId
-            ? `**${sender.username}** (<@${sender.discordId}>)`
-            : `**${sender.username}**`
-
-        await channel.send(formatVouchMessageFromSender(senderDisplay, receiver))
+        await channel.send(formatWebsiteVouchMessage(sender, receiver))
 
         await this.vouchRoleService.checkAndAssignRoles(guildId, receiver)
 
