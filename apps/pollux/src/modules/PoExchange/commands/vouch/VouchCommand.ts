@@ -54,7 +54,7 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
 
             if ("error" in data) {
                 if (data.error === "vouch_saved") {
-                    await interaction.editReply({content: formatVouchSaved(data.vouchAmount)})
+                    await interaction.editReply({content: formatVouchSaved(data.totalVouches)})
                 } else {
                     await interaction.editReply({content: formatVouchError()})
                 }

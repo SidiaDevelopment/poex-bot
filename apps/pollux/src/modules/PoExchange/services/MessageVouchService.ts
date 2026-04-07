@@ -81,7 +81,7 @@ export class MessageVouchService extends Service {
 
             if ("error" in data) {
                 if (data.error === "vouch_saved") {
-                    await message.reply(formatVouchSaved(data.vouchAmount))
+                    await message.reply(formatVouchSaved(data.totalVouches))
                 } else {
                     await message.reply(formatVouchError())
                 }

@@ -37,5 +37,5 @@ export interface VouchResponseError {
 
 export interface VouchResponseSaved {
     error: "vouch_saved"
-    vouchAmount: number
+    totalVouches: number
 }
