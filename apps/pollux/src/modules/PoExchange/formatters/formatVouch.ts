@@ -72,6 +72,14 @@ export function formatVouchSaved(amount: number): string {
     return `${translate("poex.vouch.vouchSaved" as never).replace("{amount}", String(amount))} [${translate("poex.vouch.linkDiscord" as never)}](${connectUrl})`
 }
 
+export function formatVouchClaimMessage(
+    discordId: string,
+    username: string,
+    totalVouches: number
+): string {
+    return `<@${discordId}> (**${username}**) linked their Discord account and claimed ${totalVouches} outstanding vouch${totalVouches === 1 ? "" : "es"}!`
+}
+
 export function formatVouchError(): string {
     const {poExchange: {connectUrl}} = useContext(ConfigContext)
     return `${translate("poex.vouch.noLinkedAccount")} [${translate("poex.vouch.linkDiscord")}](${connectUrl})`
