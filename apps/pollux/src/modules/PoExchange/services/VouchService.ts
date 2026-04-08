@@ -37,7 +37,12 @@ export class VouchService extends Service {
         if (!interaction.isButton()) return
         if (interaction.customId !== "poex_vouch") return
 
-        await this.handleVouch(interaction)
+        try {
+            await this.handleVouch(interaction)
+        } catch (error) {
+            const {loggingController} = useContext(ControllerContext)
+            loggingController.log("PoExchange", LogLevel.Error, `Unhandled vouch interaction error: ${error}`)
+        }
     }
 
     private async handleVouch(interaction: ButtonInteraction): Promise<void> {

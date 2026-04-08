@@ -5,7 +5,7 @@ import {SettingsService} from "@pollux/settings"
 import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
-import {translate} from "@pollux/i18n"
+import {LocalizationTag, translate} from "@pollux/i18n"
 import {TextChannel} from "discord.js"
 import {VouchRoleEntity} from "../entities/VouchRoleEntity"
 import {VouchResponse} from "../types/VouchTypes"
@@ -73,7 +73,7 @@ export class VouchRoleService extends Service {
 
         const roleNames = roleIds.map(id => `<@&${id}>`).join(", ")
         await channel.send({
-            content: `<@${discordId}> ${translate("poex.vouch.roleEarned" as never)} ${roleNames}!`,
+            content: `<@${discordId}> ${translate("poex.vouch.roleEarned" as LocalizationTag)} ${roleNames}!`,
             allowedMentions: {users: [discordId]}
         })
     }

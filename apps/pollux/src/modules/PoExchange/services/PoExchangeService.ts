@@ -3,7 +3,7 @@ import {DatabaseService} from "@pollux/database"
 import {DiscordService} from "@pollux/discord"
 import {EmbedService} from "@pollux/discord-command"
 import {ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, TextChannel} from "discord.js"
-import {translate} from "@pollux/i18n"
+import {LocalizationTag, translate} from "@pollux/i18n"
 import {SettingsService} from "@pollux/settings"
 import {PoExchangeCategoryEntity} from "../entities/PoExchangeCategoryEntity"
 import {PoExchangeChannelId, PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
@@ -140,8 +140,8 @@ export class PoExchangeService extends Service {
         const formatter = this.formatters[channelId]
         if (formatter) {
             const seller = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
-            const labelKey = formatter.sellerLabel === "host" ? "poex.format.host" : "poex.format.seller"
-            let header = `${translate(labelKey as never)}: ${seller} | ${user.vouches} ${translate("poex.format.vouches" as never)}`
+            const labelKey: LocalizationTag = formatter.sellerLabel === "host" ? "poex.format.host" : "poex.format.seller"
+            let header = `${translate(labelKey)}: ${seller} | ${user.vouches} ${translate("poex.format.vouches" as LocalizationTag)}`
 
             if (preferredRegions && preferredRegions.length > 0) {
                 const regionFlags: Record<SupportedRegion, string> = {
@@ -149,7 +149,7 @@ export class PoExchangeService extends Service {
                     RU: ":flag_ru:", JP: ":flag_jp:", AU: ":flag_au:", SG: ":flag_sg:"
                 }
                 const regions = preferredRegions.map(r => `${regionFlags[r]} ${r}`).join("  ")
-                header += `\n${translate("poex.format.regions" as never)}: ${regions}`
+                header += `\n${translate("poex.format.regions" as LocalizationTag)}: ${regions}`
             }
 
             formatter.format(embed, user, services, links)

@@ -3,6 +3,9 @@ import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {DiscordService} from "@pollux/discord"
+import {ControllerContext, useContext} from "@pollux/core"
+import {LogLevel} from "@pollux/logging"
+import {DISCORD_MENTION_PATTERN} from "../../PoExchangeConstants"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
 import {formatVouchCountEmbed, formatCountError} from "../../formatters/formatVouch"
@@ -12,7 +15,6 @@ export interface IVouchCountCommandData extends IDiscordCommandData {
     target: string
 }
 
-const MENTION_PATTERN = /^<@!?(\d+)>$/
 
 const commandConfig: IDiscordCommand<IVouchCountCommandData> = {
     command: "vouch",
@@ -43,7 +45,7 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
         await interaction.deferReply()
 
         try {
-            const mentionMatch = target.match(MENTION_PATTERN)
+            const mentionMatch = target.match(DISCORD_MENTION_PATTERN)
             const request: VouchCountRequest = mentionMatch
                 ? {discordId: mentionMatch[1]}
                 : {username: target}
@@ -65,7 +67,9 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
             const member = discordId ? interaction.guild?.members.cache.get(discordId) ?? await interaction.guild?.members.fetch(discordId).catch(() => null) : null
             await interaction.editReply({embeds: [formatVouchCountEmbed(data, user, member)]})
             if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
-        } catch {
+        } catch (error) {
+            const {loggingController} = useContext(ControllerContext)
+            loggingController.log("PoExchange", LogLevel.Error, `Vouch count command failed: ${error}`)
             await interaction.editReply({content: translate("poex.vouch.countFailed")})
         }
     }

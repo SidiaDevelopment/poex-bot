@@ -3,6 +3,7 @@ import {injectService} from "@pollux/service"
 import {DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
 import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
+import {validateApiKey} from "../../../shared/validateApiKey"
 import {TextChannel} from "discord.js"
 import {VouchRoleService} from "../services/VouchRoleService"
 import {formatWebsiteVouchMessage} from "../formatters/formatVouch"
@@ -29,11 +30,7 @@ export class PoExchangeVouchRoute extends ApiHandler<IApiRequestData> {
     private vouchRoleService!: VouchRoleService
 
     public handle = async ({req, res}: IApiRequestData): Promise<void> => {
-        const apiKey = req.query.apiKey as string
-        if (!apiKey || apiKey !== process.env.API_KEY) {
-            res.status(401).json({status: "error", errorMessage: "Invalid or missing API key"})
-            return
-        }
+        if (!validateApiKey(req, res)) return
 
         const {sender, receiver, guildId} = req.body as VouchNotification
 

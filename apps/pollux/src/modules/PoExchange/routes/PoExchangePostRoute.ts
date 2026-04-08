@@ -1,6 +1,7 @@
 import {route, ApiHandler, IApiRequestData, HttpMethod} from "@pollux/api"
 import {injectService} from "@pollux/service"
 import {PoExchangeService, IPoExchangePostResult} from "../services/PoExchangeService"
+import {validateApiKey} from "../../../shared/validateApiKey"
 
 const routeConfig = {
     method: HttpMethod.POST,
@@ -13,11 +14,7 @@ export class PoExchangePostRoute extends ApiHandler<IApiRequestData> {
     private poExchangeService!: PoExchangeService
 
     public handle = async ({req, res}: IApiRequestData): Promise<void> => {
-        const apiKey = req.query.apiKey as string
-        if (!apiKey || apiKey !== process.env.API_KEY) {
-            res.status(401).json({status: "error", errorMessage: "Invalid or missing API key"})
-            return
-        }
+        if (!validateApiKey(req, res)) return
 
         const {user, posts, guildId} = req.body
 

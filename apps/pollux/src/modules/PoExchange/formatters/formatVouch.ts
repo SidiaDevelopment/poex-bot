@@ -1,4 +1,4 @@
-import {translate} from "@pollux/i18n"
+import {LocalizationTag, translate} from "@pollux/i18n"
 import {ConfigContext} from "@pollux/config"
 import {useContext} from "@pollux/core"
 import {Colors, EmbedBuilder, GuildMember, User} from "discord.js"
@@ -69,7 +69,7 @@ function formatRelativeTime(date: Date): string {
 
 export function formatVouchSaved(amount: number): string {
     const {poExchange: {connectUrl}} = useContext(ConfigContext)
-    return `${translate("poex.vouch.vouchSaved" as never).replace("{amount}", String(amount))} [${translate("poex.vouch.linkDiscord" as never)}](${connectUrl})`
+    return `${translate("poex.vouch.vouchSaved" as LocalizationTag).replace("{amount}", String(amount))} [${translate("poex.vouch.linkDiscord" as LocalizationTag)}](${connectUrl})`
 }
 
 export function formatVouchClaimMessage(

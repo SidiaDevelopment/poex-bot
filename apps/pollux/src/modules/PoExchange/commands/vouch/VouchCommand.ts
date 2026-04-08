@@ -3,6 +3,8 @@ import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {MessageFlags, TextChannel, User} from "discord.js"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
+import {ControllerContext, useContext} from "@pollux/core"
+import {LogLevel} from "@pollux/logging"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
 import {formatVouchError, formatVouchSaved} from "../../formatters/formatVouch"
@@ -64,7 +66,9 @@ export class VouchCommand extends DiscordCommand<IVouchCommandData> {
             const mention = data.discordId ? `<@${data.discordId}>` : data.username
             await interaction.editReply({content: `${translate("poex.vouch.success")} **${data.username}** (${mention}) — ${data.uniqueVouches} ${translate("poex.vouch.uniqueVouches")} (${data.totalVouches} ${translate("poex.vouch.totalVouches")})`})
             if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
-        } catch {
+        } catch (error) {
+            const {loggingController} = useContext(ControllerContext)
+            loggingController.log("PoExchange", LogLevel.Error, `Vouch command failed: ${error}`)
             await interaction.editReply({content: translate("poex.vouch.failed")})
         }
     }

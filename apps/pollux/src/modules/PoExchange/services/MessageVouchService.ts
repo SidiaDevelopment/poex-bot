@@ -2,6 +2,7 @@ import {injectService, Service} from "@pollux/service"
 import {DiscordEventService, DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
 import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
+import {DISCORD_MENTION_PATTERN} from "../PoExchangeConstants"
 import {Events, Message, TextChannel} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
@@ -10,8 +11,6 @@ import {PoExchangeApiService} from "./PoExchangeApiService"
 import {VouchRoleService} from "./VouchRoleService"
 import {formatVouchCountEmbed, formatVouchError, formatVouchSaved, formatCountError} from "../formatters/formatVouch"
 import {VouchCountRequest, VouchRequest} from "../types/VouchTypes"
-
-const MENTION_EXTRACT = /^<@!?(\d+)>$/
 
 const MENTION_PATTERN = /^<@!?\d+>\s+.+$/s
 const VOUCH_COUNT_PATTERN = /^\?v\s+(.+)$/
@@ -101,7 +100,7 @@ export class MessageVouchService extends Service {
         const {loggingController} = useContext(ControllerContext)
 
         try {
-            const mentionMatch = target.trim().match(MENTION_EXTRACT)
+            const mentionMatch = target.trim().match(DISCORD_MENTION_PATTERN)
             const request: VouchCountRequest = mentionMatch
                 ? {discordId: mentionMatch[1]}
                 : {username: target.trim()}

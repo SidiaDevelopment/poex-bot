@@ -13,6 +13,10 @@ import {IDiscordCommandData} from "../IDiscordCommandData"
 const SETTING_ADMIN_SERVER = "pollux.adminServer"
 const SETTING_ADMIN_USER = "pollux.adminUser"
 
+interface ISettingsAccess {
+    get(key: string, guildId: string): string
+}
+
 export class DiscordCommandService extends Service {
     @injectService
     private discordEventService!: DiscordEventService
@@ -55,8 +59,7 @@ export class DiscordCommandService extends Service {
     private isAdmin(interaction: ChatInputCommandInteraction): boolean {
         const {serviceController} = useContext(ControllerContext)
         // Access SettingsService by name to avoid circular dependency with @pollux/settings
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const settingsService = serviceController.get({name: "SettingsService"} as any) as any
+        const settingsService = serviceController.get({name: "SettingsService"} as never) as unknown as ISettingsAccess | undefined
         if (!settingsService) return false
         const adminServer = settingsService.get(SETTING_ADMIN_SERVER, interaction.guildId ?? "")
         const adminUser = settingsService.get(SETTING_ADMIN_USER, interaction.guildId ?? "")
