@@ -9,6 +9,10 @@ import {IDiscordCommandControllerData} from "../IDiscordCommandControllerData"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
 
+// Accessed by name to avoid circular dependency with @pollux/settings
+const SETTING_ADMIN_SERVER = "pollux.adminServer"
+const SETTING_ADMIN_USER = "pollux.adminUser"
+
 export class DiscordCommandService extends Service {
     @injectService
     private discordEventService!: DiscordEventService
@@ -54,8 +58,8 @@ export class DiscordCommandService extends Service {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const settingsService = serviceController.get({name: "SettingsService"} as any) as any
         if (!settingsService) return false
-        const adminServer = settingsService.get("pollux.adminServer", interaction.guildId ?? "")
-        const adminUser = settingsService.get("pollux.adminUser", interaction.guildId ?? "")
+        const adminServer = settingsService.get(SETTING_ADMIN_SERVER, interaction.guildId ?? "")
+        const adminUser = settingsService.get(SETTING_ADMIN_USER, interaction.guildId ?? "")
         return interaction.guildId === adminServer || interaction.user.id === adminUser
     }
 

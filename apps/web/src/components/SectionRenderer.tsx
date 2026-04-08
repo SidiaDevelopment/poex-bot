@@ -44,7 +44,7 @@ export function SectionRenderer({section, values, guildId, discordData}: Props) 
             >
                 {saving[fieldKey] ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     : saved[fieldKey] ? <Check className="w-3.5 h-3.5" />
-                    : <Save className="w-3.5 h-3.5" />}
+                        : <Save className="w-3.5 h-3.5" />}
                 {saved[fieldKey] ? "Saved" : "Save"}
             </button>
         )

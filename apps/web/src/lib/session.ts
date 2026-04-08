@@ -1,5 +1,4 @@
 import {cookies} from "next/headers"
-import {config} from "./config"
 
 const COOKIE_NAME = "pollux_session"
 

@@ -2,6 +2,7 @@ import {injectService, Service} from "@pollux/service"
 import {DatabaseService} from "@pollux/database"
 import {DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
+import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
@@ -63,7 +64,7 @@ export class VouchRoleService extends Service {
     }
 
     private async announceNewRoles(guildId: string, discordId: string, roleIds: string[]): Promise<void> {
-        const vouchChannelId = this.settingsService.get("poex.vouchChannel", guildId)
+        const vouchChannelId = this.settingsService.get(PoExchangeSettingsKeys.VouchChannel, guildId)
         if (!vouchChannelId) return
 
         const client = this.discordService.getClient()

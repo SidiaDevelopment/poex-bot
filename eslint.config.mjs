@@ -19,7 +19,7 @@ export default [
     },
     ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended"),
     {
-        files: ["**/*.ts"],
+        files: ["**/*.{ts,tsx}"],
 
         plugins: {
             "@typescript-eslint": typescriptEslint,
@@ -27,6 +27,11 @@ export default [
         languageOptions: {
             globals: {},
             parser: tsParser,
+            parserOptions: {
+                ecmaFeatures: {
+                    jsx: true,
+                },
+            },
             ecmaVersion: "latest",
             sourceType: "module",
         },

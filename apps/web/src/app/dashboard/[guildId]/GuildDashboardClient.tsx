@@ -39,7 +39,9 @@ export function GuildDashboardClient({guildId, modules, settings, tableData, dis
             const res = await fetch(`/api/discord/${guildId}`, {method: "DELETE"})
             const data = await res.json()
             setDiscordData(data)
-        } catch {}
+        } catch {
+            // ignore fetch error
+        }
         setRefreshing(false)
     }
 

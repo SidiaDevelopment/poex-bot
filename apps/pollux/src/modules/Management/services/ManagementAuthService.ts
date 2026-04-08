@@ -1,4 +1,5 @@
-import {Service} from "@pollux/service"
+import {injectService, Service} from "@pollux/service"
+import {SettingsKeys, SettingsService} from "@pollux/settings"
 import {Request, Response} from "express"
 
 interface DiscordUser {
@@ -22,6 +23,9 @@ const MANAGE_GUILD = 0x20n
 const CACHE_TTL = 60 * 1000
 
 export class ManagementAuthService extends Service {
+    @injectService
+    private settingsService!: SettingsService
+
     private userCache: Record<string, CacheEntry<DiscordUser>> = {}
     private guildsCache: Record<string, CacheEntry<DiscordGuild[]>> = {}
 
@@ -77,12 +81,7 @@ export class ManagementAuthService extends Service {
     public async isAdmin(req: Request): Promise<boolean> {
         const user = await this.getUser(req)
         if (!user) return false
-        const {SettingsService} = await import("@pollux/settings")
-        const {ControllerContext, useContext} = await import("@pollux/core")
-        const {serviceController} = useContext(ControllerContext)
-        const settingsService = serviceController.get({name: "SettingsService"} as never) as unknown as InstanceType<typeof SettingsService>
-        if (!settingsService) return false
-        const adminUser = settingsService.get("pollux.adminUser", "")
+        const adminUser = this.settingsService.get(SettingsKeys.AdminUser, "")
         return user.id === adminUser
     }
 

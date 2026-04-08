@@ -86,9 +86,9 @@ export function TableRenderer({table, data, guildId, discordData}: Props) {
         <button onClick={onClick} disabled={disabled} title={title}
             className={`inline-flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-200 ${
                 variant === "accent" ? "text-accent-text hover:bg-accent-soft" :
-                variant === "danger" ? "text-danger hover:bg-danger/10" :
-                variant === "success" ? "text-success hover:bg-success/10" :
-                "text-muted hover:bg-surface-hover hover:text-white"
+                    variant === "danger" ? "text-danger hover:bg-danger/10" :
+                        variant === "success" ? "text-success hover:bg-success/10" :
+                            "text-muted hover:bg-surface-hover hover:text-white"
             }`}>
             {icon}
         </button>

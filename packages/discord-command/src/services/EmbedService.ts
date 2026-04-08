@@ -1,6 +1,5 @@
 import {Service} from "@pollux/service"
 import {ColorResolvable, EmbedBuilder} from "discord.js"
-import {translate} from "@pollux/i18n"
 
 export class EmbedService extends Service {
     public async init(): Promise<void> {}

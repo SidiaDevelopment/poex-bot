@@ -6,7 +6,7 @@ import {ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, Text
 import {translate} from "@pollux/i18n"
 import {SettingsService} from "@pollux/settings"
 import {PoExchangeCategoryEntity} from "../entities/PoExchangeCategoryEntity"
-import {PoExchangeChannelId} from "../PoExchangeDeclaration"
+import {PoExchangeChannelId, PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks} from "../formatters/IPoExchangeFormatter"
 import {BossCarryFormatter} from "../formatters/BossCarryFormatter"
 import {NightmareMapFormatter} from "../formatters/NightmareMapFormatter"
@@ -117,7 +117,7 @@ export class PoExchangeService extends Service {
     }
 
     private isVouchEnabled(guildId: string): boolean {
-        return this.settingsService.get("poex.vouchEnabled", guildId) === "true"
+        return this.settingsService.get(PoExchangeSettingsKeys.VouchEnabled, guildId) === "true"
     }
 
     private buildVouchButton(disabled: boolean = false): ActionRowBuilder<ButtonBuilder> {

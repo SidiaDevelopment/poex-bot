@@ -60,7 +60,7 @@ export function GlobalSettingsForm({settings}: Props) {
                             >
                                 {saving[key] ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
                                     : saved[key] ? <Check className="w-3.5 h-3.5" />
-                                    : <Save className="w-3.5 h-3.5" />}
+                                        : <Save className="w-3.5 h-3.5" />}
                                 {saved[key] ? "Saved" : "Save"}
                             </button>
                         </div>

@@ -2,6 +2,7 @@ import {route, ApiHandler, IApiRequestData, HttpMethod} from "@pollux/api"
 import {injectService} from "@pollux/service"
 import {DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
+import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {TextChannel} from "discord.js"
 import {VouchRoleService} from "../services/VouchRoleService"
 import {formatVouchClaimMessage} from "../formatters/formatVouch"
@@ -43,7 +44,7 @@ export class PoExchangeVouchClaimRoute extends ApiHandler<IApiRequestData> {
             return
         }
 
-        const vouchChannelId = this.settingsService.get("poex.vouchChannel", guildId)
+        const vouchChannelId = this.settingsService.get(PoExchangeSettingsKeys.VouchChannel, guildId)
         if (!vouchChannelId) {
             res.status(400).json({status: "error", errorMessage: "Vouch channel not configured for this guild"})
             return

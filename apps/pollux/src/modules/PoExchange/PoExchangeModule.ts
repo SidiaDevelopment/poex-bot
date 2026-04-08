@@ -4,7 +4,7 @@ import {IModuleApiConfig} from "@pollux/api"
 import {IModuleSetting} from "@pollux/settings"
 import {IManagementPage, ManagementEntityHandler} from "@pollux/management"
 import {Ctor} from "@pollux/utils"
-import {PoExchangeLocalizations, PoExchangeChannelId} from "./PoExchangeDeclaration"
+import {PoExchangeLocalizations, PoExchangeSettingsKeys} from "./PoExchangeDeclaration"
 import {PoExchangeCategories} from "./PoExchangeCategories"
 import {PoExchangeService} from "./services/PoExchangeService"
 import {PoExchangeApiService} from "./services/PoExchangeApiService"
@@ -58,12 +58,12 @@ export class PoExchangeModule implements IModule {
     public managementEntities: Ctor<ManagementEntityHandler>[] = [PoExchangeChannelEntityHandler, VouchRoleEntityHandler]
     public settings: IModuleSetting[] = [
         {
-            key: "poex.vouchEnabled",
+            key: PoExchangeSettingsKeys.VouchEnabled,
             defaultValue: "false",
             description: "poex.settings.vouchEnabled"
         },
         {
-            key: "poex.vouchChannel",
+            key: PoExchangeSettingsKeys.VouchChannel,
             defaultValue: "",
             description: "poex.settings.vouchChannel",
             type: "channel"

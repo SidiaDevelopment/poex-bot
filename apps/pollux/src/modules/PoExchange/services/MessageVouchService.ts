@@ -1,6 +1,7 @@
 import {injectService, Service} from "@pollux/service"
 import {DiscordEventService, DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
+import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {Events, Message, TextChannel} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
@@ -41,7 +42,7 @@ export class MessageVouchService extends Service {
         if (message.author.bot) return
         if (!message.guildId) return
 
-        const vouchChannelId = this.settingsService.get("poex.vouchChannel", message.guildId)
+        const vouchChannelId = this.settingsService.get(PoExchangeSettingsKeys.VouchChannel, message.guildId)
         if (!vouchChannelId || message.channelId !== vouchChannelId) return
 
         const countMatch = message.content.match(VOUCH_COUNT_PATTERN)

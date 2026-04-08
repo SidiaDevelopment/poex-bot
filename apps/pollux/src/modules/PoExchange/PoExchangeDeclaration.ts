@@ -39,6 +39,11 @@ export enum PoExchangeChannelId {
     POE1_STANDARD_BENCH_CRAFT = "POE1_STD_BENCH_CRAFT"
 }
 
+export enum PoExchangeSettingsKeys {
+    VouchChannel = "poex.vouchChannel",
+    VouchEnabled = "poex.vouchEnabled"
+}
+
 export const PoExchangeLocalizations: LocalizationOverrides = {
     en
 }

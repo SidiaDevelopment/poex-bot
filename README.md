@@ -31,6 +31,12 @@ yarn turbo
 yarn turbo:dev
 ```
 
+## Linting
+
+```sh
+yarn lint
+```
+
 ## Repository
 
 [github.com/SidiaDevelopment/poex-bot](https://github.com/SidiaDevelopment/poex-bot)

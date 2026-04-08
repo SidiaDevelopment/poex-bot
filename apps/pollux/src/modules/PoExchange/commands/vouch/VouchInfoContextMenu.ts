@@ -4,6 +4,7 @@ import {injectService} from "@pollux/service"
 import {SettingsService} from "@pollux/settings"
 import {DiscordService} from "@pollux/discord"
 import {translate} from "@pollux/i18n"
+import {PoExchangeSettingsKeys} from "../../PoExchangeDeclaration"
 import {PoExchangeApiService} from "../../services/PoExchangeApiService"
 import {VouchRoleService} from "../../services/VouchRoleService"
 import {formatVouchCountEmbed, formatUserNotFoundError} from "../../formatters/formatVouch"
@@ -45,7 +46,7 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
 
             const guildId = interaction.guildId
             if (guildId) {
-                const vouchChannelId = this.settingsService.get("poex.vouchChannel", guildId)
+                const vouchChannelId = this.settingsService.get(PoExchangeSettingsKeys.VouchChannel, guildId)
                 if (vouchChannelId) {
                     const channel = await this.discordService.getClient().channels.fetch(vouchChannelId)
                     if (channel instanceof TextChannel) {
