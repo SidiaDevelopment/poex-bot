@@ -5,6 +5,11 @@ on:
     workflows: [CI]
     types: [completed]
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version tag to publish (e.g. v1.2.3 or 1.2.3)"
+        required: true
+        type: string
 
 jobs:
   bot:
@@ -13,7 +18,8 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch'
       || (github.event.workflow_run.conclusion == 'success'
-          && (github.event.workflow_run.event == 'push'))
+          && github.event.workflow_run.event == 'push'
+          && startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: read
       packages: write
@@ -21,6 +27,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.version }}"
+          else
+            TAG="${{ github.event.workflow_run.head_branch }}"
+          fi
+          VERSION="${TAG#v}"
+          MAJOR_MINOR=$(echo "$VERSION" | cut -d. -f1-2)
+          echo "full=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major_minor=$MAJOR_MINOR" >> "$GITHUB_OUTPUT"
 
       - uses: docker/setup-buildx-action@v3
 
@@ -35,11 +53,9 @@ jobs:
         with:
           images: ghcr.io/sidiadevelopment/poex-bot
           tags: |
-            type=ref,event=branch
-            type=sha,prefix=master-,enable=${{ github.event.workflow_run.head_branch == 'master' }}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable=${{ github.event.workflow_run.head_branch == 'master' }}
+            type=raw,value=${{ steps.version.outputs.full }}
+            type=raw,value=${{ steps.version.outputs.major_minor }}
+            type=raw,value=latest
 
       - uses: docker/build-push-action@v6
         with:
@@ -58,7 +74,8 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch'
       || (github.event.workflow_run.conclusion == 'success'
-          && (github.event.workflow_run.event == 'push'))
+          && github.event.workflow_run.event == 'push'
+          && startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: read
       packages: write
@@ -66,6 +83,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+
+      - id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ inputs.version }}"
+          else
+            TAG="${{ github.event.workflow_run.head_branch }}"
+          fi
+          VERSION="${TAG#v}"
+          MAJOR_MINOR=$(echo "$VERSION" | cut -d. -f1-2)
+          echo "full=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major_minor=$MAJOR_MINOR" >> "$GITHUB_OUTPUT"
 
       - uses: docker/setup-buildx-action@v3
 
@@ -80,11 +109,9 @@ jobs:
         with:
           images: ghcr.io/sidiadevelopment/poex-web
           tags: |
-            type=ref,event=branch
-            type=sha,prefix=master-,enable=${{ github.event.workflow_run.head_branch == 'master' }}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=latest,enable=${{ github.event.workflow_run.head_branch == 'master' }}
+            type=raw,value=${{ steps.version.outputs.full }}
+            type=raw,value=${{ steps.version.outputs.major_minor }}
+            type=raw,value=latest
 
       - uses: docker/build-push-action@v6
         with:
