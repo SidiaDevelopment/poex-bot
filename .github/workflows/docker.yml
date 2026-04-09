@@ -1,9 +1,8 @@
 name: Docker
 
 on:
-  workflow_run:
-    workflows: [CI]
-    types: [completed]
+  push:
+    tags: ['v*']
   workflow_dispatch:
     inputs:
       version:
@@ -15,25 +14,18 @@ jobs:
   bot:
     name: Build & push poex-bot
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'workflow_dispatch'
-      || (github.event.workflow_run.conclusion == 'success'
-          && github.event.workflow_run.event == 'push'
-          && startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: read
       packages: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
       - id: version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             TAG="${{ inputs.version }}"
           else
-            TAG="${{ github.event.workflow_run.head_branch }}"
+            TAG="${GITHUB_REF_NAME}"
           fi
           VERSION="${TAG#v}"
           MAJOR_MINOR=$(echo "$VERSION" | cut -d. -f1-2)
@@ -71,25 +63,18 @@ jobs:
   web:
     name: Build & push poex-web
     runs-on: ubuntu-latest
-    if: >-
-      github.event_name == 'workflow_dispatch'
-      || (github.event.workflow_run.conclusion == 'success'
-          && github.event.workflow_run.event == 'push'
-          && startsWith(github.event.workflow_run.head_branch, 'v'))
     permissions:
       contents: read
       packages: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
       - id: version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             TAG="${{ inputs.version }}"
           else
-            TAG="${{ github.event.workflow_run.head_branch }}"
+            TAG="${GITHUB_REF_NAME}"
           fi
           VERSION="${TAG#v}"
           MAJOR_MINOR=$(echo "$VERSION" | cut -d. -f1-2)

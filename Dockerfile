@@ -5,7 +5,6 @@ RUN corepack enable && corepack prepare yarn@4.13.0 --activate
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn .yarn
 COPY packages packages
 COPY apps apps
 COPY tsconfig.json turbo.json ./
@@ -20,7 +19,6 @@ RUN corepack enable && corepack prepare yarn@4.13.0 --activate
 WORKDIR /app
 
 COPY --from=builder /app/package.json /app/yarn.lock /app/.yarnrc.yml ./
-COPY --from=builder /app/.yarn .yarn
 COPY --from=builder /app/packages packages
 COPY --from=builder /app/apps apps
 COPY --from=builder /app/node_modules node_modules
