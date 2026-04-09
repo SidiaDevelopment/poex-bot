@@ -1,5 +1,6 @@
 import {injectService, Service} from "@pollux/service"
 import {DiscordEventService, DiscordService} from "@pollux/discord"
+import {DiscordMessageService} from "@pollux/discord-command"
 import {SettingsService} from "@pollux/settings"
 import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
 import {DISCORD_MENTION_PATTERN} from "../PoExchangeConstants"
@@ -30,6 +31,9 @@ export class MessageVouchService extends Service {
 
     @injectService
     private vouchRoleService!: VouchRoleService
+
+    @injectService
+    private discordMessageService!: DiscordMessageService
 
     public async init(): Promise<void> {
         DiscordService.onClientReady.addListener(async () => {
@@ -124,7 +128,7 @@ export class MessageVouchService extends Service {
             const client = this.discordService.getClient()
             const user = discordId ? await client.users.fetch(discordId).catch(() => undefined) : undefined
             const member = discordId ? message.guild?.members.cache.get(discordId) ?? await message.guild?.members.fetch(discordId).catch(() => null) : null
-            await message.reply({embeds: [formatVouchCountEmbed(data, user, member)]})
+            await this.discordMessageService.replyTo(message, {embeds: [formatVouchCountEmbed(data, user, member)]})
             if (message.guildId) await this.vouchRoleService.checkAndAssignRoles(message.guildId, data)
         } catch (error) {
             loggingController.log("PoExchange", LogLevel.Error, `Vouch count request failed: ${error}`)

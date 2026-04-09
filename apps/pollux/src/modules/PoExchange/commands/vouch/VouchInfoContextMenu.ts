@@ -1,4 +1,4 @@
-import {contextMenuCommand, DiscordContextMenuCommand, IDiscordContextMenuCommand} from "@pollux/discord-command"
+import {contextMenuCommand, DiscordContextMenuCommand, DiscordMessageService, IDiscordContextMenuCommand} from "@pollux/discord-command"
 import {ApplicationCommandType, MessageFlags, TextChannel, UserContextMenuCommandInteraction} from "discord.js"
 import {injectService} from "@pollux/service"
 import {SettingsService} from "@pollux/settings"
@@ -28,6 +28,9 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
     @injectService
     private vouchRoleService!: VouchRoleService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async (interaction: UserContextMenuCommandInteraction): Promise<void> => {
         await interaction.deferReply({flags: [MessageFlags.Ephemeral]})
 
@@ -50,7 +53,7 @@ export class VouchInfoContextMenu extends DiscordContextMenuCommand {
                 if (vouchChannelId) {
                     const channel = await this.discordService.getClient().channels.fetch(vouchChannelId)
                     if (channel instanceof TextChannel) {
-                        await channel.send({content: `<@${interaction.user.id}> ${translate("poex.vouch.infoRequested")}`, embeds: [embed]})
+                        await this.discordMessageService.respond(channel, {content: `<@${interaction.user.id}> ${translate("poex.vouch.infoRequested")}`, embeds: [embed]})
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
@@ -40,6 +40,9 @@ export class ListCommand extends DiscordCommand<IListCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, module}: IListCommandData): Promise<void> => {
         const {settingsController} = useContext(ControllerContext)
 
@@ -49,7 +52,7 @@ export class ListCommand extends DiscordCommand<IListCommandData> {
             const embed = this.embedService.getDefaultBuilder(Colors.Red)
             embed.setTitle(`${translate("settings.commands.list.reply.title", interaction.locale)}: ${module}`)
             embed.setDescription(translate("settings.commands.list.reply.noSettings", interaction.locale))
-            await interaction.reply({embeds: [embed]})
+            await this.discordMessageService.respond(interaction, {embeds: [embed]})
             return
         }
 
@@ -68,6 +71,6 @@ export class ListCommand extends DiscordCommand<IListCommandData> {
             })
         }
 
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }

@@ -1,7 +1,7 @@
 import {injectService, Service} from "@pollux/service"
 import {DatabaseService} from "@pollux/database"
 import {DiscordService} from "@pollux/discord"
-import {EmbedService} from "@pollux/discord-command"
+import {DiscordMessageService, EmbedService} from "@pollux/discord-command"
 import {ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, TextChannel} from "discord.js"
 import {LocalizationTag, translate} from "@pollux/i18n"
 import {SettingsService} from "@pollux/settings"
@@ -47,6 +47,9 @@ export class PoExchangeService extends Service {
 
     @injectService
     private embedService!: EmbedService
+
+    @injectService
+    private discordMessageService!: DiscordMessageService
 
     @injectService
     private settingsService!: SettingsService
@@ -163,16 +166,11 @@ export class PoExchangeService extends Service {
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
 
         if (post.messageId) {
-            try {
-                const msg = await channel.messages.fetch(post.messageId)
-                await msg.edit({embeds: [embed], components: this.getVouchComponents(channel.guildId)})
-                return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
-            } catch {
-                // Message not found, create new
-            }
+            const edited = await this.discordMessageService.fetchAndEdit(channel, post.messageId, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+            if (edited) return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         }
 
-        const msg = await channel.send({embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -182,7 +180,7 @@ export class PoExchangeService extends Service {
         }
 
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
-        const msg = await channel.send({embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -203,7 +201,7 @@ export class PoExchangeService extends Service {
                     embed.addFields({name: `~~${field.name}~~`, value: `~~${field.value}~~`, inline: field.inline ?? false})
                 }
             }
-            await msg.edit({embeds: [embed], components: this.getVouchComponents(channel.guildId, true)})
+            await this.discordMessageService.edit(msg, {embeds: [embed], components: this.getVouchComponents(channel.guildId, true)})
             return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         } catch {
             return {channelId: post.channelId, status: "error", errorMessage: "Message not found"}

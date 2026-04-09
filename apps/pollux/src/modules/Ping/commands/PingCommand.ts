@@ -1,6 +1,7 @@
 import {
     command,
     DiscordCommand,
+    DiscordMessageService,
     EmbedService,
     IDiscordCommand,
     IDiscordCommandData,
@@ -23,6 +24,9 @@ export class PingCommand extends DiscordCommand<IDiscordCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public async handle({interaction}: IDiscordCommandData): Promise<void> {
         const client = this.discordService.getClient()
 
@@ -37,14 +41,13 @@ export class PingCommand extends DiscordCommand<IDiscordCommandData> {
             {name: "Server", value: "pinging..."},
         )
 
-        const response = await interaction.reply({embeds: [message], withResponse: true})
-        const reply = response.resource!.message!
+        const reply = await this.discordMessageService.respond(interaction, {embeds: [message]})
         message.setFields(
             {name: "Uptime", value: this.msToTime(client.uptime ?? 0)},
             {name: "API", value: rttString},
             {name: "Server", value: (reply.createdTimestamp - interaction.createdTimestamp).toString() + "ms"},
         )
-        await reply.edit({embeds: [message]})
+        await this.discordMessageService.edit(reply, {embeds: [message]})
     }
 
     private msToTime(ms: number): string {

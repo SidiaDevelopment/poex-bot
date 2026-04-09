@@ -1,20 +1,23 @@
-import {injectService, Service} from "@pollux/service"
-import {DiscordEventService, DiscordService} from "@pollux/discord"
+import {button, DiscordButton, IDiscordButton} from "@pollux/discord-command"
+import {ButtonInteraction, MessageFlags, TextChannel} from "discord.js"
+import {injectService} from "@pollux/service"
+import {DiscordService} from "@pollux/discord"
 import {SettingsService} from "@pollux/settings"
-import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
-import {ButtonInteraction, Events, Interaction, MessageFlags, TextChannel} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {translate} from "@pollux/i18n"
-import {PoExchangeApiService} from "./PoExchangeApiService"
+import {PoExchangeSettingsKeys} from "../PoExchangeDeclaration"
+import {PoExchangeApiService} from "../services/PoExchangeApiService"
+import {VouchRoleService} from "../services/VouchRoleService"
 import {formatButtonVouchMessage, formatVouchError, formatVouchSaved} from "../formatters/formatVouch"
-import {VouchRoleService} from "./VouchRoleService"
 import {VouchRequest, VouchResponse} from "../types/VouchTypes"
 
-export class VouchService extends Service {
-    @injectService
-    private discordEventService!: DiscordEventService
+const buttonConfig: IDiscordButton = {
+    customId: "poex_vouch"
+}
 
+@button(buttonConfig)
+export class VouchButton extends DiscordButton {
     @injectService
     private discordService!: DiscordService
 
@@ -27,25 +30,7 @@ export class VouchService extends Service {
     @injectService
     private vouchRoleService!: VouchRoleService
 
-    public async init(): Promise<void> {
-        DiscordService.onClientReady.addListener(async () => {
-            this.discordEventService.subscribe(Events.InteractionCreate, this.onInteraction)
-        })
-    }
-
-    private onInteraction = async (interaction: Interaction): Promise<void> => {
-        if (!interaction.isButton()) return
-        if (interaction.customId !== "poex_vouch") return
-
-        try {
-            await this.handleVouch(interaction)
-        } catch (error) {
-            const {loggingController} = useContext(ControllerContext)
-            loggingController.log("PoExchange", LogLevel.Error, `Unhandled vouch interaction error: ${error}`)
-        }
-    }
-
-    private async handleVouch(interaction: ButtonInteraction): Promise<void> {
+    public async handle(interaction: ButtonInteraction): Promise<void> {
         const {loggingController} = useContext(ControllerContext)
 
         await interaction.deferReply({flags: [MessageFlags.Ephemeral]})

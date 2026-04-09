@@ -1,4 +1,4 @@
-import {command, DiscordCommand, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
@@ -41,6 +41,9 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
     @injectService
     private vouchRoleService!: VouchRoleService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, target}: IVouchCountCommandData): Promise<void> => {
         await interaction.deferReply()
 
@@ -65,7 +68,7 @@ export class VouchCountCommand extends DiscordCommand<IVouchCountCommandData> {
             const client = this.discordService.getClient()
             const user = discordId ? await client.users.fetch(discordId).catch(() => undefined) : undefined
             const member = discordId ? interaction.guild?.members.cache.get(discordId) ?? await interaction.guild?.members.fetch(discordId).catch(() => null) : null
-            await interaction.editReply({embeds: [formatVouchCountEmbed(data, user, member)]})
+            await this.discordMessageService.respond(interaction, {embeds: [formatVouchCountEmbed(data, user, member)]})
             if (interaction.guildId) await this.vouchRoleService.checkAndAssignRoles(interaction.guildId, data)
         } catch (error) {
             const {loggingController} = useContext(ControllerContext)

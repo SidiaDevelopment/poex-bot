@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
@@ -20,6 +20,9 @@ export class VouchRolesListCommand extends DiscordCommand<IDiscordCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction}: IDiscordCommandData): Promise<void> => {
         const roles = this.vouchRoleService.getRoles(interaction.guildId ?? "")
 
@@ -33,6 +36,6 @@ export class VouchRolesListCommand extends DiscordCommand<IDiscordCommandData> {
             embed.setDescription(lines.join("\n"))
         }
 
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }

@@ -7,6 +7,7 @@ import {IDiscordCommand} from "../../IDiscordCommandConfig"
 import {injectService} from "@pollux/service"
 import {DiscordUpdateCommandsService} from "../../services/DiscordUpdateCommandsService"
 import {EmbedService} from "../../services/EmbedService"
+import {DiscordMessageService} from "../../services/DiscordMessageService"
 
 const commandConfig: IDiscordCommand<IDiscordCommandData> = {
     command: "commands",
@@ -24,15 +25,17 @@ export class UpdateCommandsCommand extends DiscordCommand<IDiscordCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction}: IDiscordCommandData): Promise<void> => {
         const embed = this.embedService.getDefaultBuilder(Colors.Green)
         embed.setTitle(translate("discordCommands.commands.update.reply.title", interaction.locale))
         embed.setDescription(translate("discordCommands.commands.update.reply.contentUpdating", interaction.locale))
-        const response = await interaction.reply({embeds: [embed], withResponse: true})
-        const reply = response.resource!.message!
+        const reply = await this.discordMessageService.respond(interaction, {embeds: [embed]})
         embed.setDescription(translate("discordCommands.commands.update.reply.content", interaction.locale))
 
         await this.discordUpdateCommandsService.updateCommands()
-        await reply.edit({embeds: [embed]})
+        await this.discordMessageService.edit(reply, {embeds: [embed]})
     }
 }

@@ -17,5 +17,8 @@
   },
   "exclude": [
     "**/dist"
-  ]
+  ],
+  "// files/include": "Empty so running `tsc` at the repo root is a no-op. This prevents accidental in-place emission of .js/.d.ts/.js.map next to sources when someone runs `tsc` or `tsc -b` at the root (there are no project references here — use `turbo build` instead). These fields are NOT inherited by configs that extend this one, so per-package tsconfigs still work.",
+  "files": [],
+  "include": []
 }

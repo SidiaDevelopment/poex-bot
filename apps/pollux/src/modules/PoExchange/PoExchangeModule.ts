@@ -8,8 +8,8 @@ import {PoExchangeLocalizations, PoExchangeSettingsKeys} from "./PoExchangeDecla
 import {PoExchangeCategories} from "./PoExchangeCategories"
 import {PoExchangeService} from "./services/PoExchangeService"
 import {PoExchangeApiService} from "./services/PoExchangeApiService"
-import {VouchService} from "./services/VouchService"
 import {MessageVouchService} from "./services/MessageVouchService"
+import {VouchButton} from "./buttons/VouchButton"
 import {SetCommand} from "./commands/poex/SetCommand"
 import {RemoveCommand} from "./commands/poex/RemoveCommand"
 import {VouchCommand} from "./commands/vouch/VouchCommand"
@@ -27,12 +27,13 @@ import {VouchRoleEntityHandler} from "./management/VouchRoleEntityHandler"
 
 export class PoExchangeModule implements IModule {
     public name = "PoExchange"
-    public services = [PoExchangeService, PoExchangeApiService, VouchService, MessageVouchService, VouchRoleService]
+    public services = [PoExchangeService, PoExchangeApiService, MessageVouchService, VouchRoleService]
     public localizations = PoExchangeLocalizations
     public discord: IModuleDiscordConfig = {
         tag: "PoExchange",
         discordCommands: [SetCommand, RemoveCommand, VouchCommand, VouchCountCommand, VouchRolesAddCommand, VouchRolesRemoveCommand, VouchRolesListCommand],
-        discordContextMenuCommands: [VouchInfoContextMenu]
+        discordContextMenuCommands: [VouchInfoContextMenu],
+        discordButtons: [VouchButton]
     }
     public api: IModuleApiConfig = {
         tag: "PoExchange",

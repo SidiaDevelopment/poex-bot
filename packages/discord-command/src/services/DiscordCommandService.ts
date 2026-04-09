@@ -1,10 +1,12 @@
-import {AutocompleteInteraction, ChatInputCommandInteraction, Events, Interaction, MessageFlags, UserContextMenuCommandInteraction} from "discord.js"
+import {AutocompleteInteraction, ButtonInteraction, ChatInputCommandInteraction, Events, Interaction, MessageFlags, UserContextMenuCommandInteraction} from "discord.js"
 import {ControllerContext, useContext} from "@pollux/core"
 import {LogLevel} from "@pollux/logging"
 import {injectService, Service} from "@pollux/service"
 import {DiscordEventService} from "@pollux/discord"
 import {DiscordCommandController} from "../DiscordCommandController"
 import {DiscordContextMenuController} from "../DiscordContextMenuController"
+import {DiscordButtonController} from "../DiscordButtonController"
+import {EphemeralButtonController} from "../EphemeralButtonController"
 import {IDiscordCommandControllerData} from "../IDiscordCommandControllerData"
 import {IDiscordCommandOption} from "../IDiscordCommandOption"
 import {IDiscordCommandData} from "../IDiscordCommandData"
@@ -25,6 +27,7 @@ export class DiscordCommandService extends Service {
         const {loggingController} = useContext(ControllerContext)
         const commands = DiscordCommandController.getAllCommands()
         const contextMenuCommands = DiscordContextMenuController.getAllCommands()
+        const buttons = DiscordButtonController.getAllButtons()
 
         loggingController.log("@pollux/discord-command", LogLevel.Debug, `Registered commands (${commands.length}):`)
         for (const cmd of commands) {
@@ -35,6 +38,13 @@ export class DiscordCommandService extends Service {
             loggingController.log("@pollux/discord-command", LogLevel.Debug, `Registered context menu commands (${contextMenuCommands.length}):`)
             for (const cmd of contextMenuCommands) {
                 loggingController.log("@pollux/discord-command", LogLevel.Debug, `  [${cmd.config.type === 2 ? "user" : "message"}] ${cmd.config.name}`)
+            }
+        }
+
+        if (buttons.length > 0) {
+            loggingController.log("@pollux/discord-command", LogLevel.Debug, `Registered buttons (${buttons.length}):`)
+            for (const btn of buttons) {
+                loggingController.log("@pollux/discord-command", LogLevel.Debug, `  ${btn.config.customId}`)
             }
         }
 
@@ -74,6 +84,11 @@ export class DiscordCommandService extends Service {
 
         if (interaction.isUserContextMenuCommand()) {
             this.onContextMenu(interaction)
+            return
+        }
+
+        if (interaction.isButton()) {
+            this.onButton(interaction)
             return
         }
 
@@ -133,6 +148,42 @@ export class DiscordCommandService extends Service {
             `Executing context menu command: ${interaction.commandName}`
         )
         command.handle(interaction)
+    }
+
+    private onButton = (interaction: ButtonInteraction): void => {
+        if (interaction.user.bot) return
+
+        const {loggingController} = useContext(ControllerContext)
+
+        const button = DiscordButtonController.getButton(interaction.customId)
+        if (button) {
+            if (button.config.adminOnly && !this.isAdmin(interaction as unknown as ChatInputCommandInteraction)) {
+                interaction.reply({content: "This button is restricted to the admin server or admin user.", flags: [MessageFlags.Ephemeral]})
+                return
+            }
+
+            loggingController.log(
+                "@pollux/discord-command",
+                LogLevel.Debug,
+                `Executing button handler for customId: ${interaction.customId}`
+            )
+            button.handle(interaction).catch(error => {
+                loggingController.log("@pollux/discord-command", LogLevel.Error, `Unhandled button interaction error (${interaction.customId}): ${error}`)
+            })
+            return
+        }
+
+        const ephemeral = EphemeralButtonController.get(interaction.customId)
+        if (!ephemeral) return
+
+        loggingController.log(
+            "@pollux/discord-command",
+            LogLevel.Debug,
+            `Executing ephemeral button handler for customId: ${interaction.customId}`
+        )
+        ephemeral.handle(interaction).catch(error => {
+            loggingController.log("@pollux/discord-command", LogLevel.Error, `Unhandled ephemeral button interaction error (${interaction.customId}): ${error}`)
+        })
     }
 
     private onAutocomplete = async (interaction: AutocompleteInteraction): Promise<void> => {

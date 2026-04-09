@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {Colors, PermissionFlagsBits, Role} from "discord.js"
 import {injectService} from "@pollux/service"
@@ -40,12 +40,15 @@ export class VouchRolesAddCommand extends DiscordCommand<IVouchRolesAddCommandDa
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, role, count}: IVouchRolesAddCommandData): Promise<void> => {
         await this.vouchRoleService.addRole(interaction.guildId ?? "", role.id, count)
 
         const embed = this.embedService.getDefaultBuilder(Colors.Green)
         embed.setTitle(translate("poex.commands.vouch.roles.add.reply.title", interaction.locale))
         embed.setDescription(`${translate("poex.commands.vouch.roles.add.reply.success", interaction.locale)}: <@&${role.id}> → ${count} ${translate("poex.vouch.uniqueVouches", interaction.locale)}`)
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }

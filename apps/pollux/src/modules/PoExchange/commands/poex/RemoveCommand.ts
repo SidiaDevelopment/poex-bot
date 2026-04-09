@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
@@ -35,6 +35,9 @@ export class RemoveCommand extends DiscordCommand<IRemoveCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, mapping}: IRemoveCommandData): Promise<void> => {
         const success = await this.poExchangeService.removeChannel(mapping, interaction.guildId ?? "")
 
@@ -42,13 +45,13 @@ export class RemoveCommand extends DiscordCommand<IRemoveCommandData> {
             const embed = this.embedService.getDefaultBuilder(Colors.Red)
             embed.setTitle(translate("poex.commands.remove.reply.title", interaction.locale))
             embed.setDescription(translate("poex.commands.remove.reply.notFound", interaction.locale))
-            await interaction.reply({embeds: [embed]})
+            await this.discordMessageService.respond(interaction, {embeds: [embed]})
             return
         }
 
         const embed = this.embedService.getDefaultBuilder(Colors.Green)
         embed.setTitle(translate("poex.commands.remove.reply.title", interaction.locale))
         embed.setDescription(`${translate("poex.commands.remove.reply.success", interaction.locale)}: \`${mapping}\``)
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }

@@ -31,3 +31,10 @@ node_modules
 **/dist
 **/.turbo
 .claude
+
+# Stray TS build output next to sources (should only live in dist/).
+# Safety net in case tsc is run without project refs and emits in-place.
+**/src/**/*.js
+**/src/**/*.js.map
+**/src/**/*.d.ts
+**/src/**/*.tsbuildinfo

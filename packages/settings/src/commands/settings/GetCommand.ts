@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
@@ -41,6 +41,9 @@ export class GetCommand extends DiscordCommand<IGetCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, key}: IGetCommandData): Promise<void> => {
         const {settingsController} = useContext(ControllerContext)
 
@@ -48,7 +51,7 @@ export class GetCommand extends DiscordCommand<IGetCommandData> {
             const embed = this.embedService.getDefaultBuilder(Colors.Red)
             embed.setTitle(translate("settings.commands.get.reply.title", interaction.locale))
             embed.setDescription(`${translate("settings.commands.get.reply.unknownKey", interaction.locale)}: \`${key}\``)
-            await interaction.reply({embeds: [embed]})
+            await this.discordMessageService.respond(interaction, {embeds: [embed]})
             return
         }
 
@@ -61,7 +64,7 @@ export class GetCommand extends DiscordCommand<IGetCommandData> {
                 const embed = this.embedService.getDefaultBuilder(Colors.Red)
                 embed.setTitle(translate("settings.commands.get.reply.title", interaction.locale))
                 embed.setDescription(translate("settings.commands.get.reply.unauthorized", interaction.locale))
-                await interaction.reply({embeds: [embed]})
+                await this.discordMessageService.respond(interaction, {embeds: [embed]})
                 return
             }
         }
@@ -75,6 +78,6 @@ export class GetCommand extends DiscordCommand<IGetCommandData> {
             {name: "Value", value: `\`${value}\``, inline: true},
             {name: "Default", value: `\`${entry.defaultValue}\``, inline: true}
         )
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }

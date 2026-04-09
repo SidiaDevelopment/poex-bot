@@ -1,4 +1,4 @@
-import {command, DiscordCommand, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
+import {command, DiscordCommand, DiscordMessageService, EmbedService, IDiscordCommand, IDiscordCommandData} from "@pollux/discord-command"
 import {ApplicationCommandOptionType} from "discord-api-types/v10"
 import {Colors, GuildBasedChannel, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
@@ -42,12 +42,15 @@ export class SetCommand extends DiscordCommand<ISetCommandData> {
     @injectService
     private embedService!: EmbedService
 
+    @injectService
+    private discordMessageService!: DiscordMessageService
+
     public handle = async ({interaction, mapping, target}: ISetCommandData): Promise<void> => {
         await this.poExchangeService.setChannel(mapping, interaction.guildId ?? "", target.id)
 
         const embed = this.embedService.getDefaultBuilder(Colors.Green)
         embed.setTitle(translate("poex.commands.set.reply.title", interaction.locale))
         embed.setDescription(`${translate("poex.commands.set.reply.success", interaction.locale)}: \`${mapping}\` → <#${target.id}>`)
-        await interaction.reply({embeds: [embed]})
+        await this.discordMessageService.respond(interaction, {embeds: [embed]})
     }
 }
