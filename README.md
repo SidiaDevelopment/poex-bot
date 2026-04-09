@@ -1,5 +1,9 @@
 # pollux-framework
 
+[![CI](https://github.com/SidiaDevelopment/poex-bot/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/SidiaDevelopment/poex-bot/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/github/license/SidiaDevelopment/poex-bot)](LICENSE)
+![Last commit](https://img.shields.io/github/last-commit/SidiaDevelopment/poex-bot)
+
 A modular TypeScript framework for building Discord bots with a service-oriented architecture.
 
 ## Packages
