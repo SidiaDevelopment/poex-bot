@@ -1,6 +1,6 @@
 {
   "name": "@pollux/pollux",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Example Pollux bot application",
   "repository": {
     "type": "git",

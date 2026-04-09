@@ -1,6 +1,6 @@
 {
   "name": "@pollux/i18n",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Internationalization and localization support for Pollux bots",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

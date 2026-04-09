@@ -1,6 +1,6 @@
 {
   "name": "@pollux/core",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Core module system, context management, and lifecycle events for the Pollux framework",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

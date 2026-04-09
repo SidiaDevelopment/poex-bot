@@ -1,6 +1,6 @@
 {
   "name": "@pollux/settings",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Persistent per-guild settings management for Pollux bots",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

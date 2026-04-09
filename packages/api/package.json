@@ -1,6 +1,6 @@
 {
   "name": "@pollux/api",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "REST API framework for exposing module endpoints with Pollux",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

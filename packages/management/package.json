@@ -1,6 +1,6 @@
 {
   "name": "@pollux/management",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Management schema types for Pollux modules",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

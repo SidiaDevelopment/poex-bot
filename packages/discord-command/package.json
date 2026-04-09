@@ -1,6 +1,6 @@
 {
   "name": "@pollux/discord-command",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Slash command framework for Discord bots built with Pollux",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

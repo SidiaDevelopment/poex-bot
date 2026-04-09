@@ -1,6 +1,6 @@
 {
   "name": "@pollux/utils",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Shared TypeScript utility types and event primitives for the Pollux framework",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

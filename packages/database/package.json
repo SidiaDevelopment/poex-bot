@@ -1,6 +1,6 @@
 {
   "name": "@pollux/database",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "TypeORM-based database integration module for Pollux",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

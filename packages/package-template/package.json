@@ -1,6 +1,6 @@
 {
   "name": "@pollux/package-template",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Template for creating new Pollux packages",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

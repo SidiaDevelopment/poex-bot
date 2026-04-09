@@ -1,6 +1,6 @@
 {
   "name": "@pollux/logging",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Structured logging system with configurable log strategies for Pollux",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

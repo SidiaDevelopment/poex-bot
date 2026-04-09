@@ -1,6 +1,6 @@
 {
   "name": "@pollux/config",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Configuration management with deep merge support for Pollux modules",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

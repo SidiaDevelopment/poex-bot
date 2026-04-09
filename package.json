@@ -1,6 +1,6 @@
 {
   "name": "@pollux/pollux-framework",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Pollux bot framework for easy bot development",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

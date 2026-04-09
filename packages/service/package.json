@@ -1,6 +1,6 @@
 {
   "name": "@pollux/service",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Service dependency injection and lifecycle management for Pollux modules",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {

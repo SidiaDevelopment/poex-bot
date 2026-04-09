@@ -1,6 +1,6 @@
 {
   "name": "@pollux/discord",
-  "version": "0.0.1-dev",
+  "version": "0.0.1",
   "description": "Discord.js integration module for building bots with Pollux",
   "author": "Marvin Fischer <admin@sidia.net>",
   "repository": {
