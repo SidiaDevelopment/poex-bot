@@ -17,7 +17,7 @@ jobs:
           node-version: 20
           cache: yarn
       - run: yarn install --immutable
-      - run: yarn turbo build --output-logs errors-only
+      - run: yarn exec turbo build --output-logs errors-only
 
   lint:
     name: Lint
