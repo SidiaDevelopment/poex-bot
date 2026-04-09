@@ -1,6 +1,6 @@
 services:
   bot:
-    build: .
+    image: ghcr.io/sidiadevelopment/poex-bot:latest
     restart: unless-stopped
     network_mode: host
     env_file:
@@ -12,9 +12,7 @@ services:
       - DB_SYNCHRONIZE=false
       - API_PORT=3025
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.web
+    image: ghcr.io/sidiadevelopment/poex-web:latest
     restart: unless-stopped
     network_mode: host
     env_file:
