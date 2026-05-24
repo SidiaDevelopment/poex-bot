@@ -19,9 +19,12 @@ export interface IPoExchangeLinks {
     listUrl?: string
 }
 
-export type SellerLabel = "seller" | "host"
+export type SellerLabel = "seller" | "host" | "buyer"
 
 export interface IPoExchangeFormatter {
     sellerLabel: SellerLabel
+    // Defaults to vouchable when omitted; WTB formatters set this false so the
+    // vouch button is suppressed on buy-side posts.
+    vouchable?: boolean
     format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void
 }

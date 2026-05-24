@@ -19,6 +19,7 @@ import {CampaignSkipFormatter} from "../formatters/CampaignSkipFormatter"
 import {LabyrinthFormatter} from "../formatters/LabyrinthFormatter"
 import {BloodlinesFormatter} from "../formatters/BloodlinesFormatter"
 import {Poe2ServiceFormatter} from "../formatters/Poe2ServiceFormatter"
+import {WtbServiceFormatter} from "../formatters/WtbServiceFormatter"
 
 export type SupportedRegion = "EU" | "US" | "BR" | "RU" | "JP" | "AU" | "SG"
 
@@ -80,11 +81,77 @@ export class PoExchangeService extends Service {
         [PoExchangeChannelId.POE1_STANDARD_TEMPLE_HOST]: new TempleHostFormatter(),
         [PoExchangeChannelId.POE1_STANDARD_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
         [PoExchangeChannelId.POE1_STANDARD_BENCH_CRAFT]: new BenchCraftFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_BOSS_KILLING]: new BossCarryFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_NIGHTMARE_MAPS]: new NightmareMapFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_INVITATIONS]: new BossCarryFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_BLOODLINES]: new BloodlinesFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LABYRINTH]: new LabyrinthFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_5_WAY]: new FiveWayFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_CAMPAIGN_SKIP]: new CampaignSkipFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_TEMPLE_HOST]: new TempleHostFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_BENCH_CRAFT]: new BenchCraftFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_BOSS_KILLING]: new BossCarryFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_NIGHTMARE_MAPS]: new NightmareMapFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_INVITATIONS]: new BossCarryFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_BLOODLINES]: new BloodlinesFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_LABYRINTH]: new LabyrinthFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_5_WAY]: new FiveWayFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_CAMPAIGN_SKIP]: new CampaignSkipFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_TEMPLE_HOST]: new TempleHostFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE1_HARDCORE_LEAGUE_BENCH_CRAFT]: new BenchCraftFormatter(),
+        [PoExchangeChannelId.POE1_WTB_BOSS_KILLING]: new WtbServiceFormatter("poex.format.titles.wtbBossKilling", "poex.format.whispers.wtbBossKilling"),
+        [PoExchangeChannelId.POE1_WTB_NIGHTMARE_MAPS]: new WtbServiceFormatter("poex.format.titles.wtbNightmareMaps", "poex.format.whispers.wtbNightmareMaps"),
+        [PoExchangeChannelId.POE1_WTB_INVITATIONS]: new WtbServiceFormatter("poex.format.titles.wtbInvitations", "poex.format.whispers.wtbInvitations"),
+        [PoExchangeChannelId.POE1_WTB_BLOODLINES]: new WtbServiceFormatter("poex.format.titles.wtbBloodlines", "poex.format.whispers.wtbBloodlines"),
+        [PoExchangeChannelId.POE1_WTB_LABYRINTH]: new WtbServiceFormatter("poex.format.titles.wtbLabyrinth", "poex.format.whispers.wtbLabyrinth"),
+        [PoExchangeChannelId.POE1_WTB_5_WAY]: new WtbServiceFormatter("poex.format.titles.wtbFiveWay", "poex.format.whispers.wtbFiveWay"),
+        [PoExchangeChannelId.POE1_WTB_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE1_WTB_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE1_WTB_TEMPLE_HOST]: new WtbServiceFormatter("poex.format.titles.wtbTempleHost", "poex.format.whispers.wtbTempleHost"),
+        [PoExchangeChannelId.POE1_WTB_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE1_WTB_BENCH_CRAFT]: new WtbServiceFormatter("poex.format.titles.wtbBenchCraft", "poex.format.whispers.wtbBenchCraft"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_BOSS_KILLING]: new WtbServiceFormatter("poex.format.titles.wtbBossKilling", "poex.format.whispers.wtbBossKilling"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_NIGHTMARE_MAPS]: new WtbServiceFormatter("poex.format.titles.wtbNightmareMaps", "poex.format.whispers.wtbNightmareMaps"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_INVITATIONS]: new WtbServiceFormatter("poex.format.titles.wtbInvitations", "poex.format.whispers.wtbInvitations"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_BLOODLINES]: new WtbServiceFormatter("poex.format.titles.wtbBloodlines", "poex.format.whispers.wtbBloodlines"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_LABYRINTH]: new WtbServiceFormatter("poex.format.titles.wtbLabyrinth", "poex.format.whispers.wtbLabyrinth"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_5_WAY]: new WtbServiceFormatter("poex.format.titles.wtbFiveWay", "poex.format.whispers.wtbFiveWay"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_TEMPLE_HOST]: new WtbServiceFormatter("poex.format.titles.wtbTempleHost", "poex.format.whispers.wtbTempleHost"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE1_WTB_STANDARD_BENCH_CRAFT]: new WtbServiceFormatter("poex.format.titles.wtbBenchCraft", "poex.format.whispers.wtbBenchCraft"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_BOSS_KILLING]: new WtbServiceFormatter("poex.format.titles.wtbBossKilling", "poex.format.whispers.wtbBossKilling"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_NIGHTMARE_MAPS]: new WtbServiceFormatter("poex.format.titles.wtbNightmareMaps", "poex.format.whispers.wtbNightmareMaps"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_INVITATIONS]: new WtbServiceFormatter("poex.format.titles.wtbInvitations", "poex.format.whispers.wtbInvitations"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_BLOODLINES]: new WtbServiceFormatter("poex.format.titles.wtbBloodlines", "poex.format.whispers.wtbBloodlines"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LABYRINTH]: new WtbServiceFormatter("poex.format.titles.wtbLabyrinth", "poex.format.whispers.wtbLabyrinth"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_5_WAY]: new WtbServiceFormatter("poex.format.titles.wtbFiveWay", "poex.format.whispers.wtbFiveWay"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_TEMPLE_HOST]: new WtbServiceFormatter("poex.format.titles.wtbTempleHost", "poex.format.whispers.wtbTempleHost"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_BENCH_CRAFT]: new WtbServiceFormatter("poex.format.titles.wtbBenchCraft", "poex.format.whispers.wtbBenchCraft"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_BOSS_KILLING]: new WtbServiceFormatter("poex.format.titles.wtbBossKilling", "poex.format.whispers.wtbBossKilling"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_NIGHTMARE_MAPS]: new WtbServiceFormatter("poex.format.titles.wtbNightmareMaps", "poex.format.whispers.wtbNightmareMaps"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_INVITATIONS]: new WtbServiceFormatter("poex.format.titles.wtbInvitations", "poex.format.whispers.wtbInvitations"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_BLOODLINES]: new WtbServiceFormatter("poex.format.titles.wtbBloodlines", "poex.format.whispers.wtbBloodlines"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_LABYRINTH]: new WtbServiceFormatter("poex.format.titles.wtbLabyrinth", "poex.format.whispers.wtbLabyrinth"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_5_WAY]: new WtbServiceFormatter("poex.format.titles.wtbFiveWay", "poex.format.whispers.wtbFiveWay"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_TEMPLE_HOST]: new WtbServiceFormatter("poex.format.titles.wtbTempleHost", "poex.format.whispers.wtbTempleHost"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE1_WTB_HARDCORE_LEAGUE_BENCH_CRAFT]: new WtbServiceFormatter("poex.format.titles.wtbBenchCraft", "poex.format.whispers.wtbBenchCraft"),
         [PoExchangeChannelId.POE2_PINNACLE_ENCOUNTERS]: new Poe2ServiceFormatter("poex.format.titles.poe2PinnacleEncounters", "poex.format.whispers.poe2PinnacleEncounters"),
         [PoExchangeChannelId.POE2_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
         [PoExchangeChannelId.POE2_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
         [PoExchangeChannelId.POE2_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
-        [PoExchangeChannelId.POE2_CAMPAIGN_LEVELING]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignLeveling", "poex.format.whispers.poe2CampaignLeveling"),
+        [PoExchangeChannelId.POE2_CAMPAIGN_SKIP]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignSkip", "poex.format.whispers.poe2CampaignSkip"),
         [PoExchangeChannelId.POE2_GOLD_ROTATION]: new GoldRotaFormatter(),
         [PoExchangeChannelId.POE2_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
         [PoExchangeChannelId.POE2_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
@@ -93,11 +160,65 @@ export class PoExchangeService extends Service {
         [PoExchangeChannelId.POE2_STANDARD_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
         [PoExchangeChannelId.POE2_STANDARD_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
         [PoExchangeChannelId.POE2_STANDARD_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
-        [PoExchangeChannelId.POE2_STANDARD_CAMPAIGN_LEVELING]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignLeveling", "poex.format.whispers.poe2CampaignLeveling"),
+        [PoExchangeChannelId.POE2_STANDARD_CAMPAIGN_SKIP]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignSkip", "poex.format.whispers.poe2CampaignSkip"),
         [PoExchangeChannelId.POE2_STANDARD_GOLD_ROTATION]: new GoldRotaFormatter(),
         [PoExchangeChannelId.POE2_STANDARD_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
         [PoExchangeChannelId.POE2_STANDARD_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
-        [PoExchangeChannelId.POE2_STANDARD_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices")
+        [PoExchangeChannelId.POE2_STANDARD_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices"),
+        [PoExchangeChannelId.POE2_HARDCORE_PINNACLE_ENCOUNTERS]: new Poe2ServiceFormatter("poex.format.titles.poe2PinnacleEncounters", "poex.format.whispers.poe2PinnacleEncounters"),
+        [PoExchangeChannelId.POE2_HARDCORE_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_CAMPAIGN_SKIP]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignSkip", "poex.format.whispers.poe2CampaignSkip"),
+        [PoExchangeChannelId.POE2_HARDCORE_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE2_HARDCORE_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE2_HARDCORE_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
+        [PoExchangeChannelId.POE2_HARDCORE_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_PINNACLE_ENCOUNTERS]: new Poe2ServiceFormatter("poex.format.titles.poe2PinnacleEncounters", "poex.format.whispers.poe2PinnacleEncounters"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_CAMPAIGN_SKIP]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignSkip", "poex.format.whispers.poe2CampaignSkip"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
+        [PoExchangeChannelId.POE2_HARDCORE_LEAGUE_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices"),
+        [PoExchangeChannelId.POE2_WTB_PINNACLE_ENCOUNTERS]: new WtbServiceFormatter("poex.format.titles.wtbPinnacleEncounters", "poex.format.whispers.wtbPinnacleEncounters"),
+        [PoExchangeChannelId.POE2_WTB_CITADEL_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCitadelBosses", "poex.format.whispers.wtbCitadelBosses"),
+        [PoExchangeChannelId.POE2_WTB_ANOMALY_AND_MAP_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbAnomalyAndMapBosses", "poex.format.whispers.wtbAnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_WTB_CAMPAIGN_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCampaignBosses", "poex.format.whispers.wtbCampaignBosses"),
+        [PoExchangeChannelId.POE2_WTB_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE2_WTB_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE2_WTB_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE2_WTB_ASCENDANCY_TRIALS]: new WtbServiceFormatter("poex.format.titles.wtbAscendancyTrials", "poex.format.whispers.wtbAscendancyTrials"),
+        [PoExchangeChannelId.POE2_WTB_CRAFTING_SERVICES]: new WtbServiceFormatter("poex.format.titles.wtbCraftingServices", "poex.format.whispers.wtbCraftingServices"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_PINNACLE_ENCOUNTERS]: new WtbServiceFormatter("poex.format.titles.wtbPinnacleEncounters", "poex.format.whispers.wtbPinnacleEncounters"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_CITADEL_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCitadelBosses", "poex.format.whispers.wtbCitadelBosses"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_ANOMALY_AND_MAP_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbAnomalyAndMapBosses", "poex.format.whispers.wtbAnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_CAMPAIGN_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCampaignBosses", "poex.format.whispers.wtbCampaignBosses"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_ASCENDANCY_TRIALS]: new WtbServiceFormatter("poex.format.titles.wtbAscendancyTrials", "poex.format.whispers.wtbAscendancyTrials"),
+        [PoExchangeChannelId.POE2_WTB_STANDARD_CRAFTING_SERVICES]: new WtbServiceFormatter("poex.format.titles.wtbCraftingServices", "poex.format.whispers.wtbCraftingServices"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_PINNACLE_ENCOUNTERS]: new WtbServiceFormatter("poex.format.titles.wtbPinnacleEncounters", "poex.format.whispers.wtbPinnacleEncounters"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_CITADEL_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCitadelBosses", "poex.format.whispers.wtbCitadelBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_ANOMALY_AND_MAP_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbAnomalyAndMapBosses", "poex.format.whispers.wtbAnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_CAMPAIGN_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCampaignBosses", "poex.format.whispers.wtbCampaignBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_ASCENDANCY_TRIALS]: new WtbServiceFormatter("poex.format.titles.wtbAscendancyTrials", "poex.format.whispers.wtbAscendancyTrials"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_CRAFTING_SERVICES]: new WtbServiceFormatter("poex.format.titles.wtbCraftingServices", "poex.format.whispers.wtbCraftingServices"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_PINNACLE_ENCOUNTERS]: new WtbServiceFormatter("poex.format.titles.wtbPinnacleEncounters", "poex.format.whispers.wtbPinnacleEncounters"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_CITADEL_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCitadelBosses", "poex.format.whispers.wtbCitadelBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_ANOMALY_AND_MAP_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbAnomalyAndMapBosses", "poex.format.whispers.wtbAnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_CAMPAIGN_BOSSES]: new WtbServiceFormatter("poex.format.titles.wtbCampaignBosses", "poex.format.whispers.wtbCampaignBosses"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_CAMPAIGN_SKIP]: new WtbServiceFormatter("poex.format.titles.wtbCampaignSkip", "poex.format.whispers.wtbCampaignSkip"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_GOLD_ROTATION]: new WtbServiceFormatter("poex.format.titles.wtbGoldRotation", "poex.format.whispers.wtbGoldRotation"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_CHALLENGE_COMPLETION]: new WtbServiceFormatter("poex.format.titles.wtbChallengeCompletion", "poex.format.whispers.wtbChallengeCompletion"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_ASCENDANCY_TRIALS]: new WtbServiceFormatter("poex.format.titles.wtbAscendancyTrials", "poex.format.whispers.wtbAscendancyTrials"),
+        [PoExchangeChannelId.POE2_WTB_HARDCORE_LEAGUE_CRAFTING_SERVICES]: new WtbServiceFormatter("poex.format.titles.wtbCraftingServices", "poex.format.whispers.wtbCraftingServices")
     }
 
     private cacheKey(channelKey: string, guildId: string): string {
@@ -152,8 +273,10 @@ export class PoExchangeService extends Service {
         return new ActionRowBuilder<ButtonBuilder>().addComponents(button)
     }
 
-    private getVouchComponents(guildId: string, disabled: boolean = false): ActionRowBuilder<ButtonBuilder>[] {
+    private getVouchComponents(guildId: string, channelId: string, disabled: boolean = false): ActionRowBuilder<ButtonBuilder>[] {
         if (!this.isVouchEnabled(guildId)) return []
+        const formatter = this.formatters[channelId]
+        if (formatter && formatter.vouchable === false) return []
         return [this.buildVouchButton(disabled)]
     }
 
@@ -162,7 +285,12 @@ export class PoExchangeService extends Service {
         const formatter = this.formatters[channelId]
         if (formatter) {
             const seller = user.discordId ? `\`${user.name}\` (<@${user.discordId}>)` : `\`${user.name}\``
-            const labelKey: LocalizationTag = formatter.sellerLabel === "host" ? "poex.format.host" : "poex.format.seller"
+            const labelKeys: Record<SellerLabel, LocalizationTag> = {
+                seller: "poex.format.seller",
+                host: "poex.format.host",
+                buyer: "poex.format.buyer"
+            }
+            const labelKey: LocalizationTag = labelKeys[formatter.sellerLabel]
             let header = `${translate(labelKey)}: ${seller} | ${user.vouches} ${translate("poex.format.vouches" as LocalizationTag)}`
 
             if (preferredRegions && preferredRegions.length > 0) {
@@ -185,11 +313,11 @@ export class PoExchangeService extends Service {
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
 
         if (post.messageId) {
-            const edited = await this.discordMessageService.fetchAndEdit(channel, post.messageId, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+            const edited = await this.discordMessageService.fetchAndEdit(channel, post.messageId, {embeds: [embed], components: this.getVouchComponents(channel.guildId, post.channelId)})
             if (edited) return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         }
 
-        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId, post.channelId)})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -199,7 +327,7 @@ export class PoExchangeService extends Service {
         }
 
         const embed = this.buildEmbed(post.channelId, user, post.services ?? [], {browseUrl: post.browseUrl, listUrl: post.listUrl}, post.preferredRegions)
-        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId)})
+        const msg = await this.discordMessageService.send(channel, {embeds: [embed], components: this.getVouchComponents(channel.guildId, post.channelId)})
         return {channelId: post.channelId, messageId: msg.id, status: "ok"}
     }
 
@@ -220,7 +348,7 @@ export class PoExchangeService extends Service {
                     embed.addFields({name: `~~${field.name}~~`, value: `~~${field.value}~~`, inline: field.inline ?? false})
                 }
             }
-            await this.discordMessageService.edit(msg, {embeds: [embed], components: this.getVouchComponents(channel.guildId, true)})
+            await this.discordMessageService.edit(msg, {embeds: [embed], components: this.getVouchComponents(channel.guildId, post.channelId, true)})
             return {channelId: post.channelId, messageId: post.messageId, status: "ok"}
         } catch {
             return {channelId: post.channelId, status: "error", errorMessage: "Message not found"}
