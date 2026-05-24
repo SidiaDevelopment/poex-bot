@@ -10,7 +10,11 @@ COPY apps apps
 COPY tsconfig.json turbo.json ./
 
 RUN yarn install --immutable
-RUN yarn turbo build
+# Build all workspaces and fail the image build if the bot/package output is
+# missing, so a broken (dist-less) image can never be published again.
+RUN yarn exec turbo run build \
+    && test -f apps/pollux/dist/index.js \
+    && test -f packages/core/dist/types/index.d.ts
 
 FROM node:22-alpine
 
@@ -28,4 +32,6 @@ WORKDIR /app/apps/pollux
 
 EXPOSE 3000
 
-CMD ["node", "-r", "ts-node/register", "src/index.ts"]
+# Run the compiled output, not ts-node on source: no runtime type-checking to
+# crash on, and node resolves the workspace packages via their built dist.
+CMD ["node", "dist/index.js"]
