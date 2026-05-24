@@ -4,7 +4,7 @@ import {Colors, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {PoExchangeService} from "../../services/PoExchangeService"
-import {PoExchangeCategories} from "../../PoExchangeCategories"
+import {poExchangeCategoryAutocomplete} from "../../PoExchangeCategories"
 
 export interface IRemoveCommandData extends IDiscordCommandData {
     mapping: string
@@ -22,7 +22,7 @@ const commandConfig: IDiscordCommand<IRemoveCommandData> = {
             type: ApplicationCommandOptionType.String,
             description: "poex.commands.remove.mappingOption",
             required: true,
-            choices: PoExchangeCategories
+            autocompleteCallback: poExchangeCategoryAutocomplete
         }
     ]
 }

@@ -18,6 +18,7 @@ import {ChallengeCompletionFormatter} from "../formatters/ChallengeCompletionFor
 import {CampaignSkipFormatter} from "../formatters/CampaignSkipFormatter"
 import {LabyrinthFormatter} from "../formatters/LabyrinthFormatter"
 import {BloodlinesFormatter} from "../formatters/BloodlinesFormatter"
+import {Poe2ServiceFormatter} from "../formatters/Poe2ServiceFormatter"
 
 export type SupportedRegion = "EU" | "US" | "BR" | "RU" | "JP" | "AU" | "SG"
 
@@ -78,7 +79,25 @@ export class PoExchangeService extends Service {
         [PoExchangeChannelId.POE1_STANDARD_GOLD_ROTATION]: new GoldRotaFormatter(),
         [PoExchangeChannelId.POE1_STANDARD_TEMPLE_HOST]: new TempleHostFormatter(),
         [PoExchangeChannelId.POE1_STANDARD_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
-        [PoExchangeChannelId.POE1_STANDARD_BENCH_CRAFT]: new BenchCraftFormatter()
+        [PoExchangeChannelId.POE1_STANDARD_BENCH_CRAFT]: new BenchCraftFormatter(),
+        [PoExchangeChannelId.POE2_PINNACLE_ENCOUNTERS]: new Poe2ServiceFormatter("poex.format.titles.poe2PinnacleEncounters", "poex.format.whispers.poe2PinnacleEncounters"),
+        [PoExchangeChannelId.POE2_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
+        [PoExchangeChannelId.POE2_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
+        [PoExchangeChannelId.POE2_CAMPAIGN_LEVELING]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignLeveling", "poex.format.whispers.poe2CampaignLeveling"),
+        [PoExchangeChannelId.POE2_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE2_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE2_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
+        [PoExchangeChannelId.POE2_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices"),
+        [PoExchangeChannelId.POE2_STANDARD_PINNACLE_ENCOUNTERS]: new Poe2ServiceFormatter("poex.format.titles.poe2PinnacleEncounters", "poex.format.whispers.poe2PinnacleEncounters"),
+        [PoExchangeChannelId.POE2_STANDARD_CITADEL_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CitadelBosses", "poex.format.whispers.poe2CitadelBosses"),
+        [PoExchangeChannelId.POE2_STANDARD_ANOMALY_AND_MAP_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2AnomalyAndMapBosses", "poex.format.whispers.poe2AnomalyAndMapBosses"),
+        [PoExchangeChannelId.POE2_STANDARD_CAMPAIGN_BOSSES]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignBosses", "poex.format.whispers.poe2CampaignBosses"),
+        [PoExchangeChannelId.POE2_STANDARD_CAMPAIGN_LEVELING]: new Poe2ServiceFormatter("poex.format.titles.poe2CampaignLeveling", "poex.format.whispers.poe2CampaignLeveling"),
+        [PoExchangeChannelId.POE2_STANDARD_GOLD_ROTATION]: new GoldRotaFormatter(),
+        [PoExchangeChannelId.POE2_STANDARD_CHALLENGE_COMPLETION]: new ChallengeCompletionFormatter(),
+        [PoExchangeChannelId.POE2_STANDARD_ASCENDANCY_TRIALS]: new Poe2ServiceFormatter("poex.format.titles.poe2AscendancyTrials", "poex.format.whispers.poe2AscendancyTrials"),
+        [PoExchangeChannelId.POE2_STANDARD_CRAFTING_SERVICES]: new Poe2ServiceFormatter("poex.format.titles.poe2CraftingServices", "poex.format.whispers.poe2CraftingServices")
     }
 
     private cacheKey(channelKey: string, guildId: string): string {

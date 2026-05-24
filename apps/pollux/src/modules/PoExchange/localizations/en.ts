@@ -31,7 +31,25 @@ export default {
             stdGoldRotation: "Std Gold Rotation",
             stdTempleHost: "Std Temple Host",
             stdChallengeCompletion: "Std Challenge Completion",
-            stdBenchCraft: "Std Bench Craft"
+            stdBenchCraft: "Std Bench Craft",
+            poe2PinnacleEncounters: "PoE2 Pinnacle Encounters",
+            poe2CitadelBosses: "PoE2 Citadel Bosses",
+            poe2AnomalyAndMapBosses: "PoE2 Anomaly & Map Bosses",
+            poe2CampaignBosses: "PoE2 Campaign Bosses",
+            poe2CampaignLeveling: "PoE2 Campaign Leveling",
+            poe2GoldRotation: "PoE2 Gold Rotation",
+            poe2ChallengeCompletion: "PoE2 Challenge Completion",
+            poe2AscendancyTrials: "PoE2 Ascendancy Trials",
+            poe2CraftingServices: "PoE2 Crafting Services",
+            poe2StdPinnacleEncounters: "PoE2 Std Pinnacle Encounters",
+            poe2StdCitadelBosses: "PoE2 Std Citadel Bosses",
+            poe2StdAnomalyAndMapBosses: "PoE2 Std Anomaly & Map Bosses",
+            poe2StdCampaignBosses: "PoE2 Std Campaign Bosses",
+            poe2StdCampaignLeveling: "PoE2 Std Campaign Leveling",
+            poe2StdGoldRotation: "PoE2 Std Gold Rotation",
+            poe2StdChallengeCompletion: "PoE2 Std Challenge Completion",
+            poe2StdAscendancyTrials: "PoE2 Std Ascendancy Trials",
+            poe2StdCraftingServices: "PoE2 Std Crafting Services"
         },
         settings: {
             vouchEnabled: "Enable the vouch button on service messages",
@@ -140,7 +158,14 @@ export default {
                 challengeCompletion: "WTS Challenge Completion",
                 bloodlines: "WTS Bloodlines",
                 labyrinth: "WTS Labyrinth",
-                benchCraft: "WTS Bench Craft"
+                benchCraft: "WTS Bench Craft",
+                poe2PinnacleEncounters: "WTS Pinnacle Encounters",
+                poe2CitadelBosses: "WTS Citadel Bosses",
+                poe2AnomalyAndMapBosses: "WTS Anomaly & Map Bosses",
+                poe2CampaignBosses: "WTS Campaign Bosses",
+                poe2CampaignLeveling: "WTS Campaign Leveling",
+                poe2AscendancyTrials: "WTS Ascendancy Trials",
+                poe2CraftingServices: "WTS Crafting Services"
             },
             regions: "Preferred Regions",
             browseServices: "Browse services",
@@ -155,7 +180,14 @@ export default {
                 challengeCompletion: "Hi, I'd like to buy your challenge completion service",
                 bloodlines: "Hi, I'd like to buy your bloodlines service",
                 labyrinth: "Hi, I'd like to buy your labyrinth carry",
-                benchCraft: "Hi, I need your bench craft service"
+                benchCraft: "Hi, I need your bench craft service",
+                poe2PinnacleEncounters: "Hi, I'd like to buy your pinnacle encounter carry",
+                poe2CitadelBosses: "Hi, I'd like to buy your citadel boss carry",
+                poe2AnomalyAndMapBosses: "Hi, I'd like to buy your anomaly/map boss carry",
+                poe2CampaignBosses: "Hi, I'd like to buy your campaign boss carry",
+                poe2CampaignLeveling: "Hi, I'd like to buy your campaign leveling service",
+                poe2AscendancyTrials: "Hi, I'd like to buy your ascendancy trial carry",
+                poe2CraftingServices: "Hi, I'd like to buy your crafting service"
             }
         }
     }

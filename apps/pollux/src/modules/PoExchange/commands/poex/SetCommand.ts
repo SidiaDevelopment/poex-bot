@@ -4,7 +4,7 @@ import {Colors, GuildBasedChannel, PermissionFlagsBits} from "discord.js"
 import {injectService} from "@pollux/service"
 import {translate} from "@pollux/i18n"
 import {PoExchangeService} from "../../services/PoExchangeService"
-import {PoExchangeCategories} from "../../PoExchangeCategories"
+import {poExchangeCategoryAutocomplete} from "../../PoExchangeCategories"
 
 export interface ISetCommandData extends IDiscordCommandData {
     mapping: string
@@ -23,7 +23,7 @@ const commandConfig: IDiscordCommand<ISetCommandData> = {
             type: ApplicationCommandOptionType.String,
             description: "poex.commands.set.mappingOption",
             required: true,
-            choices: PoExchangeCategories
+            autocompleteCallback: poExchangeCategoryAutocomplete
         },
         {
             name: "target",
