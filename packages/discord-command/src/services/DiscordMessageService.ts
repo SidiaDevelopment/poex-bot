@@ -4,8 +4,8 @@ import {
     ActionRowBuilder,
     APIActionRowComponent,
     APIButtonComponent,
+    APIComponentInMessageActionRow,
     APIEmbed,
-    APIMessageActionRowComponent,
     ButtonBuilder,
     ComponentType,
     EmbedBuilder,
@@ -33,9 +33,11 @@ export interface ISendPayload {
 }
 
 type SendableDiscordChannel = TextBasedChannel & SendableChannels
-type DisabledComponents = (ActionRowBuilder<ButtonBuilder> | APIActionRowComponent<APIMessageActionRowComponent>)[]
+type DisabledComponents = (ActionRowBuilder<ButtonBuilder> | APIActionRowComponent<APIComponentInMessageActionRow>)[]
 
 export class DiscordMessageService extends Service {
+    public async init(): Promise<void> {}
+
     /**
      * Dispatches a payload to a repliable interaction or a channel. For interactions, auto-picks
      * between reply / editReply (when deferred) / followUp (when already replied).
@@ -61,7 +63,7 @@ export class DiscordMessageService extends Service {
     }
 
     public async reply(interaction: RepliableInteraction, payload: ISendPayload): Promise<Message> {
-        const options: InteractionReplyOptions = {
+        const options: InteractionReplyOptions & {withResponse: true} = {
             ...this.toBaseOptions(payload),
             withResponse: true
         }
@@ -131,7 +133,8 @@ export class DiscordMessageService extends Service {
         if (!components) return
         for (const row of components) {
             for (const component of row.components) {
-                const customId = component.data.custom_id
+                const data = component.data
+                const customId = "custom_id" in data ? data.custom_id : undefined
                 if (!customId) continue
                 const button = EphemeralButtonController.get(customId)
                 button?.attachTarget(target)
@@ -156,7 +159,7 @@ export class DiscordMessageService extends Service {
         return {
             edit: performEdit,
             disableButton: async (customId: string) => {
-                const components = this.disableButtonInRows(current.components, customId)
+                const components = this.disableButtonInRows(current.components as ActionRow<MessageActionRowComponent>[], customId)
                 if (!components) return
                 await performEdit({components} as MessageEditOptions)
             }
@@ -168,7 +171,7 @@ export class DiscordMessageService extends Service {
             edit: (payload: MessageEditOptions) => interaction.editReply(payload as InteractionEditReplyOptions),
             disableButton: async (customId: string) => {
                 const reply = await interaction.fetchReply()
-                const components = this.disableButtonInRows(reply.components, customId)
+                const components = this.disableButtonInRows(reply.components as ActionRow<MessageActionRowComponent>[], customId)
                 if (!components) return
                 await interaction.editReply({components} as InteractionEditReplyOptions)
             }
@@ -180,7 +183,7 @@ export class DiscordMessageService extends Service {
             edit: (payload: MessageEditOptions) => interaction.webhook.editMessage(messageId, payload as InteractionEditReplyOptions),
             disableButton: async (customId: string) => {
                 const message = await interaction.webhook.fetchMessage(messageId)
-                const components = this.disableButtonInRows(message.components, customId)
+                const components = this.disableButtonInRows(message.components as ActionRow<MessageActionRowComponent>[], customId)
                 if (!components) return
                 await interaction.webhook.editMessage(messageId, {components} as InteractionEditReplyOptions)
             }

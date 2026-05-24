@@ -11,9 +11,13 @@ interface ICreateOptions {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type EphemeralButtonCtor<B> = (new (data: any, instanceId: string, timeoutMs: number) => B) & typeof EphemeralButton
+type EphemeralButtonCtor<B> = (new (data: any, instanceId: string, timeoutMs: number) => B)
+    & Pick<typeof EphemeralButton, "customIdPrefix" | "defaultTimeoutMs">
+    & {name: string}
 
 export class EphemeralButtonService extends Service {
+    public async init(): Promise<void> {}
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private prefixOwners: Map<string, Ctor<any>> = new Map()
 
