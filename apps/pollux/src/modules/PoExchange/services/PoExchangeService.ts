@@ -20,6 +20,7 @@ import {LabyrinthFormatter} from "../formatters/LabyrinthFormatter"
 import {BloodlinesFormatter} from "../formatters/BloodlinesFormatter"
 import {Poe2ServiceFormatter} from "../formatters/Poe2ServiceFormatter"
 import {WtbServiceFormatter} from "../formatters/WtbServiceFormatter"
+import {applyPoe2Currency} from "../formatters/poe2Currency"
 
 export type SupportedRegion = "EU" | "US" | "BR" | "RU" | "JP" | "AU" | "SG"
 
@@ -304,7 +305,8 @@ export class PoExchangeService extends Service {
 
             formatter.format(embed, user, services, links)
             const desc = embed.data.description ?? ""
-            embed.setDescription(header + "\n" + desc)
+            const body = header + "\n" + desc
+            embed.setDescription(channelId.startsWith("POE2") ? applyPoe2Currency(body) : body)
         }
         return embed
     }

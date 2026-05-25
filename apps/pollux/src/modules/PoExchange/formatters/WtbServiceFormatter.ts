@@ -1,13 +1,13 @@
 import {EmbedBuilder} from "discord.js"
 import {IPoExchangeFormatter, IPoExchangeUser, IPoExchangeService, IPoExchangeLinks, SellerLabel} from "./IPoExchangeFormatter"
-import {formatPrice} from "./formatPrice"
 import {formatLinks} from "./formatLinks"
-import {replaceCurrencyEmojis} from "./replaceCurrencyEmojis"
+import {formatGroupedServices} from "./formatGroupedServices"
 import {translate, LocalizationTag} from "@pollux/i18n"
 
 // Want-to-buy posts: the poster is the buyer, so the header is labelled for a
 // buyer and there is no vouch button (the seller who answers is the one to be
-// vouched). Layout otherwise mirrors the simple service list.
+// vouched). Services are grouped by mapType (Your Map / My Map / Both) when
+// present, or listed plainly otherwise.
 export class WtbServiceFormatter implements IPoExchangeFormatter {
     public readonly sellerLabel: SellerLabel = "buyer"
     public readonly vouchable = false
@@ -18,14 +18,7 @@ export class WtbServiceFormatter implements IPoExchangeFormatter {
     ) {}
 
     public format(embed: EmbedBuilder, user: IPoExchangeUser, services: IPoExchangeService[], links: IPoExchangeLinks): void {
-        const lines: string[] = []
-
-        for (const service of services) {
-            lines.push(`**${service.name}** - ${formatPrice(service.priceValue, service.priceType)}`)
-            if (service.customMessage) {
-                lines.push(`> ${replaceCurrencyEmojis(service.customMessage)}`)
-            }
-        }
+        const lines = formatGroupedServices(services)
 
         lines.push("")
         lines.push(`\`\`\`@${user.name} ${translate(this.whisperKey)}\`\`\``)
